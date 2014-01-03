@@ -1,0 +1,26 @@
+﻿@model PocketMoney.Model.External.Requests.ConfirmUserRequest
+@{
+    ViewBag.Title = "Подтверждение регистрации";
+}
+
+<hgroup class="title">
+    <h1>@ViewBag.Title.</h1>
+    <h2>Спасибо за регистрацию, на ваш Email было выслано письмо с кодом подтверждения. Для завершения регистрации введите код ниже.</h2>
+</hgroup>
+
+@using (Html.BeginForm())
+{
+    @Html.AntiForgeryToken()
+    @Html.ValidationSummary()
+
+    <fieldset>
+        <legend>Форма подтверждения</legend>
+        <ol>
+            <li>
+                @Html.LabelFor(m => m.ConfirmCode)
+                @Html.TextBoxFor(m => m.ConfirmCode)
+            </li>
+        </ol>
+        <input type="submit" value="Подтвердить" />
+    </fieldset>
+}

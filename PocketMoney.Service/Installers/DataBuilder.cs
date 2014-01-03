@@ -13,7 +13,6 @@ using PocketMoney.Util.ExtensionMethods;
 
 namespace PocketMoney.Service.Installers
 {
-    [Transactional]
     public class DataBuilder : BootstrappingTask
     {
         private readonly IFamilyService _familyService;
@@ -27,7 +26,6 @@ namespace PocketMoney.Service.Installers
             _fileService = fileService;
         }
 
-        [Transaction(TransactionMode.Requires)]
         [MethodImpl(MethodImplOptions.Synchronized)]
         public override void Execute()
         {

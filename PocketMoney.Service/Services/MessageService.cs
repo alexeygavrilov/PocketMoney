@@ -53,7 +53,7 @@ namespace PocketMoney.Service
             return result;
         }
 
-        [Process, Transaction(TransactionMode.Requires)]
+        [Transaction(TransactionMode.Requires)]
         public virtual Result SaveEmailMessage(EmailMessageRequest model)
         {
             //return this.Process<EmailMessageRequest, Result>(

@@ -15,5 +15,8 @@ namespace PocketMoney.Service.Interfaces
     {
         [OperationContract]
         Result SendEmail(EmailMessageRequest model);
-    }
+
+        [Process, OperationContract]
+        Result SaveEmailMessage(EmailMessageRequest model);
+}
 }

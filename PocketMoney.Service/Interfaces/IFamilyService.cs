@@ -14,15 +14,14 @@ namespace PocketMoney.Service.Interfaces
     [ServiceKnownType(typeof(Role))]
     public interface IFamilyService
     {
-        [OperationContract]
+        [Process, OperationContract]
         UserResult RegisterUser(RegisterUserRequest model);
 
-        [OperationContract]
+        [Process, OperationContract]
         UserResult ConfirmUser(ConfirmUserRequest model);
 
-        [OperationContract]
+        [Process, OperationContract]
         UserResult AddUser(AddUserRequest model);
-
 
     }
 }

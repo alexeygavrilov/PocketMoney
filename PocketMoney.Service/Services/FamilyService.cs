@@ -38,7 +38,7 @@ namespace PocketMoney.Service
             _connectionRepository = connectionRepository;
         }
 
-        [Process, Transaction(TransactionMode.Requires)]
+        [Transaction(TransactionMode.Requires)]
         [MethodImpl(MethodImplOptions.Synchronized)]
         [OperationBehavior(TransactionScopeRequired = true)]
         public virtual UserResult RegisterUser(RegisterUserRequest model)
@@ -91,7 +91,7 @@ namespace PocketMoney.Service
             //                });
         }
 
-        [Process, Transaction(TransactionMode.Requires)]
+        [Transaction(TransactionMode.Requires)]
         [MethodImpl(MethodImplOptions.Synchronized)]
         [OperationBehavior(TransactionScopeRequired = true)]
         public virtual UserResult ConfirmUser(ConfirmUserRequest model)
@@ -119,7 +119,7 @@ namespace PocketMoney.Service
             //});
         }
 
-        [Process, Transaction(TransactionMode.Requires)]
+        [Transaction(TransactionMode.Requires)]
         [MethodImpl(MethodImplOptions.Synchronized)]
         [OperationBehavior(TransactionScopeRequired = true)]
         public virtual UserResult AddUser(AddUserRequest model)
