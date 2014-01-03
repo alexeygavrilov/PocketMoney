@@ -1,0 +1,114 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProjectGuid>{CFA0E50C-E297-4B2A-87C1-D861B5999B00}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>PocketMoney.Data</RootNamespace>
+    <AssemblyName>PocketMoney.Data</AssemblyName>
+    <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="Microsoft.IdentityModel, Version=3.5.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\PocketMoney.Bin\Microsoft.IdentityModel.dll</HintPath>
+    </Reference>
+    <Reference Include="Newtonsoft.Json">
+      <HintPath>..\PocketMoney.Bin\Newtonsoft.Json.dll</HintPath>
+    </Reference>
+    <Reference Include="System" />
+    <Reference Include="System.ComponentModel.DataAnnotations" />
+    <Reference Include="System.Core" />
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="System.IdentityModel" />
+    <Reference Include="System.Runtime.Serialization" />
+    <Reference Include="System.ServiceModel" />
+    <Reference Include="System.Xml" />
+    <Reference Include="System.Xml.Linq" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Entities\AbstractIdentity.cs" />
+    <Compile Include="Entities\Date.cs" />
+    <Compile Include="Entities\DateTypeConverter.cs" />
+    <Compile Include="Entities\DoNotMapAttribute.cs" />
+    <Compile Include="Entities\Entity.cs" />
+    <Compile Include="Entities\EntityBase.cs" />
+    <Compile Include="Entities\EntityLock.cs" />
+    <Compile Include="Entities\GuidIdentity.cs" />
+    <Compile Include="Entities\GuidIdentityExtnesions.cs" />
+    <Compile Include="Entities\IdFactory.cs" />
+    <Compile Include="Entities\IRepository.cs" />
+    <Compile Include="Entities\ITransaction.cs" />
+    <Compile Include="Entities\LongIdentity.cs" />
+    <Compile Include="Entities\ObjectBase.cs" />
+    <Compile Include="Entities\Request.cs" />
+    <Compile Include="Entities\Result.cs" />
+    <Compile Include="Entities\Role.cs" />
+    <Compile Include="Entities\TypeExtensions.cs" />
+    <Compile Include="Entities\TypeIdAttribute.cs" />
+    <Compile Include="Entities\User.cs" />
+    <Compile Include="Exceptions.cs" />
+    <Compile Include="Interfaces\IActive.cs" />
+    <Compile Include="Interfaces\IArchivable.cs" />
+    <Compile Include="Interfaces\IAuthentificationService.cs" />
+    <Compile Include="Interfaces\IFamily.cs" />
+    <Compile Include="Interfaces\ICurrentUserProvider.cs" />
+    <Compile Include="Interfaces\IDatabaseSchemaBuilder.cs" />
+    <Compile Include="Interfaces\IEntity.cs" />
+    <Compile Include="Interfaces\IHidable.cs" />
+    <Compile Include="Interfaces\IRole.cs" />
+    <Compile Include="Interfaces\IUser.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Security\ClaimsHelper.cs" />
+    <Compile Include="Security\ClaimsIdentityExtensions.cs" />
+    <Compile Include="Security\ClaimTypes.cs" />
+    <Compile Include="Security\IAuthorization.cs" />
+    <Compile Include="Security\ISecuredObject.cs" />
+    <Compile Include="Security\ISecurityDescriptorBuilder.cs" />
+    <Compile Include="Security\Issuer.cs" />
+    <Compile Include="Security\IUserPermission.cs" />
+    <Compile Include="Security\ObjectPermissions.cs" />
+    <Compile Include="Security\RelyingParty.cs" />
+    <Compile Include="Security\RequestDetails.cs" />
+    <Compile Include="Entities\WrapperFamily.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\PocketMoney.Resources\PocketMoney.Resources.csproj">
+      <Project>{4a89afd5-d3d5-41df-ac8d-e15984898048}</Project>
+      <Name>PocketMoney.Resources</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\PocketMoney.Util\PocketMoney.Util.csproj">
+      <Project>{b17b0f49-4d3a-46ab-8c20-fff0b75122d0}</Project>
+      <Name>PocketMoney.Util</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+</Project>

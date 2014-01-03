@@ -1,0 +1,31 @@
+﻿using FluentNHibernate;
+using PocketMoney.Data.NHibernate;
+using PocketMoney.Model.Internal;
+
+namespace PocketMoney.Model.NHibernate
+{
+    public sealed class UserMap : VersionedClassMap<User>
+    {
+        public UserMap()
+        {
+            Cache.ReadWrite().Region("oftenused");
+
+            Id(x => x.Id).GeneratedBy.GuidComb();
+
+            Map(x => x.FirstName).Not.Nullable().Length(100).UniqueKey("UX_UserName");
+            Map(x => x.LastName).Nullable().Length(100).UniqueKey("UX_UserName");
+            Map(x => x.Active).Not.Nullable();
+
+            Map(x => x.LastLoginDate);
+            Map(Reveal.Member<User>("_password")).Column("Password").Length(255);
+            Map(Reveal.Member<User>("_roles")).Column("Role").Not.Nullable();
+
+            References(x => x.Family).Not.Nullable().ForeignKey("FK_User_Family").UniqueKey("UX_UserName");
+            References(x => x.Email).Nullable().ForeignKey("FK_User_Email");
+            References(x => x.Phone).Nullable().ForeignKey("FK_User_Phone");
+
+            HasMany(x => x.Connections).LazyLoad().Cascade.Delete().ForeignKeyConstraintName("FK_User_Connection");
+
+        }
+    }
+}

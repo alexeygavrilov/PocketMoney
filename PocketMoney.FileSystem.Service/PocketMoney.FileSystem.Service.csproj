@@ -1,0 +1,88 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProjectGuid>{27C4723B-2EC6-43AF-B02C-D19392381219}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>PocketMoney.FileSystem.Service</RootNamespace>
+    <AssemblyName>PocketMoney.FileSystem.Service</AssemblyName>
+    <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="Castle.Core">
+      <HintPath>..\PocketMoney.Bin\Castle.Core.dll</HintPath>
+    </Reference>
+    <Reference Include="Castle.Services.Transaction">
+      <HintPath>..\PocketMoney.Bin\Castle.Services.Transaction.dll</HintPath>
+    </Reference>
+    <Reference Include="Castle.Windsor">
+      <HintPath>..\PocketMoney.Bin\Castle.Windsor.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.Practices.ServiceLocation">
+      <HintPath>..\PocketMoney.Bin\Microsoft.Practices.ServiceLocation.dll</HintPath>
+    </Reference>
+    <Reference Include="System" />
+    <Reference Include="System.Configuration" />
+    <Reference Include="System.Core" />
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Web" />
+    <Reference Include="System.Xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="FileExtensions.cs" />
+    <Compile Include="FileHandler.cs" />
+    <Compile Include="FileService.cs" />
+    <Compile Include="Installers\FileStorageInstaller.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="StorageService.cs" />
+    <Compile Include="TempFileService.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\PocketMoney.Data\PocketMoney.Data.csproj">
+      <Project>{cfa0e50c-e297-4b2a-87c1-d861b5999b00}</Project>
+      <Name>PocketMoney.Data</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\PocketMoney.FileSystem.Model\PocketMoney.FileSystem.Model.csproj">
+      <Project>{36d75eac-9c39-486c-8356-7519fbe07d01}</Project>
+      <Name>PocketMoney.FileSystem.Model</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\PocketMoney.FileSystem.Providers\PocketMoney.FileSystem.Providers.csproj">
+      <Project>{f0cc5ec8-72bc-4a5f-84ff-8bdb58b58d2e}</Project>
+      <Name>PocketMoney.FileSystem.Providers</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\PocketMoney.Util\PocketMoney.Util.csproj">
+      <Project>{b17b0f49-4d3a-46ab-8c20-fff0b75122d0}</Project>
+      <Name>PocketMoney.Util</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+</Project>

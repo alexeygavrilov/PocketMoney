@@ -1,0 +1,179 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProjectGuid>{B17B0F49-4D3A-46AB-8C20-FFF0B75122D0}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>PocketMoney.Util</RootNamespace>
+    <AssemblyName>PocketMoney.Util</AssemblyName>
+    <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="Castle.Core">
+      <HintPath>..\PocketMoney.Bin\Castle.Core.dll</HintPath>
+    </Reference>
+    <Reference Include="Castle.Windsor">
+      <HintPath>..\PocketMoney.Bin\Castle.Windsor.dll</HintPath>
+    </Reference>
+    <Reference Include="CsvHelper">
+      <HintPath>..\PocketMoney.Bin\CsvHelper.dll</HintPath>
+    </Reference>
+    <Reference Include="log4net">
+      <HintPath>..\PocketMoney.Bin\log4net.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.Practices.ServiceLocation">
+      <HintPath>..\PocketMoney.Bin\Microsoft.Practices.ServiceLocation.dll</HintPath>
+    </Reference>
+    <Reference Include="System" />
+    <Reference Include="System.Configuration" />
+    <Reference Include="System.Core" />
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Drawing" />
+    <Reference Include="System.Runtime.Serialization" />
+    <Reference Include="System.ServiceProcess" />
+    <Reference Include="System.Web" />
+    <Reference Include="System.Web.Extensions" />
+    <Reference Include="System.Web.Mvc, Version=4.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL" />
+    <Reference Include="System.Xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Bootstrapping\Bootstrapper.cs" />
+    <Compile Include="Bootstrapping\BootstrapperTasksInstaller.cs" />
+    <Compile Include="Bootstrapping\BootstrappingTask.cs" />
+    <Compile Include="Calendar.cs" />
+    <Compile Include="Clock.cs" />
+    <Compile Include="Collections\FixupCollection.cs" />
+    <Compile Include="CSV\CachedCsvReader.cs" />
+    <Compile Include="CSV\CachedCsvReader.CsvBindingList.cs" />
+    <Compile Include="CSV\CachedCsvReader.CsvPropertyDescriptor.cs" />
+    <Compile Include="CSV\CachedCsvReader.CsvRecordComparer.cs" />
+    <Compile Include="CSV\CsvReader.cs" />
+    <Compile Include="CSV\CsvReader.DataReaderValidations.cs" />
+    <Compile Include="CSV\CsvReader.RecordEnumerator.cs" />
+    <Compile Include="CSV\CsvWriter.cs" />
+    <Compile Include="CSV\ExceptionMessage.Designer.cs" />
+    <Compile Include="CSV\MalformedCsvException.cs" />
+    <Compile Include="CSV\MissingFieldAction.cs" />
+    <Compile Include="CSV\MissingFieldCsvException.cs" />
+    <Compile Include="CSV\ParseErrorAction.cs" />
+    <Compile Include="CSV\ParseErrorEventArgs.cs" />
+    <Compile Include="CSV\ValueTrimmingOptions.cs" />
+    <Compile Include="CustomException.cs" />
+    <Compile Include="DataImport\BasicTypeDataParser.cs" />
+    <Compile Include="DataImport\ColumnMatcherRegistry.cs" />
+    <Compile Include="DataImport\ColumnMetadata.cs" />
+    <Compile Include="DataImport\ColumnMetadataRegistry.cs" />
+    <Compile Include="DataImport\ExactNameColumnMatcher.cs" />
+    <Compile Include="DataImport\IColumnMatcher.cs" />
+    <Compile Include="DataImport\IImportHandler.cs" />
+    <Compile Include="DataImport\IImportHandlerFactory.cs" />
+    <Compile Include="DataImport\ImportDefinition.cs" />
+    <Compile Include="DataImport\ImportHandler.cs" />
+    <Compile Include="DataImport\ImportHandlerFactory.cs" />
+    <Compile Include="DataImport\IRowPersister.cs" />
+    <Compile Include="DataImport\IRowValidator.cs" />
+    <Compile Include="DataImport\MultiWordColumnMatcher.cs" />
+    <Compile Include="DataImport\Row.cs" />
+    <Compile Include="DataImport\RowPersisterRegistry.cs" />
+    <Compile Include="DataImport\RowValidationContext.cs" />
+    <Compile Include="DataImport\RowValidator.cs" />
+    <Compile Include="DataImport\RowValidatorRegistry.cs" />
+    <Compile Include="Debugging\ObjectDumper.cs" />
+    <Compile Include="Disposable.cs" />
+    <Compile Include="Encoding\Base32Encoding.cs" />
+    <Compile Include="Encoding\Encoding.cs" />
+    <Compile Include="Events\DelegateReference.cs" />
+    <Compile Include="Events\EventAggregator.cs" />
+    <Compile Include="Events\EventArgs.cs" />
+    <Compile Include="Events\EventBase.cs" />
+    <Compile Include="Events\EventBaseTemplate.cs" />
+    <Compile Include="Events\EventSubscription.cs" />
+    <Compile Include="Events\IDelegateReference.cs" />
+    <Compile Include="Events\IEventAggregator.cs" />
+    <Compile Include="Events\IEventSubscription.cs" />
+    <Compile Include="Events\SubscriptionToken.cs" />
+    <Compile Include="ExtensionMethods\CollectionExtensions.cs" />
+    <Compile Include="ExtensionMethods\DateExtensions.cs" />
+    <Compile Include="ExtensionMethods\DictionaryExtensions.cs" />
+    <Compile Include="ExtensionMethods\EnumerableExtensions.cs" />
+    <Compile Include="ExtensionMethods\EnumExtension.cs" />
+    <Compile Include="ExtensionMethods\ExceptionExtensions.cs" />
+    <Compile Include="ExtensionMethods\GuidExtensions.cs" />
+    <Compile Include="ExtensionMethods\ModelStateExtensions.cs" />
+    <Compile Include="ExtensionMethods\ObjectExtensions.cs" />
+    <Compile Include="ExtensionMethods\ReaderWriterLockSlimExtensions.cs" />
+    <Compile Include="ExtensionMethods\ServiceLocatorExtensions.cs" />
+    <Compile Include="ExtensionMethods\StringExtensions.cs" />
+    <Compile Include="Http\HttpService.cs" />
+    <Compile Include="Http\HttpServiceResult.cs" />
+    <Compile Include="Http\IHttpService.cs" />
+    <Compile Include="IBuildManager.cs" />
+    <Compile Include="ICacheManager.cs" />
+    <Compile Include="Interop\DisposableCom.cs" />
+    <Compile Include="IoC\WindsorServiceLocator.cs" />
+    <Compile Include="IO\AESCryptoStream.cs" />
+    <Compile Include="IO\AutoLockStream.cs" />
+    <Compile Include="IO\FileSystem.cs" />
+    <Compile Include="IO\StreamExtensions.cs" />
+    <Compile Include="IUrlResolver.cs" />
+    <Compile Include="Logging\Log.cs" />
+    <Compile Include="Messaging\EmailAddressParser.cs" />
+    <Compile Include="Messaging\IEmailAddress.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Security\EncryptionAndVerificationPassword.cs" />
+    <Compile Include="Serialization\BinarySerializer.cs" />
+    <Compile Include="Serialization\ISerializer.cs" />
+    <Compile Include="Services\Configuration\IServiceConfiguration.cs" />
+    <Compile Include="Services\Configuration\IServicesConfiguration.cs" />
+    <Compile Include="Services\Configuration\ServicesConfiguration.cs" />
+    <Compile Include="Services\Configuration\ServiceSectionHandler.cs" />
+    <Compile Include="Services\Service.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="Services\Service.designer.cs">
+      <DependentUpon>Service.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Services\ServiceFactory.cs" />
+    <Compile Include="Threading\ILock.cs" />
+    <Compile Include="Threading\ReadWriteSynchronizer.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="CSV\ExceptionMessage.resx" />
+    <EmbeddedResource Include="Services\Service.resx">
+      <DependentUpon>Service.cs</DependentUpon>
+    </EmbeddedResource>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="gsdll64.lib" />
+  </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+</Project>
