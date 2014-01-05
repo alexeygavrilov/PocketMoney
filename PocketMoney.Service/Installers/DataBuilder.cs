@@ -17,26 +17,36 @@ namespace PocketMoney.Service.Installers
     {
         private readonly IFamilyService _familyService;
         private readonly IFileService _fileService;
+        private readonly ISettingService _settingService;
 
         public DataBuilder(
             IFamilyService familyService,
-            IFileService fileService)
+            IFileService fileService,
+            ISettingService settingService)
         {
             _familyService = familyService;
             _fileService = fileService;
+            _settingService = settingService;
         }
 
         [MethodImpl(MethodImplOptions.Synchronized)]
         public override void Execute()
         {
             _fileService.RemoveAll();
+
+            _settingService.AddCountry(new AddCountryRequest { Code = 7, Name = "Россия" });
+            _settingService.AddCountry(new AddCountryRequest { Code = 380, Name = "Україна" });
+            _settingService.AddCountry(new AddCountryRequest { Code = 375, Name = "Беларусь" });
+            _settingService.AddCountry(new AddCountryRequest { Code = 1, Name = "USA" });
+
             var result = _familyService.RegisterUser(new RegisterUserRequest
             {
                 FamilyName = "Гавриловы",
                 UserName = "Папа",
                 Email = "alexey.gavrilov@gmail.com",
                 Password = "include",
-                ConfirmPassword = "include"
+                ConfirmPassword = "include",
+                CountryCode = 7
             });
 
             if (!result.Success) throw new ArgumentException(result.Message);
@@ -51,7 +61,7 @@ namespace PocketMoney.Service.Installers
             result = _familyService.AddUser(new AddUserRequest
             {
                 Family = result.Data.Family,
-                FirstName = "Костя",
+                UserName = "Костя",
                 Connections = new ConnectionRequest[1] 
                 { 
                     new ConnectionRequest 

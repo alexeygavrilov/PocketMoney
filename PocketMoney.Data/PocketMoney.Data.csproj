@@ -91,7 +91,7 @@
     <Compile Include="Security\ObjectPermissions.cs" />
     <Compile Include="Security\RelyingParty.cs" />
     <Compile Include="Security\RequestDetails.cs" />
-    <Compile Include="Entities\WrapperFamily.cs" />
+    <Compile Include="Wrappers\WrapperFamily.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\PocketMoney.Resources\PocketMoney.Resources.csproj">

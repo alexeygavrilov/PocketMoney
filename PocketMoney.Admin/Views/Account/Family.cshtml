@@ -1,0 +1,44 @@
+﻿@model PocketMoney.Model.External.Results.UserListResult
+@{
+    ViewBag.Title = "Семья";
+}
+<hgroup class="title">
+    <h1>@ViewBag.Title.</h1>
+    <h2>Учетные записи семьи.</h2>
+</hgroup>
+<table id="tableUsers">
+    <thead>
+        <tr>
+            <th>Имя пользователя
+            </th>
+            <th>Текущий балл
+            </th>
+            <th>Действия
+            </th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var user in Model.Data)
+        {
+            <tr>
+                <td>
+                    @user.UserName
+                </td>
+                <td>
+                    @user.Points.ToString()
+                </td>
+                <td>
+                    @Html.Hidden("UserId", user.UserId)
+                    <a href="#" id="actionView">Отчет</a>
+                    <a href="#" id="actionEdit">Редактировать</a>
+                    <a href="#" id="actionRemove">Удалить</a>
+                    <a href="#" id="actionExchange">Обменять баллы</a>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>
+
+@section Scripts {
+    @Scripts.Render("~/bundles/family")
+}

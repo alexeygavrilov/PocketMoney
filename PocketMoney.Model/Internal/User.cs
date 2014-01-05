@@ -22,27 +22,28 @@ namespace PocketMoney.Model.Internal
         {
             _roles = 0x0;
             _password = string.Empty;
-            this.FirstName = string.Empty;
+            this.UserName = string.Empty;
             this.Active = false;
+            this.Points = 0;
             this.Connections = new List<UserConnection>();
         }
 
-        public User(Family family, string firstName)
+        public User(Family family, string userName)
             : this()
         {
             this.Family = family;
-            this.FirstName = firstName;
+            this.UserName = userName;
             this.Active = false;
         }
 
-        public User(Family family, string firstName, Email email)
-            : this(family, firstName)
+        public User(Family family, string userName, Email email)
+            : this(family, userName)
         {
             this.Email = email;
         }
 
-        public User(Family family, string firstName, PhoneNumber phone)
-            : this(family, firstName)
+        public User(Family family, string userName, PhoneNumber phone)
+            : this(family, userName)
         {
             this.Phone = phone;
         }
@@ -52,13 +53,16 @@ namespace PocketMoney.Model.Internal
         #region Properties
 
         [Details]
-        public virtual string FirstName { get; set; }
+        public virtual string UserName { get; set; }
 
         [Details]
-        public virtual string LastName { get; set; }
+        public virtual string AdditionalName { get; set; }
 
         [Details]
         public virtual bool Active { get; set; }
+
+        [Details]
+        public virtual int Points { get; set; }
 
         public virtual bool IsAnonymous { get { return false; } }
 
@@ -157,7 +161,7 @@ namespace PocketMoney.Model.Internal
 
         public virtual string FullName()
         {
-            return (this.FirstName + " " + this.LastName).Trim();
+            return (this.UserName + " " + this.AdditionalName ?? string.Empty).Trim();
         }
 
         #endregion

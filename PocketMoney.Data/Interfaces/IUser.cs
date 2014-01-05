@@ -8,8 +8,7 @@ namespace PocketMoney.Data
     public interface IUser 
     {
         Guid Id { get; set; }
-        string FirstName { get; }
-        string LastName { get; }
+        string UserName { get; }
         bool IsAnonymous { get; }
         DateTime? LastLoginDate { get; }
         IFamily Family { get; }

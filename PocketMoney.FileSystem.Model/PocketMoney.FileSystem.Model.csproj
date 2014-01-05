@@ -49,7 +49,9 @@
     <Compile Include="Interfaces\IDevice.cs" />
     <Compile Include="Interfaces\IDeviceInfo.cs" />
     <Compile Include="Interfaces\IDeviceSettings.cs" />
-    <Compile Include="Interfaces\IFile.cs" />
+    <Compile Include="Interfaces\IFile.cs">
+      <SubType>Code</SubType>
+    </Compile>
     <Compile Include="Interfaces\IFileAdvanced.cs" />
     <Compile Include="Interfaces\IStorageService.cs" />
     <Compile Include="Interfaces\IStreamProvider.cs" />

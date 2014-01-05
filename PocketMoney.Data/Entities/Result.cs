@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.ComponentModel;
 using System.Runtime.Serialization;
 using Newtonsoft.Json;
@@ -6,28 +7,26 @@ using PocketMoney.Util.ExtensionMethods;
 
 namespace PocketMoney.Data
 {
+    [DataContract]
+    public abstract class ResultList<TData> : Result
+    {
+        [DataMember, Details]
+        public new TData[] Data { get; set; }
+
+        [DataMember, Details]
+        public int TotalCount { get; set; }
+    }
+
+    [DataContract]
     public abstract class ResultStruct<TStruct> : Result where TStruct : struct
     {
-        public ResultStruct()
-        {
-            this.Data = new TStruct();
-        }
-
-        public ResultStruct(TStruct data)
-        {
-            this.Data = data;
-        }
-
         [DataMember, Details]
         public new TStruct Data { get; private set; }
     }
 
+    [DataContract]
     public abstract class ResultClass<TClass> : Result where TClass : class
     {
-        public ResultClass()
-        {
-        }
-
         [DataMember, Details]
         public new TClass Data { get; set; }
     }

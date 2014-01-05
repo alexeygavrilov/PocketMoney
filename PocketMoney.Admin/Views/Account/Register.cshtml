@@ -8,7 +8,8 @@
     <h2>Создание новой семьи.</h2>
 </hgroup>
 
-@using (Html.BeginForm()) {
+@using (Html.BeginForm())
+{
     @Html.AntiForgeryToken()
     @Html.ValidationSummary()
 
@@ -26,6 +27,15 @@
             <li>
                 @Html.LabelFor(m => m.Email)
                 @Html.TextBoxFor(m => m.Email)
+            </li>
+            <li>
+                @Html.LabelFor(m => m.CountryCode)
+                @Html.DropDownListFor(m => m.CountryCode, (new SelectListItem[4] { 
+                    new SelectListItem{ Selected = true, Text = "Россия", Value = "7" },
+                    new SelectListItem{ Text = "Україна", Value = "380" },
+                    new SelectListItem{ Text = "Беларусь", Value = "375" },
+                    new SelectListItem{ Text = "USA", Value = "1" }
+                    }).AsEnumerable())
             </li>
             <li>
                 @Html.LabelFor(m => m.Password)

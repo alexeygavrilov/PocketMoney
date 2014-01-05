@@ -18,8 +18,8 @@ namespace PocketMoney.Model.External.Requests
 
         [DataMember(IsRequired = true)]
         [DataType(DataType.Text)]
-        [Required(ErrorMessage = "Глава семьи - это обязательное поле")]
-        [Display(Name = "Имя главы семьи")]
+        [Required(ErrorMessage = "Имя - это обязательное поле")]
+        [Display(Name = "Имя пользователя")]
         [Details]
         public string UserName { get; set; }
 
@@ -28,6 +28,7 @@ namespace PocketMoney.Model.External.Requests
         [RegularExpression(@"^[\w-]+(?:\.[\w-]+)*@(?:[\w-]+\.)+[a-zA-Z]{2,7}$", ErrorMessage = "Некорректный Email")]
         [DataType(DataType.EmailAddress)]
         [Display(Name = "Email")]
+        [Details]
         public string Email { get; set; }
 
         [DataMember(IsRequired = true)]
@@ -43,6 +44,12 @@ namespace PocketMoney.Model.External.Requests
         [Compare("Password", ErrorMessage = "Пароли не совпадают, Попробуйте еще раз.")]
         public string ConfirmPassword { get; set; }
 
+        [DataMember(IsRequired = true)]
+        [Required(ErrorMessage = "Страна - это обязательное поле")]
+        [Display(Name = "Страна")]
+        [Details]
+        public int CountryCode { get; set; }
+
         public override IEnumerable<ValidationResult> Validate(ValidationContext validationContext)
         {
             if (string.IsNullOrWhiteSpace(this.FamilyName))
@@ -53,6 +60,9 @@ namespace PocketMoney.Model.External.Requests
 
             if (string.IsNullOrWhiteSpace(this.Email))
                 yield return new ValidationResult("Email - это обязательное поле");
+
+            if (this.CountryCode == 0)
+                yield return new ValidationResult("Страна - это обязательное поле");
 
             if (string.IsNullOrWhiteSpace(Password))
                 yield return new ValidationResult("Пароль обязателен");

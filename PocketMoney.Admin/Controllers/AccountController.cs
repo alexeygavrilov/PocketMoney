@@ -4,6 +4,7 @@ using System.Linq;
 using System.Web;
 using System.Web.Mvc;
 using System.Web.Security;
+using PocketMoney.Data;
 using PocketMoney.Model.External.Requests;
 using PocketMoney.Service.Interfaces;
 
@@ -12,14 +13,22 @@ namespace PocketMoney.Admin.Controllers
     [Authorize]
     public class AccountController : Controller
     {
+        #region Members & Ctors
+
         private IFamilyService _familyService;
+        private ICurrentUserProvider _currentUserProvider;
 
         public AccountController(
-            IFamilyService familyService)
+            IFamilyService familyService,
+            ICurrentUserProvider currentUserProvider)
         {
             _familyService = familyService;
+            _currentUserProvider = currentUserProvider;
         }
 
+        #endregion
+
+        #region Membership
         [AllowAnonymous]
         public ActionResult Login(string returnUrl)
         {
@@ -27,26 +36,37 @@ namespace PocketMoney.Admin.Controllers
             return View();
         }
 
-        //[HttpPost]
-        //[AllowAnonymous]
-        //[ValidateAntiForgeryToken]
-        //public ActionResult Login(LoginModel model, string returnUrl)
-        //{
-        //    if (ModelState.IsValid && WebSecurity.Login(model.UserName, model.Password, persistCookie: model.RememberMe))
-        //    {
-        //        return RedirectToLocal(returnUrl);
-        //    }
+        [HttpPost]
+        [AllowAnonymous]
+        [ValidateAntiForgeryToken]
+        public ActionResult Login(LoginRequest model, string returnUrl)
+        {
+            if (ModelState.IsValid)
+            {
+                var result = _familyService.Login(model);
+                if (result.Success)
+                {
+                    _currentUserProvider.AddCurrentUser(result.Data, model.RememberMe);
 
-        //    // Появление этого сообщения означает наличие ошибки; повторное отображение формы
-        //    ModelState.AddModelError("", "Имя пользователя или пароль указаны неверно.");
-        //    return View(model);
-        //}
+                    return RedirectToLocal(returnUrl);
+                }
+                else
+                {
+                    ModelState.AddModelError("", result.Message);
+                }
+            }
+            else
+            {
+                ModelState.AddModelError("", "Имя пользователя или пароль указаны неверно.");
+            }
+            return View(model);
+        }
 
         [HttpPost]
         [ValidateAntiForgeryToken]
         public ActionResult LogOff()
         {
-            FormsAuthentication.SignOut();
+            _currentUserProvider.RemoveCurrentUser();
 
             return RedirectToAction("Index", "Home");
         }
@@ -116,6 +136,36 @@ namespace PocketMoney.Admin.Controllers
             }
 
             return View(model);
-        }        
+        }
+
+        #endregion
+
+        #region Family
+
+        public ActionResult Family()
+        {
+            var users = _familyService.GetUsers(new FamilyRequest { Data = _currentUserProvider.GetCurrentUser().Family });
+            if (!users.Success)
+                throw new Exception(users.Message);
+            else
+                return View(users);
+        }
+
+        #endregion
+
+        #region Private Methods
+
+        private ActionResult RedirectToLocal(string returnUrl)
+        {
+            if (Url.IsLocalUrl(returnUrl))
+            {
+                return Redirect(returnUrl);
+            }
+            else
+            {
+                return RedirectToAction("Index", "Home");
+            }
+        }
+        #endregion
     }
 }

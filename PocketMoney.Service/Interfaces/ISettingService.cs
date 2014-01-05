@@ -12,22 +12,12 @@ namespace PocketMoney.Service.Interfaces
     [ServiceKnownType(typeof(WrapperFamily))]
     [ServiceKnownType(typeof(WrapperFile))]
     [ServiceKnownType(typeof(Role))]
-    public interface IFamilyService
+    public interface ISettingService
     {
         [Process, OperationContract]
-        UserResult RegisterUser(RegisterUserRequest model);
+        Result AddCountry(AddCountryRequest model);
 
         [Process, OperationContract]
-        UserResult ConfirmUser(ConfirmUserRequest model);
-
-        [Process, OperationContract]
-        UserResult AddUser(AddUserRequest model);
-
-        [Process, OperationContract]
-        UserResult Login(LoginRequest model);
-
-        [Process, OperationContract]
-        UserListResult GetUsers(FamilyRequest model);
-
+        CountryListResult GetCountries(EmptyRequest model);
     }
 }

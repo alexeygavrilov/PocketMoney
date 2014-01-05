@@ -45,32 +45,46 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Behaviors\ConcreteTypeConverter.cs">
+      <SubType>Code</SubType>
+    </Compile>
     <Compile Include="Enums\ClientType.cs" />
     <Compile Include="Extensions\IFamilyExtensions.cs" />
     <Compile Include="Extensions\IFileExtensions.cs" />
     <Compile Include="Extensions\IUserExtensions.cs" />
+    <Compile Include="External\Requests\AddCountryRequest.cs" />
+    <Compile Include="External\Requests\AddDutyTaskRequest.cs" />
     <Compile Include="External\Requests\AddUserRequest.cs" />
     <Compile Include="External\Requests\ConfirmUserRequest.cs" />
     <Compile Include="External\Requests\ConnectionRequest.cs" />
+    <Compile Include="External\Requests\EmptyRequest.cs" />
+    <Compile Include="External\Requests\FamilyRequest.cs" />
+    <Compile Include="External\Requests\LoginRequest.cs" />
     <Compile Include="External\Requests\RegisterUserRequest.cs" />
     <Compile Include="External\Requests\EmailMessageRequest.cs" />
+    <Compile Include="External\Results\CountryListResult.cs" />
+    <Compile Include="External\Results\DutyTaskResult.cs" />
     <Compile Include="External\Results\FamilyResult.cs" />
+    <Compile Include="External\Results\UserListResult.cs" />
     <Compile Include="External\Results\UserResult.cs" />
+    <Compile Include="Internal\Country.cs" />
+    <Compile Include="Internal\DayOfYear.cs" />
     <Compile Include="Internal\Email.cs" />
     <Compile Include="Internal\EmailMessage.cs" />
     <Compile Include="Internal\Family.cs" />
     <Compile Include="Internal\PhoneNumber.cs" />
     <Compile Include="Internal\Roles.cs" />
     <Compile Include="Internal\User.cs" />
-    <Compile Include="Behaviors\ConcreteTypeConverter.cs" />
     <Compile Include="Internal\UserConnection.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Wrappers\WrapperFile.cs" />
-    <Compile Include="Wrappers\WrapperUser.cs" />
+    <Compile Include="Wrappers\WrapperFile.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Wrappers\WrapperUser.cs">
+      <SubType>Code</SubType>
+    </Compile>
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="Interfaces\" />
-  </ItemGroup>
+  <ItemGroup />
   <ItemGroup>
     <ProjectReference Include="..\PocketMoney.Data\PocketMoney.Data.csproj">
       <Project>{cfa0e50c-e297-4b2a-87c1-d861b5999b00}</Project>

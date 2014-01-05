@@ -9,4 +9,22 @@ namespace PocketMoney.Data
     {
         public abstract IEnumerable<ValidationResult> Validate(ValidationContext validationContext);
     }
+
+    [DataContract]
+    public abstract class RequestClass<TClass> : Request where TClass : class
+    {
+        public RequestClass()
+        {
+        }
+
+        [DataMember, Details]
+        public new TClass Data { get; set; }
+
+        public override IEnumerable<ValidationResult> Validate(ValidationContext validationContext)
+        {
+            if (this.Data == default(TClass))
+                yield return new ValidationResult("Входные данные отсутствуют");
+
+        }
+    }
 }

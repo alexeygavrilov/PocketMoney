@@ -19,7 +19,7 @@ namespace PocketMoney.Model.External.Requests
         [Required(ErrorMessage = "Имя - это обязательное поле")]
         [Display(Name = "Имя пользователя")]
         [Details]
-        public string FirstName { get; set; }
+        public string UserName { get; set; }
 
         [DataMember, Details]
         public ConnectionRequest[] Connections { get; set; }
@@ -33,7 +33,7 @@ namespace PocketMoney.Model.External.Requests
             if (this.Family == null)
                 yield return new ValidationResult("Текущая семья обязательна");
 
-            if (string.IsNullOrWhiteSpace(this.FirstName))
+            if (string.IsNullOrWhiteSpace(this.UserName))
                 yield return new ValidationResult("Имя - это обязательное поле");
 
             if (this.Connections == null || this.Connections.Length == 0)

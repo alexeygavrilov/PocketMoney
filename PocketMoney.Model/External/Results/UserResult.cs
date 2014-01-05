@@ -1,12 +1,9 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System.Runtime.Serialization;
 using PocketMoney.Data;
 
 namespace PocketMoney.Model.External.Results
 {
+    [DataContract]
     public class UserResult : ResultClass<IUser>
     {
     }

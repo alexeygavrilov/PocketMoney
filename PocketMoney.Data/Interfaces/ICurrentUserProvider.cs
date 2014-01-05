@@ -4,11 +4,8 @@ namespace PocketMoney.Data
 {
     public interface ICurrentUserProvider
     {
-        void Clear();
-
-        IUser CurrentUser { get; }
-
-        bool IsInRole(IRole role);
-        IRole[] AllRoles();
+        void AddCurrentUser(IUser user, bool persistCookie = false);
+        IUser GetCurrentUser();
+        void RemoveCurrentUser();
     }
 }

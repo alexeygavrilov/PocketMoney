@@ -1,4 +1,7 @@
 ﻿using System;
+using System.Linq;
+using System.Collections;
+using System.Collections.Generic;
 using System.Runtime.CompilerServices;
 using System.ServiceModel;
 using System.ServiceModel.Activation;
@@ -11,6 +14,7 @@ using PocketMoney.Model.Internal;
 using PocketMoney.Service.Behaviors;
 using PocketMoney.Service.Interfaces;
 using PocketMoney.Util.ExtensionMethods;
+using PocketMoney.Util;
 
 namespace PocketMoney.Service
 {
@@ -21,6 +25,7 @@ namespace PocketMoney.Service
         private readonly IRepository<Email, EmailId, Guid> _emailRepository;
         private readonly IRepository<PhoneNumber, PhoneNumberId, Guid> _phoneRepository;
         private readonly IRepository<UserConnection, UserConnectionId, Guid> _connectionRepository;
+        private readonly IRepository<Country, CountryId, int> _countryRepository;
         private readonly IMessageService _messageService;
 
         public FamilyService(
@@ -29,13 +34,15 @@ namespace PocketMoney.Service
             IRepository<Family, FamilyId, Guid> familyRepository,
             IRepository<Email, EmailId, Guid> emailRepository,
             IRepository<UserConnection, UserConnectionId, Guid> connectionRepository,
-            IRepository<PhoneNumber, PhoneNumberId, Guid> phoneRepository)
+            IRepository<PhoneNumber, PhoneNumberId, Guid> phoneRepository,
+            IRepository<Country, CountryId, int> countryRepository)
             : base(userRepository, familyRepository)
         {
             _emailRepository = emailRepository;
             _phoneRepository = phoneRepository;
             _messageService = messageService;
             _connectionRepository = connectionRepository;
+            _countryRepository = countryRepository;
         }
 
         [Transaction(TransactionMode.Requires)]
@@ -43,18 +50,17 @@ namespace PocketMoney.Service
         [OperationBehavior(TransactionScopeRequired = true)]
         public virtual UserResult RegisterUser(RegisterUserRequest model)
         {
-            //return this.Process<RegisterUserRequest, UserResult>(
-            //    ref model,
-            //    () => new UserResult(),
-            //    (ref UserResult result) =>
-            //    {
             if (_familyRepository.Exists(x => x.Name == model.FamilyName))
                 throw new InvalidDataException("Наименование семьи '{0}' уже существует в системе. Попробуйте другое имя", model.FamilyName);
 
             if (_emailRepository.Exists(x => x.Address == model.Email))
                 throw new InvalidDataException("Эл. почта '{0}' уже существует в системе, попробуйте восстановить войти в систему или обратитесь к администратору.", model.Email);
 
-            var family = new Family(model.FamilyName);
+            var country = _countryRepository.One(new CountryId(model.CountryCode));
+            if (country == null)
+                throw new InvalidDataException("Страны с кодом '{0}' не существует в системе", model.CountryCode);
+
+            var family = new Family(model.FamilyName, country);
 
             _familyRepository.Add(family);
 
@@ -88,7 +94,6 @@ namespace PocketMoney.Service
                 result.Data = user.From();
             }
             return result;
-            //                });
         }
 
         [Transaction(TransactionMode.Requires)]
@@ -96,11 +101,6 @@ namespace PocketMoney.Service
         [OperationBehavior(TransactionScopeRequired = true)]
         public virtual UserResult ConfirmUser(ConfirmUserRequest model)
         {
-            //return this.Process<ConfirmUserRequest, UserResult>(
-            //    ref model,
-            //    () => new UserResult(),
-            //    (ref UserResult result) =>
-            //    {
             Guid userId = Guid.Empty;
             if (model.ConfirmCode.TryCreateFromBase32Url(out userId))
             {
@@ -116,7 +116,6 @@ namespace PocketMoney.Service
             else
                 throw new InvalidDataException("Некорректный код подтверждения");
 
-            //});
         }
 
         [Transaction(TransactionMode.Requires)]
@@ -124,25 +123,24 @@ namespace PocketMoney.Service
         [OperationBehavior(TransactionScopeRequired = true)]
         public virtual UserResult AddUser(AddUserRequest model)
         {
-            //return this.Process<AddUserRequest, UserResult>(
-            //    ref model,
-            //    () => new UserResult(),
-            //    (ref UserResult result) =>
-            //    {
-            if (_userRepository.Exists(x => x.Family.Id == model.Family.Id && x.FirstName == model.FirstName && x.LastName == null))
+            if (_userRepository.Exists(x => x.Family.Id == model.Family.Id && x.UserName == model.UserName))
             {
-                throw new InvalidDataException("Пользователь с именем '{0}' уже существует в вашей семье", model.FirstName);
+                throw new InvalidDataException("Пользователь с именем '{0}' уже существует в вашей семье", model.UserName);
             }
 
             var family = model.Family.To();
 
-            var user = new User(family, model.FirstName);
+            var user = new User(family, model.UserName);
+
+            user.AddRole(Roles.Children);
+
             _userRepository.Add(user);
+
             foreach (var conn in model.Connections)
             {
                 if (_connectionRepository.Exists(x => x.Identity == conn.Identity && x.ClientType == conn.ConnectionType))
                 {
-                    throw new InvalidDataException("Пользователь '{0}' уже существует в системе", model.FirstName);
+                    throw new InvalidDataException("Пользователь '{0}' уже существует в системе", model.UserName);
                 }
 
                 var connection = new UserConnection(user, conn.ConnectionType, conn.Identity);
@@ -150,7 +148,70 @@ namespace PocketMoney.Service
                 user.Connections.Add(connection);
             }
             return new UserResult { Data = user };
-            //                });
+        }
+
+
+        [Transaction(TransactionMode.Requires)]
+        [MethodImpl(MethodImplOptions.Synchronized)]
+        [OperationBehavior(TransactionScopeRequired = true)]
+        public UserResult Login(LoginRequest model)
+        {
+            IList<User> users = new List<User>();
+            if (model.UserName.Contains("@"))
+            {
+                var email = _emailRepository.FindOne(x => x.Address == model.UserName);
+                if (email != null)
+                {
+                    var user = _userRepository.FindOne(x => x.Email.Id == email.Id);
+                    if (user != null)
+                        users.Add(user);
+                }
+            }
+            if (users.Count == 0)
+            {
+                users.AddAll(_userRepository.FindAll(x => x.UserName == model.UserName).AsEnumerable());
+            }
+            if (users.Count == 0)
+            {
+                throw new InvalidDataException("Пользователь с логином '{0}' не найден", model.UserName);
+            }
+            foreach (var user in users)
+            {
+                if (user.IsValid(model.Password))
+                {
+                    user.LastLoginDate = Clock.UtcNow();
+                    _userRepository.Update(user);
+                    return new UserResult { Data = user };
+                }
+            }
+            throw new InvalidDataException("Некорректный пароль");
+        }
+
+        [MethodImpl(MethodImplOptions.Synchronized)]
+        [OperationBehavior]
+        public UserListResult GetUsers(FamilyRequest model)
+        {
+            var users = _userRepository
+                .FindAll(x => x.Family.Id == model.Data.Id)
+                .Select(x => new
+                {
+                    UserId = x.Id,
+                    UserName = x.UserName,
+                    Points = x.Points
+                })
+                .AsEnumerable();
+
+            return new UserListResult
+            {
+                TotalCount = users.Count(),
+                Data = users.Select(x => new UserInfo
+                {
+                    UserId = x.UserId,
+                    UserName = x.UserName,
+                    Points = x.Points
+                })
+                .ToArray()
+            };
         }
     }
 }

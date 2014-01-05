@@ -15,9 +15,10 @@ namespace PocketMoney.Model.Internal
             this.Members = new List<User>();
         }
 
-        public Family(string name)
+        public Family(string name, Country country)
         {
             this.Name = name;
+            this.Country = country;
         }
 
         [Details]
@@ -25,6 +26,12 @@ namespace PocketMoney.Model.Internal
 
         [Details]
         public virtual string Description { get; set; }
+
+        [Details]
+        public virtual Country Country { get; set; }
+
+        [Details]
+        public virtual string Culture { get; set; }
 
         public virtual IList<User> Members { get; set; }
 

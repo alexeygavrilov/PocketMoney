@@ -11,10 +11,16 @@ namespace PocketMoney.Data.Wrappers
         public WrapperUser(IUser user)
         {
             Id = user.Id;
-            FirstName = user.FirstName;
-            LastName = user.LastName;
+            UserName = user.UserName;
             Family = new WrapperFamily(user.Family.Id, user.Family.Name);
             Roles = user.Roles;
+        }
+
+        public WrapperUser(string username, Guid userId, Guid familyId)
+        {
+            this.Id = userId;
+            this.UserName = username;
+            this.Family = new WrapperFamily(familyId, "Wrapper Family");
         }
 
         [DataMember(IsRequired = true)]
@@ -26,14 +32,7 @@ namespace PocketMoney.Data.Wrappers
         }
 
         [DataMember]
-        public string FirstName
-        {
-            get;
-            private set;
-        }
-
-        [DataMember]
-        public string LastName
+        public string UserName
         {
             get;
             private set;
@@ -76,7 +75,7 @@ namespace PocketMoney.Data.Wrappers
 
         public string FullName()
         {
-            return (this.FirstName + " " + this.LastName).Trim();
+            return this.UserName.Trim();
         }
     }
 }
