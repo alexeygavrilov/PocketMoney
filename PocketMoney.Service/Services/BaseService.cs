@@ -16,12 +16,15 @@ namespace PocketMoney.Service
         protected readonly IRepository<User, UserId, Guid> _userRepository;
         protected readonly IRepository<Family, FamilyId, Guid> _familyRepository;
         protected readonly IAuthorization _authorization;
+        protected readonly ICurrentUserProvider _currentUserProvider;
 
         public BaseService(IRepository<User, UserId, Guid> userRepository,
-            IRepository<Family, FamilyId, Guid> familyRepository)
+            IRepository<Family, FamilyId, Guid> familyRepository,
+            ICurrentUserProvider currentUserProvider)
         {
             _userRepository = userRepository;
             _familyRepository = familyRepository;
+            _currentUserProvider = currentUserProvider;
         }
 
 

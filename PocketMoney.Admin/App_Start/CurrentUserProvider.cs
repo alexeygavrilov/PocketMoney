@@ -10,18 +10,18 @@ using PocketMoney.Data.Wrappers;
 using PocketMoney.Util;
 using PocketMoney.Util.ExtensionMethods;
 
-namespace PocketMoney.Service
+namespace PocketMoney.Admin
 {
     public class CurrentUserProvider : ICurrentUserProvider
     {
-        public void AddCurrentUser(IUser user, bool persistCookie = false)
+        public void AddCurrentUser(IUser user, bool persist = false)
         {
             FormsAuthenticationTicket ticket = new FormsAuthenticationTicket(
                 1,
                 user.FullName(),
                 Clock.UtcNow(),
                 Clock.UtcNow() + FormsAuthentication.Timeout,
-                persistCookie,
+                persist,
                 user.Id.ToBase32Url() + "|" + user.Family.Id.ToBase32Url());
 
             string encryptedTicket = FormsAuthentication.Encrypt(ticket);
@@ -40,9 +40,9 @@ namespace PocketMoney.Service
                 throw new InvalidDataException("Cannot found current user");
 
             var ticket = FormsAuthentication.Decrypt(cookie.Value);
-            
+
             string[] ids = ticket.UserData.Split(new char[1] { '|' });
-            
+
             return new WrapperUser(ticket.Name,
                 ids[0].FromBase32Url(),
                 ids[1].FromBase32Url());

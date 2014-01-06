@@ -8,27 +8,47 @@ using PocketMoney.Util.ExtensionMethods;
 namespace PocketMoney.Data
 {
     [DataContract]
-    public abstract class ResultList<TData> : Result
+    public abstract class ResultDictionary<TKey, TValue> : Result
     {
         [DataMember, Details]
-        public new TData[] Data { get; set; }
+        public IDictionary<TKey, TValue> Dictionary { get; set; }
 
         [DataMember, Details]
         public int TotalCount { get; set; }
+
+        protected override void ClearData()
+        {
+            this.TotalCount = 0;
+            this.Dictionary = new Dictionary<TKey, TValue>();
+        }
     }
 
     [DataContract]
-    public abstract class ResultStruct<TStruct> : Result where TStruct : struct
+    public abstract class ResultList<TData> : Result
     {
         [DataMember, Details]
-        public new TStruct Data { get; private set; }
+        public TData[] List { get; set; }
+
+        [DataMember, Details]
+        public int TotalCount { get; set; }
+
+        protected override void ClearData()
+        {
+            this.TotalCount = 0;
+            this.List = new TData[0];
+        }
     }
 
     [DataContract]
-    public abstract class ResultClass<TClass> : Result where TClass : class
+    public abstract class ResultData<TData> : Result
     {
         [DataMember, Details]
-        public new TClass Data { get; set; }
+        public TData Data { get; set; }
+
+        protected override void ClearData()
+        {
+            this.Data = default(TData);
+        }
     }
 
     [DataContract]
@@ -65,8 +85,8 @@ namespace PocketMoney.Data
             _message = extraData;
         }
 
-        [DataMember]
-        public virtual object Data { get; private set; }
+        //[DataMember]
+        //public virtual object Data { get; private set; }
 
         [DataMember]
         public Boolean Success
@@ -101,7 +121,7 @@ namespace PocketMoney.Data
             _message += (_message.Length == 0)
                               ? errorMessage
                               : String.Format("\r\n{0}", errorMessage);
-            this.Data = null;
+            this.ClearData();
         }
         /// <summary>
         /// Sets the error message.
@@ -125,6 +145,10 @@ namespace PocketMoney.Data
             this._message = this._message.Replace("{ParameterName}", parameterName);
 
             return this;
+        }
+
+        protected virtual void ClearData()
+        {
         }
     }
 }

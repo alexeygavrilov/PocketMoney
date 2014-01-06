@@ -19,5 +19,12 @@ namespace PocketMoney.Service.Interfaces
 
         [Process, OperationContract]
         CountryListResult GetCountries(EmptyRequest model);
+
+        [Process, OperationContract]
+        Result AddDutyType(AddDutyTypeRequest model);
+
+        [Process, OperationContract]
+        DutyTypeListResult GetDutyTypes(EmptyRequest model);
+
     }
 }

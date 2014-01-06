@@ -62,6 +62,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="CountryMap.cs" />
+    <Compile Include="DutyTypeMap.cs" />
     <Compile Include="EmailMap.cs" />
     <Compile Include="EmailMessageMap.cs" />
     <Compile Include="FamilyMap.cs" />

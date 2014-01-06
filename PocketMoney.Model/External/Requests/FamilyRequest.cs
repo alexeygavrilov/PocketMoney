@@ -9,5 +9,5 @@ using PocketMoney.Data;
 namespace PocketMoney.Model.External.Requests
 {
     [DataContract]
-    public class FamilyRequest : RequestClass<IFamily> { }
+    public class FamilyRequest : RequestData<IFamily> { }
 }

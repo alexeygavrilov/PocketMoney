@@ -29,11 +29,12 @@ namespace PocketMoney.Service
         private readonly IRepository<EmailMessage, EmailMessageId, Guid> _emailMessageRepository;
 
         public MessageService(
+            IRepository<Email, EmailId, Guid> emailRepository,
+            IRepository<EmailMessage, EmailMessageId, Guid> emailMessageRepository,
             IRepository<User, UserId, Guid> userRepository,
             IRepository<Family, FamilyId, Guid> familyRepository,
-            IRepository<Email, EmailId, Guid> emailRepository,
-            IRepository<EmailMessage, EmailMessageId, Guid> emailMessageRepository)
-            : base(userRepository, familyRepository)
+            ICurrentUserProvider currentUserProvider)
+            : base(userRepository, familyRepository, currentUserProvider)
         {
             _emailRepository = emailRepository;
             _emailMessageRepository = emailMessageRepository;

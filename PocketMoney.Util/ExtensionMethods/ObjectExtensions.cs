@@ -1,4 +1,5 @@
 using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
@@ -13,6 +14,31 @@ namespace PocketMoney.Util.ExtensionMethods
         {
             return instance == null;
         }
+
+        public static IEnumerable<TObject> SelectTo<TObject>(this IEnumerable instance)
+            where TObject : class, new()
+        {
+            IList<TObject> result = new List<TObject>();
+            var type = typeof(TObject);
+            IDictionary<string, PropertyInfo> properties = type
+                .GetProperties()
+                .Where(property => property.CanWrite && !property.GetIndexParameters().Any())
+                .ToDictionary(p => p.Name, p => p, StringComparer.OrdinalIgnoreCase);
+
+            foreach (var source in instance)
+            {
+                TObject obj = new TObject();
+                foreach (var pair in source.ToDictionary()
+                    .Where(pair => properties.ContainsKey(pair.Key.Name))
+                    .Where(pair => properties[pair.Key.Name].PropertyType == pair.Key.PropertyType))
+                {
+                    properties[pair.Key.Name].SetValue(obj, pair.Value, null);
+                }
+                result.Add(obj);
+            }
+            return result;
+        }
+
 
         // [DebuggerStepThrough]
         public static void AssignFrom<TTo, TFrom>(this TTo instance, TFrom source)

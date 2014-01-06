@@ -23,7 +23,7 @@ namespace PocketMoney.Configuration.Web
             configuration = Fluently.Configure(configuration)
                 .Database(() =>
                 {
-                    if (connectionStringSetting.ProviderName.StartsWith("System.Data.SqlServerCe",
+                    if (connectionStringSetting.ProviderName.StartsWith("System.List.SqlServerCe",
                                                                         StringComparison.OrdinalIgnoreCase))
                     {
                         return

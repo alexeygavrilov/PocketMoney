@@ -35,9 +35,20 @@ namespace PocketMoney.Service.Installers
             _fileService.RemoveAll();
 
             _settingService.AddCountry(new AddCountryRequest { Code = 7, Name = "Россия" });
+            _settingService.AddDutyType(new AddDutyTypeRequest { CountryCode = 7, Name = "Домашнее задание" });
+            _settingService.AddDutyType(new AddDutyTypeRequest { CountryCode = 7, Name = "Уборка в комнате" });
+
             _settingService.AddCountry(new AddCountryRequest { Code = 380, Name = "Україна" });
+            _settingService.AddDutyType(new AddDutyTypeRequest { CountryCode = 380, Name = "Домашнее задание" });
+            _settingService.AddDutyType(new AddDutyTypeRequest { CountryCode = 380, Name = "Уборка в комнате" });
+
             _settingService.AddCountry(new AddCountryRequest { Code = 375, Name = "Беларусь" });
+            _settingService.AddDutyType(new AddDutyTypeRequest { CountryCode = 375, Name = "Домашнее задание" });
+            _settingService.AddDutyType(new AddDutyTypeRequest { CountryCode = 375, Name = "Уборка в комнате" });
+
             _settingService.AddCountry(new AddCountryRequest { Code = 1, Name = "USA" });
+            _settingService.AddDutyType(new AddDutyTypeRequest { CountryCode = 1, Name = "Homework" });
+            _settingService.AddDutyType(new AddDutyTypeRequest { CountryCode = 1, Name = "Clean Room" });
 
             var result = _familyService.RegisterUser(new RegisterUserRequest
             {

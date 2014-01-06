@@ -11,14 +11,6 @@ namespace PocketMoney.Model.External.Results
 {
     public class DutyTaskResult : Result
     {
-        public override object Data
-        {
-            get
-            {
-                return this.Name;
-            }
-        }
-
         [Details, DataMember]
         public IUser User { get; set; }
 
@@ -27,6 +19,13 @@ namespace PocketMoney.Model.External.Results
 
         [Details, DataMember]
         public DayOfYear[] DutyDays { get; set; }
+
+        protected override void ClearData()
+        {
+            this.User = null;
+            this.Name = string.Empty;
+            this.DutyDays = new DayOfYear[0];
+        }
 
     }
 }

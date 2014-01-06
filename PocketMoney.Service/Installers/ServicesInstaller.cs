@@ -12,13 +12,6 @@ namespace PocketMoney.Service.Installers
         public void Install(IWindsorContainer container, IConfigurationStore store)
         {
             container.Register(
-                Component.For<ICurrentUserProvider>()
-                    .ImplementedBy<CurrentUserProvider>()
-                    .LifeStyle
-                    .PerWebRequest);
-
-
-            container.Register(
                 Component.For<ProcessInterceptor>()
                     .Named("process.interceptor"));
 

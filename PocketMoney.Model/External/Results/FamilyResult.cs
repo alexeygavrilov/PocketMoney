@@ -4,7 +4,7 @@ using PocketMoney.Data;
 namespace PocketMoney.Model.External.Results
 {
     [DataContract]
-    public class FamilyResult : ResultClass<IFamily>
+    public class FamilyResult : ResultData<IFamily>
     {
     }
 }

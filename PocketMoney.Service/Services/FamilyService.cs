@@ -30,13 +30,14 @@ namespace PocketMoney.Service
 
         public FamilyService(
             IMessageService messageService,
-            IRepository<User, UserId, Guid> userRepository,
-            IRepository<Family, FamilyId, Guid> familyRepository,
             IRepository<Email, EmailId, Guid> emailRepository,
             IRepository<UserConnection, UserConnectionId, Guid> connectionRepository,
             IRepository<PhoneNumber, PhoneNumberId, Guid> phoneRepository,
-            IRepository<Country, CountryId, int> countryRepository)
-            : base(userRepository, familyRepository)
+            IRepository<Country, CountryId, int> countryRepository,
+            IRepository<User, UserId, Guid> userRepository,
+            IRepository<Family, FamilyId, Guid> familyRepository,
+            ICurrentUserProvider currentUserProvider)
+            : base(userRepository, familyRepository, currentUserProvider)
         {
             _emailRepository = emailRepository;
             _phoneRepository = phoneRepository;
@@ -199,18 +200,12 @@ namespace PocketMoney.Service
                     UserName = x.UserName,
                     Points = x.Points
                 })
-                .AsEnumerable();
+                .ToList();
 
             return new UserListResult
             {
-                TotalCount = users.Count(),
-                Data = users.Select(x => new UserInfo
-                {
-                    UserId = x.UserId,
-                    UserName = x.UserName,
-                    Points = x.Points
-                })
-                .ToArray()
+                TotalCount = users.Count,
+                List = users.SelectTo<UserInfo>().ToArray()
             };
         }
     }

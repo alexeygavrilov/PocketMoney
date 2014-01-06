@@ -14,6 +14,7 @@ namespace PocketMoney.Service.Interfaces
     [ServiceKnownType(typeof(Role))]
     public interface IDutyService
     {
+        [Process, OperationContract]
         DutyTaskResult AddDutyTask(AddDutyTaskRequest model);
     }
 }

@@ -4,27 +4,24 @@ using System.Runtime.Serialization;
 
 namespace PocketMoney.Data
 {
+
+    [DataContract]
+    public abstract class RequestData<TData> : Request 
+    {
+        [DataMember, Details]
+        public new TData Data { get; set; }
+
+        public override IEnumerable<ValidationResult> Validate(ValidationContext validationContext)
+        {
+            if (this.Data.Equals(default(TData)))
+                yield return new ValidationResult("Входные данные отсутствуют");
+
+        }
+    }
+
     [DataContract]
     public abstract class Request : ObjectBase, IValidatableObject
     {
         public abstract IEnumerable<ValidationResult> Validate(ValidationContext validationContext);
-    }
-
-    [DataContract]
-    public abstract class RequestClass<TClass> : Request where TClass : class
-    {
-        public RequestClass()
-        {
-        }
-
-        [DataMember, Details]
-        public new TClass Data { get; set; }
-
-        public override IEnumerable<ValidationResult> Validate(ValidationContext validationContext)
-        {
-            if (this.Data == default(TClass))
-                yield return new ValidationResult("Входные данные отсутствуют");
-
-        }
     }
 }

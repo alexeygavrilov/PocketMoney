@@ -14,7 +14,7 @@ namespace PocketMoney.Model.External.Results
     }
 
     [DataContract]
-    public struct UserInfo
+    public class UserInfo
     {
         [DataMember, Details]
         public Guid UserId { get; set; }
