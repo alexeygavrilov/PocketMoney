@@ -21,18 +21,18 @@ namespace PocketMoney.Service
     public class SettingService : BaseService, ISettingService
     {
         private readonly IRepository<Country, CountryId, int> _countryRepository;
-        private readonly IRepository<DutyType, DutyTypeId, int> _dutyTypeRepository;
+        private readonly IRepository<Holiday, HolidayId, Guid> _holidaysRepository;
 
         public SettingService(
             IRepository<Country, CountryId, int> countryRepository,
-            IRepository<DutyType, DutyTypeId, int> dutyTypeRepository,
+            IRepository<Holiday, HolidayId, Guid> holidaysRepository,
             IRepository<User, UserId, Guid> userRepository,
             IRepository<Family, FamilyId, Guid> familyRepository,
             ICurrentUserProvider currentUserProvider)
             : base(userRepository, familyRepository, currentUserProvider)
         {
             _countryRepository = countryRepository;
-            _dutyTypeRepository = dutyTypeRepository;
+            _holidaysRepository = holidaysRepository;
         }
 
         [Transaction(TransactionMode.Requires)]
@@ -48,12 +48,12 @@ namespace PocketMoney.Service
             var country = new Country(model.Code, model.Name);
             _countryRepository.Add(country);
 
-            return new Result();
+            return Result.Empty;
         }
 
         [MethodImpl(MethodImplOptions.Synchronized)]
         [OperationBehavior(TransactionScopeRequired = true)]
-        public CountryListResult GetCountries(EmptyRequest model)
+        public CountryListResult GetCountries(Request model)
         {
             var list = _countryRepository
                 .All()
@@ -70,32 +70,32 @@ namespace PocketMoney.Service
         [Transaction(TransactionMode.Requires)]
         [MethodImpl(MethodImplOptions.Synchronized)]
         [OperationBehavior(TransactionScopeRequired = true)]
-        public Result AddDutyType(AddDutyTypeRequest model)
+        public Result AddHoliday(AddHolidayRequest model)
         {
-            if (_dutyTypeRepository.Exists(x => x.Name == model.Name && x.Country.Id == model.CountryCode))
-                throw new InvalidDataException("Тип обязаности с именем '{0}' уже существует в системе.", model.Name);
+            if (_holidaysRepository.Exists(x => x.Name == model.Name && x.Country.Id == model.CountryCode))
+                throw new InvalidDataException("Праздник с именем '{0}' на дату '{1}' уже существует в системе.", model.Name);
 
             var country = _countryRepository.One(new CountryId(model.CountryCode));
             if (country == null)
                 throw new InvalidDataException("Страны с кодом '{0}' не существует в системе.", model.CountryCode);
 
-            var dutyType = new DutyType(model.Name, country);
-            _dutyTypeRepository.Add(dutyType);
+            var holiday = new Holiday(country, model.Name, model.Date);
+            _holidaysRepository.Add(holiday);
 
-            return new Result();
+            return Result.Empty;
         }
 
         [MethodImpl(MethodImplOptions.Synchronized)]
         [OperationBehavior(TransactionScopeRequired = true)]
-        public DutyTypeListResult GetDutyTypes(EmptyRequest model)
+        public HolidayListResult GetHolidays(Request model)
         {
             var family = _currentUserProvider.GetCurrentUser().Family.To();
-            var list = _dutyTypeRepository
+            var list = _holidaysRepository
                 .FindAll(x => x.Country.Id == family.Country.Id)
                 .AsEnumerable()
-                .ToDictionary(k => k.Id, e => e.Name, EqualityComparer<int>.Default);
+                .ToDictionary(k => k.Date, e => e.Name, EqualityComparer<DateTime>.Default);
 
-            return new DutyTypeListResult { TotalCount = list.Count, Dictionary = list };
+            return new HolidayListResult { TotalCount = list.Count, Dictionary = list };
         }
     }
 }

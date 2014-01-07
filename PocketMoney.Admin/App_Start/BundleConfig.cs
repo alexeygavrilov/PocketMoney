@@ -39,6 +39,11 @@ namespace PocketMoney.Admin
                         "~/Content/themes/base/jquery.ui.progressbar.css",
                         "~/Content/themes/base/jquery.ui.theme.css"));
 
+            bundles.Add(new ScriptBundle("~/bundles/application").Include(
+                    "~/Scripts/spine.js",
+                    "~/Scripts/jquery.tmpl.js",
+                    "~/Scripts/ErrorMessage.js"));
+            
             bundles.Add(new ScriptBundle("~/bundles/family").Include(
                     "~/Scripts/Pages/Family.js"));
 

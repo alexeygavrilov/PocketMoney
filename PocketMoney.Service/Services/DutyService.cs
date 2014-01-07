@@ -32,8 +32,7 @@ namespace PocketMoney.Service
         [OperationBehavior(TransactionScopeRequired = true)]
         public DutyTaskResult AddDutyTask(AddDutyTaskRequest model)
         {
-            return new DutyTaskResult();
-            //    model.
+            throw new NotImplementedException();
         }
     }
 }

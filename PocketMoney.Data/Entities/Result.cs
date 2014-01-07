@@ -52,8 +52,10 @@ namespace PocketMoney.Data
     }
 
     [DataContract]
-    public class Result : ObjectBase
+    public abstract class Result : ObjectBase
     {
+        public static readonly Result Empty = new EmptyResult();
+
         public enum ErrorMessage
         {
             [Description(Result.ParameterName + " value is empty.")]
@@ -147,8 +149,13 @@ namespace PocketMoney.Data
             return this;
         }
 
-        protected virtual void ClearData()
+        protected abstract void ClearData();
+
+        private sealed class EmptyResult : Result
         {
+            protected override void ClearData()
+            {
+            }
         }
     }
 }

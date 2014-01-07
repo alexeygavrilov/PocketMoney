@@ -57,11 +57,6 @@ namespace PocketMoney.Service
         [Transaction(TransactionMode.Requires)]
         public virtual Result SaveEmailMessage(EmailMessageRequest model)
         {
-            //return this.Process<EmailMessageRequest, Result>(
-            //    ref model,
-            //    () => new Result(),
-            //    (ref Result result) =>
-            //    {
             var member = model.Sender.To();
             var email = _emailRepository.FindOne(x => x.Address == model.Email);
             if (email == null)
@@ -77,8 +72,7 @@ namespace PocketMoney.Service
             }
             _emailMessageRepository.Add(message);
 
-            return new Result();
-            //});
+            return Result.Empty;
         }
 
         public static void StartEmailQueue()

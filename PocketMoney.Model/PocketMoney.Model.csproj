@@ -48,17 +48,18 @@
     <Compile Include="Behaviors\ConcreteTypeConverter.cs">
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="Common\DayOfOne.cs" />
+    <Compile Include="Common\ScheduleForm.cs" />
     <Compile Include="Enums\ClientType.cs" />
     <Compile Include="Extensions\IFamilyExtensions.cs" />
     <Compile Include="Extensions\IFileExtensions.cs" />
     <Compile Include="Extensions\IUserExtensions.cs" />
     <Compile Include="External\Requests\AddCountryRequest.cs" />
     <Compile Include="External\Requests\AddDutyTaskRequest.cs" />
-    <Compile Include="External\Requests\AddDutyTypeRequest.cs" />
+    <Compile Include="External\Requests\AddHolidayRequest.cs" />
     <Compile Include="External\Requests\AddUserRequest.cs" />
     <Compile Include="External\Requests\ConfirmUserRequest.cs" />
     <Compile Include="External\Requests\ConnectionRequest.cs" />
-    <Compile Include="External\Requests\EmptyRequest.cs" />
     <Compile Include="External\Requests\FamilyRequest.cs" />
     <Compile Include="External\Requests\GenericRequest.cs" />
     <Compile Include="External\Requests\LoginRequest.cs" />
@@ -71,11 +72,12 @@
     <Compile Include="External\Results\UserListResult.cs" />
     <Compile Include="External\Results\UserResult.cs" />
     <Compile Include="Internal\Country.cs" />
-    <Compile Include="Internal\DayOfYear.cs" />
-    <Compile Include="Internal\DutyType.cs" />
+    <Compile Include="Internal\DutyDate.cs" />
+    <Compile Include="Internal\Duty.cs" />
     <Compile Include="Internal\Email.cs" />
     <Compile Include="Internal\EmailMessage.cs" />
     <Compile Include="Internal\Family.cs" />
+    <Compile Include="Internal\Holiday.cs" />
     <Compile Include="Internal\PhoneNumber.cs" />
     <Compile Include="Internal\Roles.cs" />
     <Compile Include="Internal\User.cs" />

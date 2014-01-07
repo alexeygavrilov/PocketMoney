@@ -18,13 +18,13 @@ namespace PocketMoney.Service.Interfaces
         Result AddCountry(AddCountryRequest model);
 
         [Process, OperationContract]
-        CountryListResult GetCountries(EmptyRequest model);
+        CountryListResult GetCountries(Request model);
 
         [Process, OperationContract]
-        Result AddDutyType(AddDutyTypeRequest model);
+        Result AddHoliday(AddHolidayRequest model);
 
         [Process, OperationContract]
-        DutyTypeListResult GetDutyTypes(EmptyRequest model);
+        HolidayListResult GetHolidays(Request model);
 
     }
 }

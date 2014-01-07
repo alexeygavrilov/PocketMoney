@@ -1,12 +1,30 @@
-﻿@model PocketMoney.Model.External.Results.UserListResult
+﻿@model PocketMoney.Data.IUser
 @{
     ViewBag.Title = "Семья";
 }
+<script type="text/x-jquery-tmpl" id="userRowTemplate">
+    <tr>
+        <td>${UserName}
+    </td>
+        <td style="text-align: center;">${Points}
+    </td>
+        <td style="text-align: center;">
+            <input type="hidden" value="${UserId}" />
+            <a href="#" id="actionView">Отчет</a>
+            <a href="#" id="actionEdit">Редактировать</a>
+            <a href="#" id="actionRemove">Удалить</a>
+            <a href="#" id="actionExchange">Списать баллы</a>
+        </td>
+    </tr>
+</script>
+
 <hgroup class="title">
     <h1>@ViewBag.Title.</h1>
     <h2>Учетные записи семьи.</h2>
 </hgroup>
-<table id="tableUsers">
+
+<a id="actionAdd" href="#">Добавить пользователя</a>
+<table id="tableUsers" style="width: 100%;">
     <thead>
         <tr>
             <th>Имя пользователя
@@ -18,27 +36,24 @@
         </tr>
     </thead>
     <tbody>
-        @foreach (var user in Model.List)
-        {
-            <tr>
-                <td>
-                    @user.UserName
-                </td>
-                <td>
-                    @user.Points.ToString()
-                </td>
-                <td>
-                    @Html.Hidden("UserId", user.UserId)
-                    <a href="#" id="actionView">Отчет</a>
-                    <a href="#" id="actionEdit">Редактировать</a>
-                    <a href="#" id="actionRemove">Удалить</a>
-                    <a href="#" id="actionExchange">Обменять баллы</a>
-                </td>
-            </tr>
-        }
     </tbody>
 </table>
 
 @section Scripts {
     @Scripts.Render("~/bundles/family")
+
+    <script type="text/javascript">
+        (function () {
+            var exports = this;
+            $(document).ready(function ($) {
+                exports.FamilyController.init({
+                    el: $('body'),
+                    urls: {
+                        loadUsers: '@Url.Action("GetUsers", "Account")'
+                        }
+                });
+            });
+        }).call(this);
+
+    </script>
 }

@@ -17,14 +17,17 @@ namespace PocketMoney.Model.External.Results
         [Details, DataMember]
         public string Name { get; set; }
 
+        [DataMember, Details]
+        public ScheduleForm Form { get; set; }
+
         [Details, DataMember]
-        public DayOfYear[] DutyDays { get; set; }
+        public DayOfOne[] Days { get; set; }
 
         protected override void ClearData()
         {
             this.User = null;
             this.Name = string.Empty;
-            this.DutyDays = new DayOfYear[0];
+            this.Days = new DayOfOne[0];
         }
 
     }

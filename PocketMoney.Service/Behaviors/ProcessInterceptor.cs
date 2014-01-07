@@ -14,6 +14,18 @@ namespace PocketMoney.Service.Behaviors
     {
         const string REQUEST_ERROR_MESSAGE_NULL = "Request is null";
 
+        private void SetResult(string message, Type type, ref Result result)
+        {
+            if (result == null)
+            {
+                if (type.IsAbstract)
+                    result = Result.Empty;
+                else
+                    result = (Result)Activator.CreateInstance(type);
+            }
+            result.SetErrorMessage(message);
+        }
+
         public void Intercept(IInvocation invocation)
         {
             var methodInfo = invocation.Method;
@@ -26,43 +38,44 @@ namespace PocketMoney.Service.Behaviors
             {
                 var processAttribute = (ProcessAttribute)attributes[0];
 
-                Result result = (Result)Activator.CreateInstance(invocation.Method.ReturnType);
+                Result result = null; 
                 try
                 {
                     var request = invocation.GetArgumentValue(0) as Request;
                     if (request == null)
                     {
-                        result.SetErrorMessage(REQUEST_ERROR_MESSAGE_NULL);
+                        this.SetResult(REQUEST_ERROR_MESSAGE_NULL, invocation.Method.ReturnType, ref result);
                     }
                     else
                     {
                         foreach (var varRes in request.Validate(null))
                         {
-                            result.SetErrorMessage(varRes.ErrorMessage);
+                            this.SetResult(varRes.ErrorMessage, invocation.Method.ReturnType, ref result);
                         }
                     }
 
                     //invocation.SetArgumentValue(0, request);
 
-                    if (result.Success)
+                    if (result == null)
                     {
                         invocation.Proceed();
                     }
                 }
                 catch (UserLevelException ue)
                 {
-                    result.SetErrorMessage(ue.Message);
+                    this.SetResult(ue.Message, invocation.Method.ReturnType, ref result);
                 }
                 catch (SystemLevelException se)
                 {
-                    result.SetErrorMessage(se.Message);
+                    this.SetResult(se.Message, invocation.Method.ReturnType, ref result);
+                    se.LogDebug();
                 }
                 catch (Exception e)
                 {
-                    result.SetErrorMessage(e.Message);
+                    this.SetResult(e.Message, invocation.Method.ReturnType, ref result);
                     e.LogError();
                 }
-                if (!result.Success)
+                if (result != null && !result.Success)
                 {
                     invocation.ReturnValue = result;
                 }

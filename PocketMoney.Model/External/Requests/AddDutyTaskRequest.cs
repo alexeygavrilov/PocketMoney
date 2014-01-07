@@ -22,10 +22,15 @@ namespace PocketMoney.Model.External.Requests
         [JsonConverter(typeof(ConcreteTypeConverter<WrapperUser>))]
         public IUser User { get; set; }
 
-        [DataMember(IsRequired = true)]
+        [DataMember]
+        [Display(Name = "Расписание")]
+        [Details]
+        public ScheduleForm Form { get; set; }
+
+        [DataMember]
         [Display(Name = "Расписание обязаностей")]
         [Details]
-        public DayOfYear[] DutyDays { get; set; }
+        public DayOfOne[] DutyDays { get; set; }
 
         public override IEnumerable<ValidationResult> Validate(ValidationContext validationContext)
         {

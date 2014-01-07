@@ -8,7 +8,10 @@
     <meta name="viewport" content="width=device-width" />
     @Styles.Render("~/Content/css")
     @Scripts.Render("~/bundles/modernizr")
-</head>
+    @Scripts.Render("~/bundles/jquery")
+    @Scripts.Render("~/bundles/application")
+
+</head> 
 <body>
     <header>
         <div class="content-wrapper">
@@ -25,6 +28,7 @@
     </header>
     <div id="body">
         @RenderSection("featured", required: false)
+        <div id="error"></div>
         <section class="content-wrapper main-content clear-fix">
             @RenderBody()
         </section>
@@ -37,7 +41,6 @@
         </div>
     </footer>
 
-    @Scripts.Render("~/bundles/jquery")
     @RenderSection("scripts", required: false)
 </body>
 </html>

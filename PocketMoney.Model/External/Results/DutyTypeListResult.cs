@@ -1,8 +1,9 @@
-﻿using PocketMoney.Data;
+﻿using System;
+using PocketMoney.Data;
 
 namespace PocketMoney.Model.External.Results
 {
-    public class DutyTypeListResult : ResultDictionary<int, string>
+    public class HolidayListResult : ResultDictionary<DateTime, string>
     {
     }
 }

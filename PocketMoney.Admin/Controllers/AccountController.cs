@@ -142,13 +142,18 @@ namespace PocketMoney.Admin.Controllers
 
         #region Family
 
-        public ActionResult Family()
+        [HttpGet]
+        public ViewResult Family()
         {
-            var users = _familyService.GetUsers(new FamilyRequest { Data = _currentUserProvider.GetCurrentUser().Family });
-            if (!users.Success)
-                throw new Exception(users.Message);
-            else
-                return View(users);
+            return View(_currentUserProvider.GetCurrentUser());
+        }
+
+        [HttpGet]
+        public JsonResult GetUsers()
+        {
+            return Json(
+                _familyService.GetUsers(new FamilyRequest { Data = _currentUserProvider.GetCurrentUser().Family }),
+                JsonRequestBehavior.AllowGet);
         }
 
         #endregion
