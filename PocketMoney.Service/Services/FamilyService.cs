@@ -178,14 +178,14 @@ namespace PocketMoney.Service
             }
             foreach (var user in users)
             {
-                if (user.IsValid(model.Password))
+                if (user.IsValid(model.Password) && user.Active && user.IsInRole(Roles.Parent))
                 {
                     user.LastLoginDate = Clock.UtcNow();
                     _userRepository.Update(user);
                     return new UserResult { Data = user };
                 }
             }
-            throw new InvalidDataException("Некорректный пароль");
+            throw new InvalidDataException("Некорректный пароль или нет прав доступа");
         }
 
         [MethodImpl(MethodImplOptions.Synchronized)]

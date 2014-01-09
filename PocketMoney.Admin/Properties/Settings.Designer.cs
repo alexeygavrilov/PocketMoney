@@ -31,5 +31,14 @@ namespace PocketMoney.Admin.Properties {
                 return ((bool)(this["DeploymentMode"]));
             }
         }
+        
+        [global::System.Configuration.ApplicationScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("3xxITCtqsnPUPX2abSFn")]
+        public string VK_ApiKey {
+            get {
+                return ((string)(this["VK_ApiKey"]));
+            }
+        }
     }
 }

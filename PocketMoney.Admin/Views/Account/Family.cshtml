@@ -18,29 +18,74 @@
     </tr>
 </script>
 
-<hgroup class="title">
-    <h1>@ViewBag.Title.</h1>
-    <h2>Учетные записи семьи.</h2>
-</hgroup>
+<section id="areaTable" class="wizard">
+    <hgroup class="title">
+        <h1>@ViewBag.Title.</h1>
+        <h2>Учетные записи семьи.</h2>
+    </hgroup>
+    <a id="actionAdd" href="#">Добавить пользователя</a>
+    <table id="tableUsers" style="width: 100%;">
+        <thead>
+            <tr>
+                <th>Имя пользователя
+                </th>
+                <th>Текущий балл
+                </th>
+                <th>Действия
+                </th>
+            </tr>
+        </thead>
+        <tbody>
+        </tbody>
+    </table>
+</section>
 
-<a id="actionAdd" href="#">Добавить пользователя</a>
-<table id="tableUsers" style="width: 100%;">
-    <thead>
-        <tr>
-            <th>Имя пользователя
-            </th>
-            <th>Текущий балл
-            </th>
-            <th>Действия
-            </th>
-        </tr>
-    </thead>
-    <tbody>
-    </tbody>
-</table>
+<section id="areaAdd" class="wizard" style="display: none">
+    <hgroup class="title">
+        <h1>@ViewBag.Title.</h1>
+        <h2>Добавить учетную запись</h2>
+    </hgroup>
+    <fieldset>
+        <legend>Форма регистрации</legend>
+        <ol>
+            <li>
+                <label>Тип учетной записи</label>
+                <div id="ParentRole" class="cursor-pointer">
+                    <input name="RoleType" type="radio" value="0x2" />Тот кто назначает задания (Взрослый)
+                </div>
+                <div id="ChildRole" class="cursor-pointer">
+                    <input name="RoleType" type="radio" value="0x1" checked="checked" />Тот кто выполняет задания (Ребенок)
+                </div>
+            </li>
+            <li class="ChildVisible">
+                <label>Тип клиента</label>
+                <input id="VKClient" name="ClientType" type="radio" value="VK" checked="checked" />ВКонтакте<br />
+                <input id="PhoneClient" name="ClientType" type="radio" value="Phone" disabled="disabled" />Мобильный клиент
+            </li>
+            <li>
+                <label for="UserName">Имя</label>
+                <input id="UserName" name="UserName" type="text" value="" />
+            </li>
+            <li class="ChildVisible">
+                <label for="VKQueryString">Строка для поиска записи ВКонтакте</label>
+                <table border="0">
+                    <tr>
+                        <td>
+                            <input id="VKQueryString" name="VKQueryString" type="text" />
+                        </td>
+                    </tr>
+                </table>
+            </li>
+        </ol>
+        <input id="actionCancelAdd" type="button" value="Отмена" />
+    </fieldset>
+</section>
+
+@*http://vk.com/js/api/openapi.js*@
 
 @section Scripts {
     @Scripts.Render("~/bundles/family")
+
 
     <script type="text/javascript">
         (function () {
@@ -50,7 +95,7 @@
                     el: $('body'),
                     urls: {
                         loadUsers: '@Url.Action("GetUsers", "Account")'
-                        }
+                    }
                 });
             });
         }).call(this);
