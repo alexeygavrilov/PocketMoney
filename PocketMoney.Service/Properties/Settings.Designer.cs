@@ -8,7 +8,7 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-namespace PocketMoney.Admin.Properties {
+namespace PocketMoney.Service.Properties {
     
     
     [global::System.Runtime.CompilerServices.CompilerGeneratedAttribute()]
@@ -25,10 +25,19 @@ namespace PocketMoney.Admin.Properties {
         
         [global::System.Configuration.ApplicationScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("False")]
-        public bool DeploymentMode {
+        [global::System.Configuration.DefaultSettingValueAttribute("3xxITCtqsnPUPX2abSFn")]
+        public string VK_ApiKey {
             get {
-                return ((bool)(this["DeploymentMode"]));
+                return ((string)(this["VK_ApiKey"]));
+            }
+        }
+        
+        [global::System.Configuration.ApplicationScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("4107696")]
+        public string VK_ApiId {
+            get {
+                return ((string)(this["VK_ApiId"]));
             }
         }
     }

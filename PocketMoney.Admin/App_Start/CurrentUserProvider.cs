@@ -52,5 +52,15 @@ namespace PocketMoney.Admin
         {
             FormsAuthentication.SignOut();
         }
+
+        public void SetData(string key, object value)
+        {
+            HttpContext.Current.Session[key] = value;
+        }
+
+        public object GetDate(string key)
+        {
+            return HttpContext.Current.Session[key];
+        }
     }
 }

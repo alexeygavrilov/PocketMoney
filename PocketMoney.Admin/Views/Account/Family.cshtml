@@ -27,7 +27,7 @@
         ${first_name} ${last_name}
     </td>
     <td>
-        <a href="#" id="actionSelectUser" itemid="${id}"></a>
+        <a href="#" id="actionSelectUser" itemid="${uid}"></a>
     </td>
 </tr>
 </script>
@@ -99,26 +99,29 @@
                 </table>
             </li>
         </ol>
-        <button id="actionCancelAdd" type="button" value="Отмена" />
+        <input id="actionCancelAdd" type="button" value="Отмена" />
     </fieldset>
 </section>
-
-@*http://vk.com/js/api/openapi.js*@
 
 @section Scripts {
     @Scripts.Render("~/bundles/family")
 
-    <script src="//vk.com/js/api/openapi.js" type="text/javascript"></script>
+    <script type="text/javascript" src="//vk.com/js/api/openapi.js"></script>
 
     <script type="text/javascript">
         (function () {
             var exports = this;
+            //if (typeof VK == 'undefined') {
+            //    var e = document.createElement('script');
+            //    e.src = 'http://vk.com/js/api/openapi.js';
+            //    e.type = 'text/javascript';
+            //    document.getElementsByTagName("head")[0].appendChild(e);
+            //}
             $(document).ready(function ($) {
                 exports.FamilyController.init({
                     el: $('body'),
                     settings: {
-                        LoadUsersUrl: '@Url.Action("GetUsers", "Account")',
-                        VKApiKey: '@PocketMoney.Admin.Properties.Settings.Default.VK_ApiKey'
+                        LoadUsersUrl: '@Url.Action("GetUsers", "Account")'
                     },
                 });
             });

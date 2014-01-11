@@ -8,6 +8,9 @@ namespace PocketMoney.Admin
         // Дополнительные сведения о Bundling см. по адресу http://go.microsoft.com/fwlink/?LinkId=254725
         public static void RegisterBundles(BundleCollection bundles)
         {
+            //BundleTable.EnableOptimizations = true;
+            //bundles.UseCdn = true;
+            
             bundles.Add(new ScriptBundle("~/bundles/jquery").Include(
                         "~/Scripts/jquery-{version}.js"));
 
@@ -47,6 +50,9 @@ namespace PocketMoney.Admin
             bundles.Add(new ScriptBundle("~/bundles/family").Include(
                     "~/Scripts/Pages/Family.js"));
 
+            //bundles.Add(new ScriptBundle("~/bundles/vk", "//vk.com/js/api/openapi.js").Include(
+            //        "~/Scripts/vk.js"));
+                    
         }
     }
 }

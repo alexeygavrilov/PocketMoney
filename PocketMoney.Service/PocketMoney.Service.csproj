@@ -75,13 +75,20 @@
     <Compile Include="Behaviors\ProcessAttribute.cs" />
     <Compile Include="Behaviors\ProcessInterceptor.cs" />
     <Compile Include="Installers\ServicesInstaller.cs" />
+    <Compile Include="Interfaces\IConnector.cs" />
     <Compile Include="Interfaces\IDutyService.cs" />
     <Compile Include="Interfaces\IFamilyService.cs" />
     <Compile Include="Interfaces\IMessageService.cs" />
     <Compile Include="Interfaces\ISettingService.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Properties\Settings.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTimeSharedInput>True</DesignTimeSharedInput>
+      <DependentUpon>Settings.settings</DependentUpon>
+    </Compile>
     <Compile Include="Services\BaseService.cs" />
     <Compile Include="Installers\DataBuilder.cs" />
+    <Compile Include="Services\Connector.cs" />
     <Compile Include="Services\DutyService.cs" />
     <Compile Include="Services\FamilyService.cs" />
     <Compile Include="Services\MessageService.cs" />
@@ -119,6 +126,13 @@
       <Project>{313d9b49-63c1-468b-ac33-71015c1e34cf}</Project>
       <Name>PocketMoney.Model</Name>
     </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="app.config" />
+    <None Include="Properties\Settings.settings">
+      <Generator>PublicSettingsSingleFileGenerator</Generator>
+      <LastGenOutput>Settings.Designer.cs</LastGenOutput>
+    </None>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

@@ -1,0 +1,12 @@
+﻿<?xml version='1.0' encoding='utf-8'?>
+<SettingsFile xmlns="http://schemas.microsoft.com/VisualStudio/2004/01/settings" CurrentProfile="(Default)" GeneratedClassNamespace="PocketMoney.Service.Properties" GeneratedClassName="Settings">
+  <Profiles />
+  <Settings>
+    <Setting Name="VK_ApiKey" Type="System.String" Scope="Application">
+      <Value Profile="(Default)">3xxITCtqsnPUPX2abSFn</Value>
+    </Setting>
+    <Setting Name="VK_ApiId" Type="System.String" Scope="Application">
+      <Value Profile="(Default)">4107696</Value>
+    </Setting>
+  </Settings>
+</SettingsFile>

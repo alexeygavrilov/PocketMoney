@@ -4,12 +4,12 @@ using PocketMoney.Data;
 namespace PocketMoney.Model.External.Requests
 {
     [DataContract]
-    public class InputStringRequest : RequestData<string>
+    public class StringRequest : RequestData<string>
     {
     }
 
     [DataContract]
-    public class InputIntRequest : RequestData<int>
+    public class IntRequest : RequestData<int>
     {
     }
 }

@@ -40,8 +40,6 @@ ops =
         @roleType.filter('[value=0x1]').prop 'checked', true
         @roleType.filter('[value=0x2]').prop 'checked', false
         @areaAddChild.show()
-        VK.init
-            apiId: @settings.VKApiKey
 
     hideAddChild: ->
         @roleType.filter('[value=0x1]').prop 'checked', false
@@ -52,21 +50,26 @@ ops =
         q = @textSearchVK.val()
         return if q is ''
 
-        if $.isNumeric q
-            VK.Api.call 'users.get',
-                user_ids: @searchVK.val()
-                fields: 'photo'
-                , (result) =>
-                    @tableVK.empty()
-                    @tableVK.append @vkTemplate.tmpl(row) for row in result
-        else
-            VK.Api.call 'users.search',
-                q: @searchVK.val()
-                sort: 0
-                count: 10
-                fields: 'photo,bdate'
-                , (result) =>
-                    @tableVK.empty()
-                    @tableVK.append @vkTemplate.tmpl(row) for row in result.items
+        VK.init
+            apiId: @settings.VKApiID
+
+        $.get "https://oauth.vk.com/access_token?client_id=#{@settings.VKApiID}&client_secret=#{@settings.VKApiKey}&v=5.5&grant_type=client_credentials", (r) =>
+#            access_token = r.access_token
+            if $.isNumeric q
+                VK.Api.call 'users.get',
+                    user_ids: q
+                    fields: 'photo'
+                    , (result) =>
+                        @tableVK.empty()
+                        @tableVK.append @vkTemplate.tmpl(row) for row in result.response
+            else
+                VK.Api.call 'users.search',
+                    q: q
+                    sort: 0
+                    count: 10
+                    fields: 'photo'
+                    , (result) =>
+                        @tableVK.empty()
+                        @tableVK.append @vkTemplate.tmpl(row) for row in result.items
 
 exports.FamilyController = Spine.Controller.create(ops);

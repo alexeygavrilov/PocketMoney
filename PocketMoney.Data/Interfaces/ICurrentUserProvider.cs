@@ -7,5 +7,8 @@ namespace PocketMoney.Data
         void AddCurrentUser(IUser user, bool persist = false);
         IUser GetCurrentUser();
         void RemoveCurrentUser();
+
+        void SetData(string key, object value);
+        object GetDate(string key);
     }
 }
