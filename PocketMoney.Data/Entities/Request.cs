@@ -9,7 +9,7 @@ namespace PocketMoney.Data
     public abstract class RequestData<TData> : Request
     {
         [DataMember, Details]
-        public new TData Data { get; set; }
+        public TData Data { get; set; }
 
         public override IEnumerable<ValidationResult> Validate(ValidationContext validationContext)
         {

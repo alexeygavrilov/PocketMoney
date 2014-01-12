@@ -10,9 +10,6 @@ namespace PocketMoney.Service.Interfaces
     public interface IConnector
     {
         [Process, OperationContract]
-        StringResult GetAuthToken(AuthRequest auth);
-
-        [Process, OperationContract]
         NetworkAccountResult GetAccount(StringNetworkRequest identity);
 
         [Process, OperationContract]

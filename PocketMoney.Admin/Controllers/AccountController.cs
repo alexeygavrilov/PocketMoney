@@ -1,9 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Web;
-using System.Web.Mvc;
-using System.Web.Security;
+﻿using System.Web.Mvc;
 using PocketMoney.Data;
 using PocketMoney.Model.External.Requests;
 using PocketMoney.Service.Interfaces;
@@ -136,24 +131,6 @@ namespace PocketMoney.Admin.Controllers
             }
 
             return View(model);
-        }
-
-        #endregion
-
-        #region Family
-
-        [HttpGet]
-        public ViewResult Family()
-        {
-            return View(_currentUserProvider.GetCurrentUser());
-        }
-
-        [HttpGet]
-        public JsonResult GetUsers()
-        {
-            return Json(
-                _familyService.GetUsers(new FamilyRequest { Data = _currentUserProvider.GetCurrentUser().Family }),
-                JsonRequestBehavior.AllowGet);
         }
 
         #endregion

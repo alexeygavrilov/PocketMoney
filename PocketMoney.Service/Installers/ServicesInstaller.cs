@@ -35,6 +35,13 @@ namespace PocketMoney.Service.Installers
                     .Interceptors<ProcessInterceptor>()
                     .LifeStyle
                     .PerWebRequest);
+
+            container.Register(
+                Component.For<IConnector>()
+                    .ImplementedBy<Connector>()
+                    .Interceptors<ProcessInterceptor>()
+                    .LifeStyle
+                    .PerWebRequest);
         }
     }
 }
