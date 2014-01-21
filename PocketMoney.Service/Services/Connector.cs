@@ -47,7 +47,7 @@ namespace PocketMoney.Service
             {
                 var json = this.Request(this.GetHttpAuthUrl(type, Properties.Settings.Default.VK_ApiId, Properties.Settings.Default.VK_ApiKey), type);
 
-                if (json["access_token"].HasValues)
+                if (json["access_token"] != null)
                     token = json["access_token"].ToObject<string>();
 
                 if (string.IsNullOrEmpty(token))
@@ -59,13 +59,16 @@ namespace PocketMoney.Service
             return token;
         }
 
-        private string GetHttpApiUrl(NetworkType type, string methodName, IDictionary<string, string> args)
+        private string GetHttpApiUrl(NetworkType type, string methodName, IDictionary<string, string> args, bool addToken = true)
         {
             if (type == NetworkType.VK)
             {
                 string parameters = string.Join("&",
                     args.Select(x => string.Format("{0}={1}", x.Key, x.Value)).ToArray());
-                return string.Format("https://api.vk.com/method/{0}?{1}&v=5.5&access_token={2}", methodName, parameters, this.GetToken(type));
+                if (addToken)
+                    return string.Format("https://api.vk.com/method/{0}?{1}&v=5.5&access_token={2}", methodName, parameters, this.GetToken(type));
+                else
+                    return string.Format("https://api.vk.com/method/{0}?{1}&v=5.5", methodName, parameters);
             }
             else
                 throw new NotImplementedException();
@@ -77,7 +80,7 @@ namespace PocketMoney.Service
             {
                 var rawJson = new StreamReader(stream).ReadToEnd();
                 var json = JObject.Parse(rawJson);
-                if (json["error"].HasValues)
+                if (json["error"] != null)
                 {
                     if (json["error"].Type == JTokenType.Object)
                         throw new InternalServiceException(string.Format("Invalid request to '{0}' network return '{1}' status and '{2}' message",
@@ -97,8 +100,8 @@ namespace PocketMoney.Service
             var args = new Dictionary<string, string>();
             args.Add("user_ids", identity.Data);
             args.Add("fields", "photo_50");
-            var json = this.Request(this.GetHttpApiUrl(identity.Type, "users.get", args), identity.Type);
-            if (json["response"].HasValues && json["response"].First.HasValues)
+            var json = this.Request(this.GetHttpApiUrl(identity.Type, "users.get", args, false), identity.Type);
+            if (json["response"] != null && json["response"].First != null)
             {
                 var first = json["response"].First;
                 NetworkAccount account = new NetworkAccount
@@ -124,10 +127,11 @@ namespace PocketMoney.Service
             args.Add("q", query.Data);
             args.Add("count", "10");
             args.Add("fields", "photo_50");
-            var json = this.Request(this.GetHttpApiUrl(query.Type, "users.search", args), query.Type);
+            var url = this.GetHttpApiUrl(query.Type, "users.search", args);
+            var json = this.Request(url, query.Type);
             IList<NetworkAccount> list = new List<NetworkAccount>();
             int count = 0;
-            if (json["response"].HasValues)
+            if (json["response"] != null)
             {
                 count = json["response"]["count"].ToObject<int>();
                 foreach (var account in json["response"]["items"])

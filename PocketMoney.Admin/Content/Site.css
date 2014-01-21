@@ -593,9 +593,10 @@ td button
     margin: 20px 0 10px 0;
 }
 
-.error
+.error, #error
 {
     color: #e80c4d;
+    font-weight: bold;
 }
 
 /* styles for validation helpers */

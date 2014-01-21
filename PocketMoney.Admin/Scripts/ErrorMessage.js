@@ -3,13 +3,16 @@
     var box;
 
     box = $('#error');
-    box.text(message);
-    return box.show();
+    box.text("Ошибка: " + message);
+    box.fadeIn(700);
+    return setTimeout((function() {
+      return box.fadeOut(700);
+    }), 10000);
   };
 
   $.getResult = function(result, success) {
-    if (result.success === false && result.message) {
-      return $.showErrorMessage(result.message);
+    if (result.Success === false && result.Message) {
+      return $.showErrorMessage(result.Message);
     } else {
       return success(result);
     }

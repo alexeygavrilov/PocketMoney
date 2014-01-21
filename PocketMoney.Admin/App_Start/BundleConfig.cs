@@ -49,9 +49,6 @@ namespace PocketMoney.Admin
             
             bundles.Add(new ScriptBundle("~/bundles/family").Include(
                     "~/Scripts/Pages/Family.js"));
-
-            //bundles.Add(new ScriptBundle("~/bundles/vk", "//vk.com/js/api/openapi.js").Include(
-            //        "~/Scripts/vk.js"));
                     
         }
     }

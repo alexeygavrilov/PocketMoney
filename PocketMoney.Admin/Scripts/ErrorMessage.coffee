@@ -1,10 +1,13 @@
 ﻿$.showErrorMessage = (message) ->
     box = $ '#error'
-    box.text message
-    box.show()
+    box.text "Ошибка: #{message}"
+    box.fadeIn 700
+    setTimeout ( -> 
+        box.fadeOut 700
+        ), 10000
 
 $.getResult = (result, success) ->
-    if result.success is false && result.message
-        $.showErrorMessage result.message
+    if result.Success is false && result.Message
+        $.showErrorMessage result.Message
     else
        success result 

@@ -21,13 +21,14 @@
 <script type="text/x-jquery-tmpl" id="vkRowTemplate">
 <tr>
     <td>
-        <img src="${photo}" />
+        <img src="${Photo}" />
     </td>
     <td>
-        ${first_name} ${last_name}
+        ${FirstName} ${LastName}
     </td>
     <td>
-        <a href="#" id="actionSelectUser" itemid="${uid}"></a>
+        <input name="hiddenSelectedUserId" type="hidden" value="${UserId}" />
+        <a href="#" class="actionSelectUser">Выбрать пользователя</a>
     </td>
 </tr>
 </script>
@@ -36,7 +37,7 @@
         <h1>@ViewBag.Title.</h1>
         <h2>Учетные записи семьи.</h2>
     </hgroup>
-    <a id="actionAdd" href="#">Добавить пользователя</a>
+    <input id="actionAdd" type="button" value="Добавить пользователя" />
     <table id="tableUsers" style="width: 100%;">
         <thead>
             <tr>
@@ -76,11 +77,15 @@
                 <input id="PhoneClient" name="ClientType" type="radio" value="Phone" disabled="disabled" />Мобильный клиент
             </li>
             <li>
-                <label for="UserName">Имя</label>
+                <label for="UserName">Имя:</label>
                 <input id="UserName" name="UserName" type="text" value="" />
             </li>
+            <li class="ParentVisible">
+                <label for="Email">Email:</label>
+                <input id="Email" name="Email" type="text" value="" />
+            </li>
             <li class="ChildVisible">
-                <label for="VKQueryString">Введите имя или идентификатор для поиска записи в ВКонтакте</label>
+                <label for="VKQueryString">Введите идентификатор или URL пользователя в ВКонтакте:</label>
                 <table border="0">
                     <tr>
                         <td>
@@ -99,6 +104,8 @@
                 </table>
             </li>
         </ol>
+        <input id="actionSendInvite" type="button" value="Выслать уведомление для приглашения в систему" disabled="disabled" />
+
         <input id="actionCancelAdd" type="button" value="Отмена" />
     </fieldset>
 </section>
@@ -106,22 +113,16 @@
 @section Scripts {
     @Scripts.Render("~/bundles/family")
 
-    <script type="text/javascript" src="//vk.com/js/api/openapi.js"></script>
-
     <script type="text/javascript">
         (function () {
             var exports = this;
-            //if (typeof VK == 'undefined') {
-            //    var e = document.createElement('script');
-            //    e.src = 'http://vk.com/js/api/openapi.js';
-            //    e.type = 'text/javascript';
-            //    document.getElementsByTagName("head")[0].appendChild(e);
-            //}
             $(document).ready(function ($) {
                 exports.FamilyController.init({
                     el: $('body'),
                     settings: {
-                        LoadUsersUrl: '@Url.Action("GetUsers", "Account")'
+                        GetUsersUrl: '@Url.Action("GetUsers")',
+                        GetUserVKUrl: '@Url.Action("GetUserVK")',
+                        SearchUsersVKUrl: '@Url.Action("SearchUsersVK")'
                     },
                 });
             });

@@ -12,7 +12,8 @@ namespace PocketMoney.Service.Interfaces
         [Process, OperationContract]
         NetworkAccountResult GetAccount(StringNetworkRequest identity);
 
-        [Process, OperationContract]
-        NetworkAccountList SearchAccount(StringNetworkRequest query);
+        // servers authentication is not access
+        //[Process, OperationContract]
+        //NetworkAccountList SearchAccount(StringNetworkRequest query);
     }
 }

@@ -14,8 +14,12 @@
       '#userRowTemplate': 'rowTemplate',
       '#vkRowTemplate': 'vkTemplate',
       'li.ChildVisible': 'areaAddChild',
+      'li.ParentVisible': 'areaAddParent',
       'input:radio[name=RoleType]': 'roleType',
-      '#VKQueryString': 'textSearchVK'
+      '#VKQueryString': 'textSearchVK',
+      '#actionSendInvite': 'btnSendInvite',
+      '#Email': 'textEmail',
+      '#UserName': 'textUserName'
     },
     events: {
       'click #actionAdd': 'showAdd',
@@ -30,7 +34,7 @@
     loadData: function() {
       var _this = this;
 
-      return $.get(this.settings.LoadUsersUrl, function(result) {
+      return $.get(this.settings.GetUsersUrl, function(result) {
         return $.getResult(result, function() {
           var row, _i, _len, _ref, _results;
 
@@ -45,9 +49,17 @@
         });
       });
     },
+    clearDataAdd: function() {
+      this.textSearchVK.val('');
+      this.textEmail.val('');
+      this.textUserName.val('');
+      this.tableVK.empty();
+      return this.btnSendInvite.prop('disabled', true);
+    },
     showAdd: function() {
       var _this = this;
 
+      this.clearDataAdd();
       return this.areaTable.hide('slide', {
         direction: 'left'
       }, 400, function() {
@@ -70,61 +82,41 @@
     showAddChild: function() {
       this.roleType.filter('[value=0x1]').prop('checked', true);
       this.roleType.filter('[value=0x2]').prop('checked', false);
-      return this.areaAddChild.show();
+      this.areaAddChild.show();
+      return this.areaAddParent.hide();
     },
     hideAddChild: function() {
       this.roleType.filter('[value=0x1]').prop('checked', false);
       this.roleType.filter('[value=0x2]').prop('checked', true);
-      return this.areaAddChild.hide();
+      this.areaAddChild.hide();
+      return this.areaAddParent.show();
     },
     searchVK: function() {
-      var q,
+      var index, q,
         _this = this;
 
       q = this.textSearchVK.val();
       if (q === '') {
         return;
       }
-      VK.init({
-        apiId: this.settings.VKApiID
-      });
-      return $.get("https://oauth.vk.com/access_token?client_id=" + this.settings.VKApiID + "&client_secret=" + this.settings.VKApiKey + "&v=5.5&grant_type=client_credentials", function(r) {
-        if ($.isNumeric(q)) {
-          return VK.Api.call('users.get', {
-            user_ids: q,
-            fields: 'photo'
-          }, function(result) {
-            var row, _i, _len, _ref, _results;
-
+      index = q.indexOf("vk.com/id");
+      if (index > -1) {
+        q = q.substring(index + 9);
+      }
+      if ($.isNumeric(q)) {
+        return $.get("" + this.settings.GetUserVKUrl + "?id=" + q, function(result) {
+          return $.getResult(result, function() {
             _this.tableVK.empty();
-            _ref = result.response;
-            _results = [];
-            for (_i = 0, _len = _ref.length; _i < _len; _i++) {
-              row = _ref[_i];
-              _results.push(_this.tableVK.append(_this.vkTemplate.tmpl(row)));
-            }
-            return _results;
+            return _this.tableVK.append(_this.vkTemplate.tmpl(result.Data));
           });
-        } else {
-          return VK.Api.call('users.search', {
-            q: q,
-            sort: 0,
-            count: 10,
-            fields: 'photo'
-          }, function(result) {
-            var row, _i, _len, _ref, _results;
-
-            _this.tableVK.empty();
-            _ref = result.items;
-            _results = [];
-            for (_i = 0, _len = _ref.length; _i < _len; _i++) {
-              row = _ref[_i];
-              _results.push(_this.tableVK.append(_this.vkTemplate.tmpl(row)));
-            }
-            return _results;
-          });
-        }
-      });
+        });
+      } else {
+        this.tableVK.empty();
+        return $.showErrorMessage("Неправильный формат для идентификации пользователя ВКонтакте. Введите ссылку на пользователя, например: http://vk.com/id236979537");
+      }
+    },
+    selectVKUser: function() {
+      return false;
     }
   };
 

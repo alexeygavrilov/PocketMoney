@@ -51,14 +51,7 @@ namespace PocketMoney.Admin.Controllers
                 JsonRequestBehavior.AllowGet);
         }
 
-        [HttpGet]
-        public JsonResult SearchUsersVK(string q)
-        {
-            return Json(
-                _connector.SearchAccount(new StringNetworkRequest { Data = q, Type = Model.NetworkType.VK }),
-                JsonRequestBehavior.AllowGet);
-        }
-
+        
         #endregion
     }
 }
