@@ -18,20 +18,11 @@
     </tr>
 </script>
 
-<script type="text/x-jquery-tmpl" id="vkRowTemplate">
-<tr>
-    <td>
-        <img src="${Photo}" />
-    </td>
-    <td>
-        ${FirstName} ${LastName}
-    </td>
-    <td>
-        <input name="hiddenSelectedUserId" type="hidden" value="${UserId}" />
-        <a href="#" class="actionSelectUser">Выбрать пользователя</a>
-    </td>
-</tr>
+<script type="text/x-jquery-tmpl" id="childNotificationTemplate">
+    Привет ${UserName}, это ${ParentName}.
+Я добавил тебя в приложение "Карманные деньги", пожалуйста подтверди установку у себя. Спасибо.
 </script>
+
 <section id="areaTable" class="wizard">
     <hgroup class="title">
         <h1>@ViewBag.Title.</h1>
@@ -60,7 +51,7 @@
         <h2>Добавить учетную запись</h2>
     </hgroup>
     <fieldset>
-        <legend>Форма регистрации</legend>
+        <legend>Форма добавления пользователя</legend>
         <ol>
             <li>
                 <label>Тип учетной записи</label>
@@ -76,14 +67,6 @@
                 <input id="VKClient" name="ClientType" type="radio" value="VK" checked="checked" />ВКонтакте<br />
                 <input id="PhoneClient" name="ClientType" type="radio" value="Phone" disabled="disabled" />Мобильный клиент
             </li>
-            <li>
-                <label for="UserName">Имя:</label>
-                <input id="UserName" name="UserName" type="text" value="" />
-            </li>
-            <li class="ParentVisible">
-                <label for="Email">Email:</label>
-                <input id="Email" name="Email" type="text" value="" />
-            </li>
             <li class="ChildVisible">
                 <label for="VKQueryString">Введите идентификатор или URL пользователя в ВКонтакте:</label>
                 <table border="0">
@@ -95,17 +78,28 @@
                             <button id="actionSearchInVK" type="button">Искать</button>
                         </td>
                     </tr>
-                    <tr>
-                        <td colspan="2">
-                            <table id="tableVK">
-                            </table>
-                        </td>
-                    </tr>
                 </table>
             </li>
+            <li>
+                <label for="UserName">Имя:</label>
+                <input id="UserName" name="UserName" type="text" value="" />
+            </li>
+            <li class="ParentVisible">
+                <label for="Email">Email:</label>
+                <input id="Email" name="Email" type="text" value="" />
+            </li>
+            <li>
+                <label for="UserName">Фото или аватар</label>
+                <img id="Photo" alt="Нет фото" src="#" />
+                <input id="UploadPhoto" type="file" value="Загрузить новое фото или аватар" />
+            </li>
+            <li>
+                <label for="NotificationText">Текст уведомления</label>
+                <textarea id="NotificationText" cols="40" rows="3"></textarea>
+            </li>
         </ol>
-        <input id="actionSendInvite" type="button" value="Выслать уведомление для приглашения в систему" disabled="disabled" />
-
+        <input id="hiddenUserIdentifier" name="hiddenUserIdentifier" type="hidden" />
+        <input id="actionSendInvite" type="button" value="Выслать уведомление для установки приложения" />
         <input id="actionCancelAdd" type="button" value="Отмена" />
     </fieldset>
 </section>
@@ -122,7 +116,8 @@
                     settings: {
                         GetUsersUrl: '@Url.Action("GetUsers")',
                         GetUserVKUrl: '@Url.Action("GetUserVK")',
-                        SearchUsersVKUrl: '@Url.Action("SearchUsersVK")'
+                        SearchUsersVKUrl: '@Url.Action("SearchUsersVK")',
+                        CurrentUser: '@User.Identity.Name'
                     },
                 });
             });

@@ -99,7 +99,7 @@ namespace PocketMoney.Service
         {
             var args = new Dictionary<string, string>();
             args.Add("user_ids", identity.Data);
-            args.Add("fields", "photo_50");
+            args.Add("fields", "photo");
             var json = this.Request(this.GetHttpApiUrl(identity.Type, "users.get", args, false), identity.Type);
             if (json["response"] != null && json["response"].First != null)
             {
@@ -109,7 +109,7 @@ namespace PocketMoney.Service
                     UserId = first["id"].ToObject<string>(),
                     FirstName = first["first_name"].ToObject<string>(),
                     LastName = first["last_name"].ToObject<string>(),
-                    Photo = first["photo_50"].ToObject<string>()
+                    Photo = first["photo"].ToObject<string>()
                 };
                 return new NetworkAccountResult { Data = account };
             }

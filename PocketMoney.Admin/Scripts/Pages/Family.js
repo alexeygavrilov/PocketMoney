@@ -10,16 +10,18 @@
       '#areaTable': 'areaTable',
       '#areaAdd': 'areaAdd',
       '#tableUsers > tbody': 'table',
-      '#tableVK': 'tableVK',
       '#userRowTemplate': 'rowTemplate',
-      '#vkRowTemplate': 'vkTemplate',
+      '#childNotificationTemplate': 'childNotificationTemplate',
       'li.ChildVisible': 'areaAddChild',
       'li.ParentVisible': 'areaAddParent',
       'input:radio[name=RoleType]': 'roleType',
       '#VKQueryString': 'textSearchVK',
       '#actionSendInvite': 'btnSendInvite',
       '#Email': 'textEmail',
-      '#UserName': 'textUserName'
+      '#UserName': 'textUserName',
+      '#Photo': 'imgPhoto',
+      '#NotificationText': 'textNotification',
+      '#hiddenUserIdentifier': 'hiddenUserIdentifier'
     },
     events: {
       'click #actionAdd': 'showAdd',
@@ -49,17 +51,23 @@
         });
       });
     },
+    clearDataSearch: function() {
+      this.textUserName.val('');
+      this.imgPhoto.attr('src', '#');
+      this.textNotification.text('');
+      this.hiddenUserIdentifier.val('');
+      return this.btnSendInvite.hide();
+    },
     clearDataAdd: function() {
       this.textSearchVK.val('');
       this.textEmail.val('');
-      this.textUserName.val('');
-      this.tableVK.empty();
-      return this.btnSendInvite.prop('disabled', true);
+      return this.clearDataSearch();
     },
     showAdd: function() {
       var _this = this;
 
       this.clearDataAdd();
+      this.showAddChild();
       return this.areaTable.hide('slide', {
         direction: 'left'
       }, 400, function() {
@@ -106,12 +114,21 @@
       if ($.isNumeric(q)) {
         return $.get("" + this.settings.GetUserVKUrl + "?id=" + q, function(result) {
           return $.getResult(result, function() {
-            _this.tableVK.empty();
-            return _this.tableVK.append(_this.vkTemplate.tmpl(result.Data));
+            var text;
+
+            _this.textUserName.val(result.Data.FirstName + ' ' + result.Data.LastName);
+            _this.imgPhoto.attr('src', result.Data.Photo);
+            text = _this.childNotificationTemplate.tmpl({
+              UserName: result.Data.FirstName,
+              ParentName: _this.settings.CurrentUser
+            });
+            _this.textNotification.text($(text).text());
+            _this.hiddenUserIdentifier.val(result.Data.UserId);
+            return _this.btnSendInvite.show();
           });
         });
       } else {
-        this.tableVK.empty();
+        this.clearDataSearch();
         return $.showErrorMessage("Неправильный формат для идентификации пользователя ВКонтакте. Введите ссылку на пользователя, например: http://vk.com/id236979537");
       }
     },
