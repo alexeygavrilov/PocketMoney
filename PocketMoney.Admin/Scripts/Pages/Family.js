@@ -7,28 +7,24 @@
 
   ops = {
     elements: {
-      '#areaTable': 'areaTable',
-      '#areaAdd': 'areaAdd',
+      '#areaList': 'areaList',
+      '#areaUser': 'areaUser',
       '#tableUsers > tbody': 'table',
       '#userRowTemplate': 'rowTemplate',
-      '#childNotificationTemplate': 'childNotificationTemplate',
-      'li.ChildVisible': 'areaAddChild',
-      'li.ParentVisible': 'areaAddParent',
       'input:radio[name=RoleType]': 'roleType',
-      '#VKQueryString': 'textSearchVK',
-      '#actionSendInvite': 'btnSendInvite',
       '#Email': 'textEmail',
       '#UserName': 'textUserName',
       '#Photo': 'imgPhoto',
-      '#NotificationText': 'textNotification',
-      '#hiddenUserIdentifier': 'hiddenUserIdentifier'
+      '#UploadPhoto': 'uploadPhoto',
+      '#SendNotification': 'checkNotification',
+      'div.validation-summary-errors > ul': 'validationSummary'
     },
     events: {
       'click #actionAdd': 'showAdd',
       'click #actionCancelAdd': 'hideAdd',
       'click #ChildRole': 'showAddChild',
-      'click #ParentRole': 'hideAddChild',
-      'click #actionSearchInVK': 'searchVK'
+      'click .selector-by-click': 'selectInputByClick',
+      'click #actionCreateUser': 'addUser'
     },
     init: function() {
       return this.loadData();
@@ -51,27 +47,31 @@
         });
       });
     },
-    clearDataSearch: function() {
+    clearAddForm: function() {
       this.textUserName.val('');
-      this.imgPhoto.attr('src', '#');
-      this.textNotification.text('');
-      this.hiddenUserIdentifier.val('');
-      return this.btnSendInvite.hide();
-    },
-    clearDataAdd: function() {
-      this.textSearchVK.val('');
+      this.textUserName.removeClass('input-validation-error');
       this.textEmail.val('');
-      return this.clearDataSearch();
+      this.textEmail.removeClass('input-validation-error');
+      this.imgPhoto.attr('src', '#');
+      this.uploadPhoto.empty();
+      this.validationSummary.empty();
+      this.roleType.filter('[value=0x1]').prop('checked', true);
+      return this.checkNotification.prop('checked', true);
     },
     showAdd: function() {
       var _this = this;
 
-      this.clearDataAdd();
-      this.showAddChild();
-      return this.areaTable.hide('slide', {
+      this.clearAddForm();
+      this.textUserName.blur(function() {
+        return _this.validate();
+      });
+      this.textEmail.blur(function() {
+        return _this.validate();
+      });
+      return this.areaList.hide('slide', {
         direction: 'left'
       }, 400, function() {
-        return _this.areaAdd.show('slide', {
+        return _this.areaUser.show('slide', {
           direction: 'right'
         }, 400);
       });
@@ -79,61 +79,42 @@
     hideAdd: function() {
       var _this = this;
 
-      return this.areaAdd.hide('slide', {
+      return this.areaUser.hide('slide', {
         direction: 'right'
       }, 400, function() {
-        return _this.areaTable.show('slide', {
+        return _this.areaList.show('slide', {
           direction: 'left'
         }, 400);
       });
     },
-    showAddChild: function() {
-      this.roleType.filter('[value=0x1]').prop('checked', true);
-      this.roleType.filter('[value=0x2]').prop('checked', false);
-      this.areaAddChild.show();
-      return this.areaAddParent.hide();
+    validate: function() {
+      this.validationSummary.empty();
+      this.textUserName.removeClass('input-validation-error');
+      this.textEmail.removeClass('input-validation-error');
+      if (this.textUserName.val() === '') {
+        this.validationSummary.append('<li>Имя - это обязательное поле</li>');
+        this.textUserName.addClass('input-validation-error');
+      }
+      if (this.textEmail.val() !== '' && !/^[\w-]+(?:\.[\w-]+)*@(?:[\w-]+\.)+[a-zA-Z]{2,7}$/.test(this.textEmail.val())) {
+        this.validationSummary.append('<li>Некорректный формат Email</li>');
+        return this.textEmail.addClass('input-validation-error');
+      }
     },
-    hideAddChild: function() {
-      this.roleType.filter('[value=0x1]').prop('checked', false);
-      this.roleType.filter('[value=0x2]').prop('checked', true);
-      this.areaAddChild.hide();
-      return this.areaAddParent.show();
+    addUser: function() {
+      if (!this.validate()) {
+        return false;
+      }
     },
-    searchVK: function() {
-      var index, q,
-        _this = this;
+    selectInputByClick: function(eventObject) {
+      var control;
 
-      q = this.textSearchVK.val();
-      if (q === '') {
-        return;
+      control = $('input', $(eventObject.target));
+      switch (control.attr('type')) {
+        case 'radio':
+          return control.prop('checked', true);
+        case 'checkbox':
+          return control.prop('checked', !control.prop('checked'));
       }
-      index = q.indexOf("vk.com/id");
-      if (index > -1) {
-        q = q.substring(index + 9);
-      }
-      if ($.isNumeric(q)) {
-        return $.get("" + this.settings.GetUserVKUrl + "?id=" + q, function(result) {
-          return $.getResult(result, function() {
-            var text;
-
-            _this.textUserName.val(result.Data.FirstName + ' ' + result.Data.LastName);
-            _this.imgPhoto.attr('src', result.Data.Photo);
-            text = _this.childNotificationTemplate.tmpl({
-              UserName: result.Data.FirstName,
-              ParentName: _this.settings.CurrentUser
-            });
-            _this.textNotification.text($(text).text());
-            _this.hiddenUserIdentifier.val(result.Data.UserId);
-            return _this.btnSendInvite.show();
-          });
-        });
-      } else {
-        this.clearDataSearch();
-        return $.showErrorMessage("Неправильный формат для идентификации пользователя ВКонтакте. Введите ссылку на пользователя, например: http://vk.com/id236979537");
-      }
-    },
-    selectVKUser: function() {
-      return false;
     }
   };
 

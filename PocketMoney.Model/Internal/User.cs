@@ -10,6 +10,7 @@ namespace PocketMoney.Model.Internal
     {
         #region Members
 
+        public const int ConfirmCodeLength = 4;
         public const int MinRequiredPasswordLength = 3;
         protected byte _roles;
         protected string _password;
@@ -63,6 +64,8 @@ namespace PocketMoney.Model.Internal
 
         [Details]
         public virtual int Points { get; set; }
+
+        public virtual string ConfirmCode { get; set; }
 
         public virtual bool IsAnonymous { get { return false; } }
 
@@ -143,21 +146,33 @@ namespace PocketMoney.Model.Internal
             return UTF8Encoding.UTF8.GetString(MachineKey.Decode(_password, MachineKeyProtection.Encryption));
         }
 
-        public virtual string GeneratePassword()
+        public virtual void GeneratePassword()
         {
-            string allowedChars = "abcdefghijkmnopqrstuvwxyzABCDEFGHJKLMNOPQRSTUVWXYZ0123456789!@$?_-";
-            char[] chars = new char[MinRequiredPasswordLength];
+            string generatedPassword = this.Generation("abcdefghijkmnopqrstuvwxyzABCDEFGHJKLMNOPQRSTUVWXYZ0123456789!@$?_-", MinRequiredPasswordLength);
+            this.SetPassword(generatedPassword);
+            //return generatedPassword;
+        }
+
+        public virtual void GenerateConfirmCode()
+        {
+            string code = this.Generation("0123456789", ConfirmCodeLength);
+            this.ConfirmCode = code;
+            //return code;
+        }
+
+        protected virtual string Generation(string characters, int length)
+        {
+            char[] chars = new char[length];
             Random rd = new Random();
 
-            for (int i = 0; i < MinRequiredPasswordLength; i++)
+            for (int i = 0; i < length; i++)
             {
-                chars[i] = allowedChars[rd.Next(0, allowedChars.Length)];
+                chars[i] = characters[rd.Next(0, characters.Length)];
             }
 
-            string generatedPassword = new string(chars);
-            this.SetPassword(generatedPassword);
-            return generatedPassword;
+            return new string(chars);
         }
+
 
         public virtual string FullName()
         {

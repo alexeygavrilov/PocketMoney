@@ -72,6 +72,7 @@ namespace PocketMoney.Service
             var user = new User(family, model.UserName, email);
 
             user.SetPassword(model.Password);
+            user.GenerateConfirmCode();
 
             user.AddRole(Roles.Parent);
             user.AddRole(Roles.FamilyAdmin);
@@ -82,7 +83,7 @@ namespace PocketMoney.Service
                 user,
                 email.Address,
                 "Подтверждение пользователя",
-                string.Format("Привет {0} \r\nВаш код подтверждения: {1}", user.FullName(), user.Id.ToBase32Url())));
+                string.Format("Привет {0} \r\nВаш код подтверждения: {1}", user.FullName(), user.ConfirmCode)));
 
             UserResult result = new UserResult();
 
@@ -102,17 +103,12 @@ namespace PocketMoney.Service
         [OperationBehavior(TransactionScopeRequired = true)]
         public virtual UserResult ConfirmUser(ConfirmUserRequest model)
         {
-            Guid userId = Guid.Empty;
-            if (model.ConfirmCode.TryCreateFromBase32Url(out userId))
+            var user = _userRepository.FindOne(x => x.ConfirmCode == model.ConfirmCode && !x.Active);
+            if (user != null)
             {
-                var member = _userRepository.One(new UserId(userId));
-                if (member == null)
-                {
-                    throw new InvalidDataException("Некорректный код подтверждения");
-                }
-                member.Active = true;
-                _userRepository.Update(member);
-                return new UserResult { Data = member.From() };
+                user.Active = true;
+                _userRepository.Update(user);
+                return new UserResult { Data = user.From() };
             }
             else
                 throw new InvalidDataException("Некорректный код подтверждения");
@@ -149,6 +145,11 @@ namespace PocketMoney.Service
                 user.Connections.Add(connection);
             }
             return new UserResult { Data = user };
+
+//Привет ${UserName}, это ${ParentName}.
+//Я добавил тебя в приложение "Карманные деньги", пожалуйста открой ссылку ${URL} и выполни установку.
+//Код подтверждения: ${Code}
+
         }
 
 

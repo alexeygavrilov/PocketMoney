@@ -13,6 +13,7 @@ namespace PocketMoney.Model.NHibernate
             Id(x => x.Id).GeneratedBy.GuidComb();
 
             Map(x => x.UserName).Not.Nullable().Length(100).UniqueKey("UX_UserName");
+            Map(x => x.ConfirmCode).Not.Nullable().Length(User.ConfirmCodeLength);
             Map(x => x.AdditionalName).Nullable().Length(100);
             Map(x => x.Active).Not.Nullable();
             Map(x => x.Points).Not.Nullable();

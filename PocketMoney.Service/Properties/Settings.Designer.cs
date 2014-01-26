@@ -34,7 +34,7 @@ namespace PocketMoney.Service.Properties {
         
         [global::System.Configuration.ApplicationScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("4118811")]
+        [global::System.Configuration.DefaultSettingValueAttribute("4145579")]
         public string VK_ApiId {
             get {
                 return ((string)(this["VK_ApiId"]));
