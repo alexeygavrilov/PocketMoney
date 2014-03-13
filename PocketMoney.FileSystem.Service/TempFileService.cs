@@ -11,7 +11,7 @@ namespace PocketMoney.FileSystem.Service
 {
     public class TempFileService : ITempFileService
     {
-        public const string APPFOLDER = "GAZIBOO_TEMP";
+        public const string APPFOLDER = "FILE_TEMP";
         private static readonly object Locker = new object();
         private static bool _isFirstInsance = true;
 

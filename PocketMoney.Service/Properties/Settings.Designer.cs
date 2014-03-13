@@ -40,5 +40,14 @@ namespace PocketMoney.Service.Properties {
                 return ((string)(this["VK_ApiId"]));
             }
         }
+        
+        [global::System.Configuration.ApplicationScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("http://vk.com/app{0}")]
+        public string VK_AppUrl {
+            get {
+                return ((string)(this["VK_AppUrl"]));
+            }
+        }
     }
 }

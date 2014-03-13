@@ -55,7 +55,7 @@
       this.imgPhoto.attr('src', '#');
       this.uploadPhoto.empty();
       this.validationSummary.empty();
-      this.roleType.filter('[value=0x1]').prop('checked', true);
+      this.roleType.filter('[value=1]').prop('checked', true);
       return this.checkNotification.prop('checked', true);
     },
     showAdd: function() {

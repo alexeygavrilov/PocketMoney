@@ -1,5 +1,8 @@
-﻿using System.Web.Mvc;
+﻿using System;
+using System.Web.Mvc;
 using PocketMoney.Data;
+using PocketMoney.Data.Security;
+using PocketMoney.FileSystem;
 using PocketMoney.Model.External.Requests;
 using PocketMoney.Model.Network;
 using PocketMoney.Service.Interfaces;
@@ -7,22 +10,23 @@ using PocketMoney.Service.Interfaces;
 namespace PocketMoney.Admin.Controllers
 {
     [Authorize]
-    public class FamilyController : Controller
+    public class FamilyController : BaseController
     {
         #region Members & Ctors
 
         private IFamilyService _familyService;
-        private ICurrentUserProvider _currentUserProvider;
         private IConnector _connector;
 
         public FamilyController(
             IFamilyService familyService,
             IConnector connector,
-            ICurrentUserProvider currentUserProvider)
+            ICurrentUserProvider currentUserProvider,
+            IFileService fileService,
+            IAuthorization authorization)
+            : base(authorization, fileService, currentUserProvider)
         {
             _familyService = familyService;
             _connector = connector;
-            _currentUserProvider = currentUserProvider;
         }
 
         #endregion
@@ -51,7 +55,12 @@ namespace PocketMoney.Admin.Controllers
                 JsonRequestBehavior.AllowGet);
         }
 
-        
+        [HttpPost]
+        public JsonResult AddUser(byte roleId, string username, string email, bool send, Guid fileId)
+        {
+            return Json(null);
+        }
+
         #endregion
     }
 }

@@ -14,13 +14,14 @@ namespace PocketMoney.Model.Internal
             this.Dates = new List<DutyDate>();
         }
 
-        public Duty(User user, string name, string form, int reward, IList<DutyDate> dates)
+        public Duty(User assignedTo, User createdBy, string name, string form, int reward, IList<DayOfOne> dates)
         {
             this.Name = name;
-            this.User = user;
+            this.AssignedTo = assignedTo;
+            this.CreatedBy = createdBy;
             this.Form = form;
             this.Reward = reward;
-            this.Dates = dates;
+            this.Dates = dates.Select(d => new DutyDate(this, d)).ToList();
         }
 
         public virtual string Name { get; set; }
@@ -29,7 +30,9 @@ namespace PocketMoney.Model.Internal
 
         public virtual int Reward { get; set; }
 
-        public virtual User User { get; set; }
+        public virtual User AssignedTo { get; set; }
+
+        public virtual User CreatedBy { get; set; }
 
         public virtual IList<DutyDate> Dates { get; set; }
     }

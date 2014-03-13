@@ -18,26 +18,29 @@ namespace PocketMoney.Model.External.Requests
         [Details]
         public string Name { get; set; }
 
-        [DataMember]
+        [DataMember, Details]
         [JsonConverter(typeof(ConcreteTypeConverter<WrapperUser>))]
-        public IUser User { get; set; }
+        public IUser AssignedTo { get; set; }
 
-        [DataMember]
+        [DataMember, Details]
         [Display(Name = "Расписание")]
-        [Details]
         public ScheduleForm Form { get; set; }
 
-        [DataMember]
+        [DataMember, Details]
         [Display(Name = "Расписание обязаностей")]
-        [Details]
         public DayOfOne[] DutyDays { get; set; }
+
+        [DataMember, Details]
+        [DataType(DataType.Currency)]
+        [Display(Name = "Награда")]
+        public int Reward { get; set; }
 
         public override IEnumerable<ValidationResult> Validate(ValidationContext validationContext)
         {
             if (string.IsNullOrWhiteSpace(this.Name))
                 yield return new ValidationResult("Название обязаности - это обязательное поле");
 
-            if (this.User == null)
+            if (this.AssignedTo == null)
                 yield return new ValidationResult("Пользовтатель для назначения обязателен");
 
             if (this.DutyDays == null || this.DutyDays.Length == 0)

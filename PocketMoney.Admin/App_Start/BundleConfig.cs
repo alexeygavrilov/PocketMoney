@@ -45,7 +45,8 @@ namespace PocketMoney.Admin
             bundles.Add(new ScriptBundle("~/bundles/application").Include(
                     "~/Scripts/spine.js",
                     "~/Scripts/jquery.tmpl.js",
-                    "~/Scripts/ErrorMessage.js"));
+                    "~/Scripts/ErrorMessage.js",
+                    "~/Scripts/ErrorHandler.js"));
             
             bundles.Add(new ScriptBundle("~/bundles/family").Include(
                     "~/Scripts/Pages/Family.js"));

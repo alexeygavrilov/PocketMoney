@@ -81,10 +81,10 @@ namespace PocketMoney.Data
         /// Create unsuccessfully result
         /// </summary>
         /// <param name="extraData">Some extra data</param>
-        public Result(String extraData)
+        public Result(String errorMessage)
         {
             _success = false;
-            _message = extraData;
+            _message = errorMessage;
         }
 
         //[DataMember]

@@ -11,7 +11,7 @@ namespace PocketMoney.Model.Internal
         #region Members
 
         public const int ConfirmCodeLength = 4;
-        public const int MinRequiredPasswordLength = 3;
+        public const int MinRequiredPasswordLength = 5;
         protected byte _roles;
         protected string _password;
 
@@ -24,6 +24,7 @@ namespace PocketMoney.Model.Internal
             _roles = 0x0;
             _password = string.Empty;
             this.UserName = string.Empty;
+            this.ConfirmCode = string.Empty;
             this.Active = false;
             this.Points = 0;
             this.Connections = new List<UserConnection>();
@@ -146,18 +147,18 @@ namespace PocketMoney.Model.Internal
             return UTF8Encoding.UTF8.GetString(MachineKey.Decode(_password, MachineKeyProtection.Encryption));
         }
 
-        public virtual void GeneratePassword()
+        public virtual string GeneratePassword()
         {
             string generatedPassword = this.Generation("abcdefghijkmnopqrstuvwxyzABCDEFGHJKLMNOPQRSTUVWXYZ0123456789!@$?_-", MinRequiredPasswordLength);
             this.SetPassword(generatedPassword);
-            //return generatedPassword;
+            return generatedPassword;
         }
 
-        public virtual void GenerateConfirmCode()
+        public virtual string GenerateConfirmCode()
         {
             string code = this.Generation("0123456789", ConfirmCodeLength);
             this.ConfirmCode = code;
-            //return code;
+            return code;
         }
 
         protected virtual string Generation(string characters, int length)
@@ -166,9 +167,7 @@ namespace PocketMoney.Model.Internal
             Random rd = new Random();
 
             for (int i = 0; i < length; i++)
-            {
                 chars[i] = characters[rd.Next(0, characters.Length)];
-            }
 
             return new string(chars);
         }

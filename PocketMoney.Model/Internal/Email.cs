@@ -17,18 +17,20 @@ namespace PocketMoney.Model.Internal
         {
         }
 
-        public Email(String emailAddress, IUser user)
+        public Email(String emailAddress, IUser user, bool primary = false)
         {
             SetEmail(emailAddress);
             this.Name = user.FullName();
+            this.IsPrimary = primary;
         }
 
-        public Email(String emailAddress, String emailName)
+        public Email(String emailAddress, String emailName, bool primary = true)
         {
             SetEmail(emailAddress);
             if (String.IsNullOrWhiteSpace(emailName))
                 emailName = emailAddress;
             this.Name = emailName;
+            this.IsPrimary = primary;
         }
 
         public virtual String Address { get; set; }

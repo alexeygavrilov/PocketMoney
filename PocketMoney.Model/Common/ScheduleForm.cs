@@ -1,15 +1,12 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
-using System.Linq;
 using System.Runtime.Serialization;
-using System.Text;
-using System.Threading.Tasks;
 using PocketMoney.Data;
 
 namespace PocketMoney.Model
 {
     [DataContract]
+    [Serializable]
     public class ScheduleForm : ObjectBase
     {
         [DataMember]
@@ -56,5 +53,6 @@ namespace PocketMoney.Model
         [Display(Name = "Воскресенье")]
         [Details]
         public bool Sunday { get; set; }
-}
+
+    }
 }

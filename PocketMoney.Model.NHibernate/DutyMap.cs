@@ -20,7 +20,8 @@ namespace PocketMoney.Model.NHibernate
             Map(x => x.Form).Length(4000);
             Map(x => x.Reward).Not.Nullable();
 
-            References(x => x.User).ForeignKey("FK_Duty_User");
+            References(x => x.AssignedTo).ForeignKey("FK_Duty_AssignedTo");
+            References(x => x.CreatedBy).ForeignKey("FK_Duty_CreatedBy");
 
             HasMany(x => x.Dates).Cascade.Delete().ForeignKeyConstraintName("FK_Duty_Day");
         }

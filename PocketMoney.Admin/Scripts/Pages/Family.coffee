@@ -38,7 +38,7 @@ ops =
         @imgPhoto.attr 'src', '#'
         @uploadPhoto.empty()
         @validationSummary.empty()
-        @roleType.filter('[value=0x1]').prop 'checked', true
+        @roleType.filter('[value=1]').prop 'checked', true
         @checkNotification.prop 'checked', true
 
     showAdd: ->

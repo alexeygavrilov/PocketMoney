@@ -55,7 +55,7 @@ namespace PocketMoney.Service
                 throw new InvalidDataException("Наименование семьи '{0}' уже существует в системе. Попробуйте другое имя", model.FamilyName);
 
             if (_emailRepository.Exists(x => x.Address == model.Email))
-                throw new InvalidDataException("Эл. почта '{0}' уже существует в системе, попробуйте восстановить войти в систему или обратитесь к администратору.", model.Email);
+                throw new InvalidDataException("Эл. почта '{0}' уже существует в системе, попробуйте восстановить пароль в системе или обратитесь к администратору.", model.Email);
 
             var country = _countryRepository.One(new CountryId(model.CountryCode));
             if (country == null)
@@ -72,7 +72,7 @@ namespace PocketMoney.Service
             var user = new User(family, model.UserName, email);
 
             user.SetPassword(model.Password);
-            user.GenerateConfirmCode();
+            var code = user.GenerateConfirmCode();
 
             user.AddRole(Roles.Parent);
             user.AddRole(Roles.FamilyAdmin);
@@ -83,7 +83,7 @@ namespace PocketMoney.Service
                 user,
                 email.Address,
                 "Подтверждение пользователя",
-                string.Format("Привет {0} \r\nВаш код подтверждения: {1}", user.FullName(), user.ConfirmCode)));
+                string.Format("Привет {0} \r\nВаш код подтверждения: {1}", user.FullName(), code)));
 
             UserResult result = new UserResult();
 
@@ -94,6 +94,8 @@ namespace PocketMoney.Service
             else
             {
                 result.Data = user.From();
+                result.Password = model.Password;
+                result.Login = email.Address;
             }
             return result;
         }
@@ -121,35 +123,61 @@ namespace PocketMoney.Service
         public virtual UserResult AddUser(AddUserRequest model)
         {
             if (_userRepository.Exists(x => x.Family.Id == model.Family.Id && x.UserName == model.UserName))
-            {
                 throw new InvalidDataException("Пользователь с именем '{0}' уже существует в вашей семье", model.UserName);
-            }
+
+            if (!string.IsNullOrEmpty(model.Email) && _emailRepository.Exists(x => x.Address == model.Email))
+                throw new InvalidDataException("Эл. почта '{0}' уже существует в системе.", model.Email);
 
             var family = model.Family.To();
 
-            var user = new User(family, model.UserName);
+            User user = new User(family, model.UserName);
+
+            if (!string.IsNullOrEmpty(model.Email))
+            {
+                var email = new Email(model.Email, model.UserName);
+
+                _emailRepository.Add(email);
+
+                user.Email = email;
+            }
 
             user.AddRole(Roles.Children);
 
+            user.Active = true;
+
+            var password = user.GeneratePassword();
+
+            user.GenerateConfirmCode();
+
             _userRepository.Add(user);
 
-            foreach (var conn in model.Connections)
+            UserResult result = new UserResult
             {
-                if (_connectionRepository.Exists(x => x.Identity == conn.Identity && x.ClientType == conn.ConnectionType))
+                Data = user,
+                Login = user.Email != null ? user.Email.Address : user.UserName,
+                Password = password
+            };
+
+            if (model.SendNotification & !string.IsNullOrEmpty(model.Email))
+            {
+                var messResult = _messageService.SendEmail(new EmailMessageRequest(
+                    user,
+                    model.Email,
+                    "Регистрация в приложение 'Карманные деньги'.",
+                    string.Format("Привет {0}, это {1}.\r\nЯ добавил тебя в приложение 'Карманные деньги', пожалуйста открой ссылку {2} и выполни установку.\r\nЛогин: {3}\r\nПароль: {4}\r\nСпасибо.",
+                        user.FullName(),
+                        _currentUserProvider.GetCurrentUser().FullName(),
+                        string.Format(Properties.Settings.Default.VK_AppUrl, Properties.Settings.Default.VK_ApiId),
+                        result.Login,
+                        result.Password
+                        )));
+
+                if (!messResult.Success)
                 {
-                    throw new InvalidDataException("Пользователь '{0}' уже существует в системе", model.UserName);
+                    result.SetErrorMessage<UserResult>(messResult.Message);
                 }
-
-                var connection = new UserConnection(user, conn.ConnectionType, conn.Identity);
-                _connectionRepository.Add(connection);
-                user.Connections.Add(connection);
             }
-            return new UserResult { Data = user };
-
-//Привет ${UserName}, это ${ParentName}.
-//Я добавил тебя в приложение "Карманные деньги", пожалуйста открой ссылку ${URL} и выполни установку.
-//Код подтверждения: ${Code}
-
+            return result;
         }
 
 

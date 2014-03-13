@@ -148,6 +148,7 @@
     <Compile Include="App_Start\SiteInstaller.cs" />
     <Compile Include="App_Start\WebApiConfig.cs" />
     <Compile Include="Controllers\AccountController.cs" />
+    <Compile Include="Controllers\BaseController.cs" />
     <Compile Include="Controllers\FamilyController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Global.asax.cs">
@@ -159,7 +160,6 @@
       <DesignTimeSharedInput>True</DesignTimeSharedInput>
       <DependentUpon>Settings.settings</DependentUpon>
     </Compile>
-    <Compile Include="Settings.cs" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="Content\themes\base\images\ui-bg_flat_0_aaaaaa_40x100.png" />
@@ -235,15 +235,24 @@
       <Generator>PublicSettingsSingleFileGenerator</Generator>
       <LastGenOutput>Settings.Designer.cs</LastGenOutput>
     </Content>
+    <Content Include="Scripts\ErrorHandler.js">
+      <DependentUpon>ErrorHandler.coffee</DependentUpon>
+    </Content>
+    <Content Include="Scripts\FileUploader.coffee" />
+    <Content Include="Scripts\ErrorHandler.coffee" />
     <None Include="Scripts\jquery-1.8.2.intellisense.js" />
     <Content Include="Scripts\ErrorMessage.js">
       <DependentUpon>ErrorMessage.coffee</DependentUpon>
+    </Content>
+    <Content Include="Scripts\FileUploader.js">
+      <DependentUpon>FileUploader.coffee</DependentUpon>
     </Content>
     <Content Include="Scripts\jquery-1.8.2.js" />
     <Content Include="Scripts\jquery-1.8.2.min.js" />
     <None Include="Scripts\jquery.validate-vsdoc.js" />
     <Content Include="Scripts\jquery-ui-1.8.24.js" />
     <Content Include="Scripts\jquery-ui-1.8.24.min.js" />
+    <Content Include="Scripts\jquery.fileupload.js" />
     <Content Include="Scripts\jquery.tmpl.js" />
     <Content Include="Scripts\jquery.unobtrusive-ajax.js" />
     <Content Include="Scripts\jquery.unobtrusive-ajax.min.js" />
@@ -310,6 +319,10 @@
     <ProjectReference Include="..\PocketMoney.FileSystem.NHibernate\PocketMoney.FileSystem.NHibernate.csproj">
       <Project>{3e7b244e-ab5d-4aa7-81bf-5ffc63969641}</Project>
       <Name>PocketMoney.FileSystem.NHibernate</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\PocketMoney.FileSystem.Providers\PocketMoney.FileSystem.Providers.csproj">
+      <Project>{f0cc5ec8-72bc-4a5f-84ff-8bdb58b58d2e}</Project>
+      <Name>PocketMoney.FileSystem.Providers</Name>
     </ProjectReference>
     <ProjectReference Include="..\PocketMoney.FileSystem.Service\PocketMoney.FileSystem.Service.csproj">
       <Project>{27c4723b-2ec6-43af-b02c-d19392381219}</Project>

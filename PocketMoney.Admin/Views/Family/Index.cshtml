@@ -52,10 +52,10 @@
             <li>
                 <label>Тип учетной записи</label>
                 <div class="cursor-pointer selector-by-click">
-                    <input name="RoleType" type="radio" value="0x2" />Тот кто назначает задания (Взрослый)
+                    <input name="RoleType" type="radio" value="2" />Тот кто назначает задания (Взрослый)
                 </div>
                 <div class="cursor-pointer selector-by-click">
-                    <input name="RoleType" type="radio" value="0x1" checked="checked" />Тот кто выполняет задания (Ребенок)
+                    <input name="RoleType" type="radio" value="1" checked="checked" />Тот кто выполняет задания (Ребенок)
                 </div>
             </li>
             <li>
@@ -70,9 +70,10 @@
                 <label for="UserName">Фото или аватар</label>
                 <img id="Photo" alt="Нет фото" src="#" />
                 <input id="UploadPhoto" type="file" value="Загрузить новое фото или аватар" />
+
             </li>
             <li>
-                <div class="cursor-pointer selector-by-click">
+                <div class="selector-by-click">
                     <input id="SendNotification" type="checkbox" checked="checked" />Послать уведомление на Email
                 </div>
             </li>

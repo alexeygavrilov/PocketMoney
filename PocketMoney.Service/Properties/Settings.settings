@@ -8,5 +8,8 @@
     <Setting Name="VK_ApiId" Type="System.String" Scope="Application">
       <Value Profile="(Default)">4145579</Value>
     </Setting>
+    <Setting Name="VK_AppUrl" Type="System.String" Scope="Application">
+      <Value Profile="(Default)">http://vk.com/app{0}</Value>
+    </Setting>
   </Settings>
 </SettingsFile>
