@@ -14,6 +14,7 @@ namespace PocketMoney.Model.NHibernate
             Map(x => x.Name).Not.Nullable().Length(100).UniqueKey("UX_FamilyName");
             Map(x => x.Description).Length(500);
             Map(x => x.Culture).Length(10);
+            Map(x => x.TokenKey).Not.Nullable().Length(Family.TOKEN_KEY_LENGTH);
 
             References(x => x.Country).Not.Nullable().ForeignKey("FK_Family_Country");
 

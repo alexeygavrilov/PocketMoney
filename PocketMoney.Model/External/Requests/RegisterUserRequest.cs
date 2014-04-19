@@ -40,7 +40,7 @@ namespace PocketMoney.Model.External.Requests
         [DataMember(IsRequired = true)]
         [DataType(DataType.Password)]
         [Display(Name = "Повторите пароль")]
-        [StringLength(100, ErrorMessage = "{0} должен быть больше чем {2} символа.", MinimumLength = User.MinRequiredPasswordLength)]
+        [StringLength(100, ErrorMessage = "{0} должен быть больше чем {2} символа.", MinimumLength = User.MIN_REQUIRED_PASSWORD_LENGTH)]
         [Compare("Password", ErrorMessage = "Пароли не совпадают, Попробуйте еще раз.")]
         public string ConfirmPassword { get; set; }
 
@@ -70,8 +70,8 @@ namespace PocketMoney.Model.External.Requests
             if (!Internal.Email.REGEX_VALIDATION.IsMatch(this.Email))
                 yield return new ValidationResult("Некорректный символ в Email");
 
-            if (Password.Length < User.MinRequiredPasswordLength)
-                yield return new ValidationResult(string.Format("Пароль должен быть больше чем {0} символа.", User.MinRequiredPasswordLength));
+            if (Password.Length < User.MIN_REQUIRED_PASSWORD_LENGTH)
+                yield return new ValidationResult(string.Format("Пароль должен быть больше чем {0} символа.", User.MIN_REQUIRED_PASSWORD_LENGTH));
 
             if (!Password.Equals(ConfirmPassword))
                 yield return new ValidationResult("Пароли не совпадают, Попробуйте еще раз.");

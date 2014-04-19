@@ -77,6 +77,8 @@ namespace PocketMoney.Service
             user.AddRole(Roles.Parent);
             user.AddRole(Roles.FamilyAdmin);
 
+            user.GenerateTokenKey();
+
             _userRepository.Add(user);
 
             var messResult = _messageService.SendEmail(new EmailMessageRequest(
@@ -211,7 +213,13 @@ namespace PocketMoney.Service
                 {
                     user.LastLoginDate = Clock.UtcNow();
                     _userRepository.Update(user);
-                    return new UserResult { Data = user };
+                    return new UserResult
+                    {
+                        Data = user,
+                        Login = model.UserName,
+                        Password = model.Password,
+                        AuthToken = user.TokenKey
+                    };
                 }
             }
             throw new InvalidDataException("Некорректный пароль или нет прав доступа");

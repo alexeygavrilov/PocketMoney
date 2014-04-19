@@ -4,11 +4,14 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using PocketMoney.Data;
+using PocketMoney.Util.ExtensionMethods;
 
 namespace PocketMoney.Model.Internal
 {
     public class Family : Entity<Family, FamilyId, Guid>, IFamily
     {
+        public const int TOKEN_KEY_LENGTH = 8;
+
         protected Family()
         {
             this.Description = string.Empty;
@@ -16,9 +19,11 @@ namespace PocketMoney.Model.Internal
         }
 
         public Family(string name, Country country)
+            : this()
         {
             this.Name = name;
             this.Country = country;
+            this.TokenKey = "abcdefghijkmnopqrstuvwxyzABCDEFGHJKLMNOPQRSTUVWXYZ0123456789".Generation(TOKEN_KEY_LENGTH);
         }
 
         [Details]
@@ -35,6 +40,8 @@ namespace PocketMoney.Model.Internal
 
         public virtual IList<User> Members { get; set; }
 
+        public virtual string TokenKey { get; set; }
+
         public virtual bool IsAnonymous
         {
             get { return false; }
@@ -44,6 +51,7 @@ namespace PocketMoney.Model.Internal
         {
             get { return this.Members.Select(u => (IUser)u).ToList(); }
         }
+
     }
 
     public class FamilyId : GuidIdentity

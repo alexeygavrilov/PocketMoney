@@ -11,5 +11,8 @@ namespace PocketMoney.Model.External.Results
 
         [DataMember, Details("******")]
         public string Password { get; set; }
+
+        [DataMember, Details("******")]
+        public string AuthToken { get; set; }
     }
 }

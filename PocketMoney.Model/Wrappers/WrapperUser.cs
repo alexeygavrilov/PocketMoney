@@ -41,7 +41,7 @@ namespace PocketMoney.Data.Wrappers
         [JsonIgnore]
         public bool IsAnonymous
         {
-            get { return false; }
+            get { return this.Id == Guid.Empty; }
         }
 
 

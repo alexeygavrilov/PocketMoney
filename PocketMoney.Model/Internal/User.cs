@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Text;
 using System.Web.Security;
 using PocketMoney.Data;
+using PocketMoney.Util.ExtensionMethods;
 
 namespace PocketMoney.Model.Internal
 {
@@ -10,8 +11,9 @@ namespace PocketMoney.Model.Internal
     {
         #region Members
 
-        public const int ConfirmCodeLength = 4;
-        public const int MinRequiredPasswordLength = 5;
+        public const int CONFIRM_CODE_LENGTH = 4;
+        public const int MIN_REQUIRED_PASSWORD_LENGTH = 5;
+        public const int TOKEN_KEY_LENGTH = 17;
         protected byte _roles;
         protected string _password;
 
@@ -78,6 +80,8 @@ namespace PocketMoney.Model.Internal
         public virtual PhoneNumber Phone { get; set; }
 
         public virtual DateTime? LastLoginDate { get; set; }
+
+        public virtual string TokenKey { get; set; }
 
         public virtual IRole[] Roles
         {
@@ -149,35 +153,28 @@ namespace PocketMoney.Model.Internal
 
         public virtual string GeneratePassword()
         {
-            string generatedPassword = this.Generation("abcdefghijkmnopqrstuvwxyzABCDEFGHJKLMNOPQRSTUVWXYZ0123456789!@$?_-", MinRequiredPasswordLength);
+            string generatedPassword = "abcdefghijkmnopqrstuvwxyzABCDEFGHJKLMNOPQRSTUVWXYZ0123456789!@$?_-".Generation(MIN_REQUIRED_PASSWORD_LENGTH);
             this.SetPassword(generatedPassword);
             return generatedPassword;
         }
 
         public virtual string GenerateConfirmCode()
         {
-            string code = this.Generation("0123456789", ConfirmCodeLength);
+            string code = "0123456789".Generation(CONFIRM_CODE_LENGTH);
             this.ConfirmCode = code;
             return code;
         }
-
-        protected virtual string Generation(string characters, int length)
-        {
-            char[] chars = new char[length];
-            Random rd = new Random();
-
-            for (int i = 0; i < length; i++)
-                chars[i] = characters[rd.Next(0, characters.Length)];
-
-            return new string(chars);
-        }
-
 
         public virtual string FullName()
         {
             return (this.UserName + " " + this.AdditionalName ?? string.Empty).Trim();
         }
 
+        public virtual string GenerateTokenKey()
+        {
+            this.TokenKey = string.Concat("abcdefghijkmnopqrstuvwxyzABCDEFGHJKLMNOPQRSTUVWXYZ0123456789".Generation(8), "-", this.Family.TokenKey);
+            return this.TokenKey;
+        }
         #endregion
     }
 

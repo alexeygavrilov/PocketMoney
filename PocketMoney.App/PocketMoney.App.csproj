@@ -1,0 +1,178 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProjectGuid>{EB382C12-9836-4309-AA3B-85EA29D0B51E}</ProjectGuid>
+    <OutputType>WinExe</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>PocketMoney.App</RootNamespace>
+    <AssemblyName>PocketMoney.App</AssemblyName>
+    <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <PlatformTarget>AnyCPU</PlatformTarget>
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <PlatformTarget>AnyCPU</PlatformTarget>
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="Castle.Core">
+      <HintPath>..\PocketMoney.Bin\Castle.Core.dll</HintPath>
+    </Reference>
+    <Reference Include="Castle.Facilities.AutoTx">
+      <HintPath>..\PocketMoney.Bin\Castle.Facilities.AutoTx.dll</HintPath>
+    </Reference>
+    <Reference Include="Castle.Services.Transaction">
+      <HintPath>..\PocketMoney.Bin\Castle.Services.Transaction.dll</HintPath>
+    </Reference>
+    <Reference Include="Castle.Windsor">
+      <HintPath>..\PocketMoney.Bin\Castle.Windsor.dll</HintPath>
+    </Reference>
+    <Reference Include="Iesi.Collections">
+      <HintPath>..\PocketMoney.Bin\Iesi.Collections.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.Practices.ServiceLocation">
+      <HintPath>..\PocketMoney.Bin\Microsoft.Practices.ServiceLocation.dll</HintPath>
+    </Reference>
+    <Reference Include="NHibernate">
+      <HintPath>..\PocketMoney.Bin\NHibernate.dll</HintPath>
+    </Reference>
+    <Reference Include="NHibernate.ByteCode.Castle">
+      <HintPath>..\PocketMoney.Bin\NHibernate.ByteCode.Castle.dll</HintPath>
+    </Reference>
+    <Reference Include="System" />
+    <Reference Include="System.ComponentModel.DataAnnotations" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Deployment" />
+    <Reference Include="System.Drawing" />
+    <Reference Include="System.Windows.Forms" />
+    <Reference Include="System.Xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="App_Start\AppInstaller.cs" />
+    <Compile Include="App_Start\CurrentUserProvider.cs" />
+    <Compile Include="Login.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Login.Designer.cs">
+      <DependentUpon>Login.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Main.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Main.Designer.cs">
+      <DependentUpon>Main.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Program.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <EmbeddedResource Include="Login.resx">
+      <DependentUpon>Login.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Main.resx">
+      <DependentUpon>Main.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Properties\Resources.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>Resources.Designer.cs</LastGenOutput>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <Compile Include="Properties\Resources.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DependentUpon>Resources.resx</DependentUpon>
+    </Compile>
+    <None Include="Properties\Settings.settings">
+      <Generator>SettingsSingleFileGenerator</Generator>
+      <LastGenOutput>Settings.Designer.cs</LastGenOutput>
+    </None>
+    <Compile Include="Properties\Settings.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DependentUpon>Settings.settings</DependentUpon>
+      <DesignTimeSharedInput>True</DesignTimeSharedInput>
+    </Compile>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="App.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\PocketMoney.Configuration.Web\PocketMoney.Configuration.Web.csproj">
+      <Project>{4879ec67-3895-4b63-97d9-215652e721f5}</Project>
+      <Name>PocketMoney.Configuration.Web</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\PocketMoney.Data.NHibernate\PocketMoney.Data.NHibernate.csproj">
+      <Project>{c4152651-78a9-40f5-a8a8-266ffdd15c29}</Project>
+      <Name>PocketMoney.Data.NHibernate</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\PocketMoney.Data.Service\PocketMoney.Data.Service.csproj">
+      <Project>{0708f625-442c-45bf-a74c-480a0da30b68}</Project>
+      <Name>PocketMoney.Data.Service</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\PocketMoney.Data\PocketMoney.Data.csproj">
+      <Project>{cfa0e50c-e297-4b2a-87c1-d861b5999b00}</Project>
+      <Name>PocketMoney.Data</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\PocketMoney.FileSystem.Model\PocketMoney.FileSystem.Model.csproj">
+      <Project>{36d75eac-9c39-486c-8356-7519fbe07d01}</Project>
+      <Name>PocketMoney.FileSystem.Model</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\PocketMoney.FileSystem.NHibernate\PocketMoney.FileSystem.NHibernate.csproj">
+      <Project>{3e7b244e-ab5d-4aa7-81bf-5ffc63969641}</Project>
+      <Name>PocketMoney.FileSystem.NHibernate</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\PocketMoney.FileSystem.Providers\PocketMoney.FileSystem.Providers.csproj">
+      <Project>{f0cc5ec8-72bc-4a5f-84ff-8bdb58b58d2e}</Project>
+      <Name>PocketMoney.FileSystem.Providers</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\PocketMoney.FileSystem.Service\PocketMoney.FileSystem.Service.csproj">
+      <Project>{27c4723b-2ec6-43af-b02c-d19392381219}</Project>
+      <Name>PocketMoney.FileSystem.Service</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\PocketMoney.Model.NHibernate\PocketMoney.Model.NHibernate.csproj">
+      <Project>{532eef67-b3bb-4ca8-98e9-483e8e5adf2a}</Project>
+      <Name>PocketMoney.Model.NHibernate</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\PocketMoney.Model\PocketMoney.Model.csproj">
+      <Project>{313d9b49-63c1-468b-ac33-71015c1e34cf}</Project>
+      <Name>PocketMoney.Model</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\PocketMoney.Resources\PocketMoney.Resources.csproj">
+      <Project>{4a89afd5-d3d5-41df-ac8d-e15984898048}</Project>
+      <Name>PocketMoney.Resources</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\PocketMoney.Service\PocketMoney.Service.csproj">
+      <Project>{fffc474c-1a82-42ed-b714-fe8e6878faf8}</Project>
+      <Name>PocketMoney.Service</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\PocketMoney.Util\PocketMoney.Util.csproj">
+      <Project>{b17b0f49-4d3a-46ab-8c20-fff0b75122d0}</Project>
+      <Name>PocketMoney.Util</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+</Project>

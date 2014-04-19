@@ -67,5 +67,19 @@ namespace PocketMoney.Util.ExtensionMethods
             return result;
         }
 
+        public static string Generation(this string characters, int length)
+        {
+            char[] chars = new char[length];
+            Random rd = new Random();
+
+            for (int i = 0; i < length; i++)
+                chars[i] = characters[rd.Next(0, characters.Length)];
+
+            return new string(chars);
+        }
+
+
+
+
     }
 }

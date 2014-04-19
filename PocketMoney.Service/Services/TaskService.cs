@@ -21,6 +21,7 @@ namespace PocketMoney.Service
             ICurrentUserProvider currentUserProvider)
             : base(userRepository, familyRepository, currentUserProvider)
         {
+
         }
     }
 }
