@@ -8,7 +8,7 @@ using PocketMoney.Util.ExtensionMethods;
 
 namespace PocketMoney.Model.Internal
 {
-    public class Family : Entity<Family, FamilyId, Guid>, IFamily
+    public class Family : Entity<Family, FamilyId, Guid>, IFamily, IObject
     {
         public const int TOKEN_KEY_LENGTH = 8;
 
@@ -16,6 +16,8 @@ namespace PocketMoney.Model.Internal
         {
             this.Description = string.Empty;
             this.Members = new List<User>();
+            this.TaskCount = new TaskCount(this, 0, 0);
+            this.Points = new Point(this, 0);
         }
 
         public Family(string name, Country country)
@@ -42,6 +44,12 @@ namespace PocketMoney.Model.Internal
 
         public virtual string TokenKey { get; set; }
 
+        [Details]
+        public virtual TaskCount TaskCount { get; set; }
+
+        [Details]
+        public virtual Point Points { get; set; }
+
         public virtual bool IsAnonymous
         {
             get { return false; }
@@ -52,6 +60,10 @@ namespace PocketMoney.Model.Internal
             get { return this.Members.Select(u => (IUser)u).ToList(); }
         }
 
+        public virtual eObjectType ObjectType
+        {
+            get { return eObjectType.Family; }
+        }
     }
 
     public class FamilyId : GuidIdentity

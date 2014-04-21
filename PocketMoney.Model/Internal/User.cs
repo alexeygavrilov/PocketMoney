@@ -7,7 +7,7 @@ using PocketMoney.Util.ExtensionMethods;
 
 namespace PocketMoney.Model.Internal
 {
-    public class User : Entity<User, UserId, Guid>, IUser
+    public class User : Entity<User, UserId, Guid>, IUser, IObject
     {
         #region Members
 
@@ -28,9 +28,10 @@ namespace PocketMoney.Model.Internal
             this.UserName = string.Empty;
             this.ConfirmCode = string.Empty;
             this.Active = false;
-            this.Points = 0;
             this.Connections = new List<UserConnection>();
             this.AssignedTasks = new List<Performer>();
+            this.TaskCount = new TaskCount(this, 0, 0);
+            this.Points = new Point(this, 0);
         }
 
         public User(Family family, string userName)
@@ -67,7 +68,10 @@ namespace PocketMoney.Model.Internal
         public virtual bool Active { get; set; }
 
         [Details]
-        public virtual int Points { get; set; }
+        public virtual Point Points { get; set; }
+
+        [Details]
+        public virtual TaskCount TaskCount { get; set; }
 
         public virtual string ConfirmCode { get; set; }
 
@@ -120,6 +124,11 @@ namespace PocketMoney.Model.Internal
         public virtual IList<UserConnection> Connections { get; set; }
 
         public virtual IList<Performer> AssignedTasks { get; set; }
+
+        public virtual eObjectType ObjectType
+        {
+            get { throw new NotImplementedException(); }
+        }
         #endregion
 
         #region Methods

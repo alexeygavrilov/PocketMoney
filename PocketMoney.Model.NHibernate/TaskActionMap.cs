@@ -1,4 +1,5 @@
 ﻿using FluentNHibernate.Mapping;
+using NHibernate.Type;
 using PocketMoney.Model.Internal;
 
 namespace PocketMoney.Model.NHibernate
@@ -12,7 +13,7 @@ namespace PocketMoney.Model.NHibernate
             Id(x => x.Id).GeneratedBy.GuidComb();
 
             Map(x => x.Action).Not.Nullable();
-            Map(x => x.ActionDate).Not.Nullable();
+            Map(x => x.ActionDate).CustomType<UtcDateTimeType>().Not.Nullable();
             Map(x => x.Note).Length(500);
             Map(x => x.Source).Length(1000);
 

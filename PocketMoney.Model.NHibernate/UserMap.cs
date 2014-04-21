@@ -16,12 +16,25 @@ namespace PocketMoney.Model.NHibernate
             Map(x => x.ConfirmCode).Not.Nullable().Length(User.CONFIRM_CODE_LENGTH);
             Map(x => x.AdditionalName).Nullable().Length(100);
             Map(x => x.Active).Not.Nullable();
-            Map(x => x.Points).Not.Nullable();
             Map(x => x.TokenKey).Not.Nullable().Length(User.TOKEN_KEY_LENGTH);
 
             Map(x => x.LastLoginDate);
             Map(Reveal.Member<User>("_password")).Column("Password").Length(255);
             Map(Reveal.Member<User>("_roles")).Column("Role").Not.Nullable();
+
+            Component(x => x.Points);
+            Component<TaskCount>(x => x.TaskCount,
+                m =>
+                {
+                    m.Map(x => x.Completed).Column("CompletedTaskCount").Not.Nullable();
+                    m.Map(x => x.Grabbed).Column("GrabbedTaskCount").Not.Nullable();
+                    m.ParentReference(x => x.Parent);
+                    m.HasMany<int>(Reveal.Member<TaskCount>("_taskTypeCounts"))
+                        .Table("TaskCountsUser")
+                        .Element("TaskTypeCount")
+                        .KeyColumn("UserId")
+                        .ForeignKeyConstraintName("FK_User_TaskTypeCounts");
+                });
 
             References(x => x.Family).Not.Nullable().Not.LazyLoad().ForeignKey("FK_User_Family").UniqueKey("UX_UserName");
             References(x => x.Email).Nullable().ForeignKey("FK_User_Email");
