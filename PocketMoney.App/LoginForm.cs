@@ -11,7 +11,6 @@ namespace PocketMoney.App
     {
         public LoginForm()
         {
-            Program.Register();
             InitializeComponent();
         }
 
@@ -24,8 +23,6 @@ namespace PocketMoney.App
                 var currentService = ServiceLocator.Current.GetInstance<ICurrentUserProvider>();
                 currentService.AddCurrentUser(result.Data);
                 this.Close();
-                var mainForm = new MainForm();
-                mainForm.Show();
             }
             else
             {

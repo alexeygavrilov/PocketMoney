@@ -15,7 +15,7 @@ namespace PocketMoney.Model.External.Requests
 
         [DataMember]
         [Details]
-        public ClientType ConnectionType { get; set; }
+        public eClientType ConnectionType { get; set; }
 
         public override IEnumerable<ValidationResult> Validate(ValidationContext validationContext)
         {

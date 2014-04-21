@@ -1,7 +1,8 @@
 ﻿namespace PocketMoney.Model
 {
-    public enum ClientType
+    public enum eClientType
     {
+        FB,
         VK,
         Phone
     }

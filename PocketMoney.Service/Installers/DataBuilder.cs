@@ -49,8 +49,8 @@ namespace PocketMoney.Service.Installers
 
             var result = _familyService.RegisterUser(new RegisterUserRequest
             {
-                FamilyName = "Гавриловы",
-                UserName = "Папа",
+                FamilyName = "Gavrilov",
+                UserName = "Dad",
                 Email = "alexey.gavrilov@gmail.com",
                 Password = "include",
                 ConfirmPassword = "include",
@@ -62,6 +62,8 @@ namespace PocketMoney.Service.Installers
             var user = _userRepository.One(new UserId(result.Data.Id));
             if (user == null) throw new ArgumentNullException("user");
 
+            var family = user.Family;
+
             result = _familyService.ConfirmUser(new ConfirmUserRequest
             {
                 ConfirmCode = user.ConfirmCode
@@ -69,21 +71,45 @@ namespace PocketMoney.Service.Installers
 
             if (!result.Success) throw new ArgumentException(result.Message);
 
-            //result = _familyService.AddUser(new AddUserRequest
-            //{
-            //    Family = result.Data.Family,
-            //    UserName = "Костя",
-            //    Connections = new ConnectionRequest[1] 
-            //    { 
-            //        new ConnectionRequest 
-            //        { 
-            //            ConnectionType = Model.ClientType.VK, 
-            //            Identity = "144225561" 
-            //        }
-            //    }
-            //});
+            result = _familyService.AddUser(new AddUserRequest
+            {
+                Family = family,
+                UserName = "Mom",
+                Email = "mom@localhost.com",
+                SendNotification = false
+            });
 
-            //if (!result.Success) throw new ArgumentException(result.Message);
+            if (!result.Success) throw new ArgumentException(result.Message);
+
+            result = _familyService.AddUser(new AddUserRequest
+            {
+                Family = family,
+                UserName = "Konstantin", 
+                Email = "user1@localhost.com", 
+                SendNotification = false
+            });
+
+            if (!result.Success) throw new ArgumentException(result.Message);
+
+            result = _familyService.AddUser(new AddUserRequest
+            {
+                Family = family,
+                UserName = "Alexander",
+                Email = "user2@localhost.com",
+                SendNotification = false
+            });
+
+            if (!result.Success) throw new ArgumentException(result.Message);
+
+            result = _familyService.AddUser(new AddUserRequest
+            {
+                Family = family,
+                UserName = "Xeniya",
+                Email = "user3@localhost.com",
+                SendNotification = false
+            });
+
+            if (!result.Success) throw new ArgumentException(result.Message);
         }
     }
 }

@@ -69,8 +69,10 @@
     <Compile Include="EmailMap.cs" />
     <Compile Include="EmailMessageMap.cs" />
     <Compile Include="FamilyMap.cs" />
+    <Compile Include="PerformerMap.cs" />
     <Compile Include="PhoneMap.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="TaskActionMap.cs" />
     <Compile Include="UserConnectionMap.cs" />
     <Compile Include="UserMap.cs" />
   </ItemGroup>

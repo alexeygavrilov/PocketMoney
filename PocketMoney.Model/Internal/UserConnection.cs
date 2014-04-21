@@ -11,7 +11,7 @@ namespace PocketMoney.Model.Internal
     {
         protected UserConnection() { }
 
-        public UserConnection(User user, ClientType type, string identity)
+        public UserConnection(User user, eClientType type, string identity)
         {
             this.User = user;
             this.Identity = identity;
@@ -21,7 +21,7 @@ namespace PocketMoney.Model.Internal
         [Details]
         public virtual User User { get; set; }
         [Details]
-        public virtual ClientType ClientType { get; set; }
+        public virtual eClientType ClientType { get; set; }
         [Details]
         public virtual string Identity { get; set; }
         [Details]

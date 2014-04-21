@@ -23,12 +23,12 @@ namespace PocketMoney.Model.NHibernate
             Map(Reveal.Member<User>("_password")).Column("Password").Length(255);
             Map(Reveal.Member<User>("_roles")).Column("Role").Not.Nullable();
 
-            References(x => x.Family).Not.Nullable().ForeignKey("FK_User_Family").UniqueKey("UX_UserName");
+            References(x => x.Family).Not.Nullable().Not.LazyLoad().ForeignKey("FK_User_Family").UniqueKey("UX_UserName");
             References(x => x.Email).Nullable().ForeignKey("FK_User_Email");
             References(x => x.Phone).Nullable().ForeignKey("FK_User_Phone");
 
             HasMany(x => x.Connections).LazyLoad().Cascade.Delete().ForeignKeyConstraintName("FK_User_Connection");
-
+            HasMany(x => x.AssignedTasks).LazyLoad().ForeignKeyConstraintName("FK_Performer_User");
         }
     }
 }

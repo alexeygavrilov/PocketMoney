@@ -58,6 +58,7 @@
     <Compile Include="External\Requests\AddCountryRequest.cs" />
     <Compile Include="External\Requests\AddDutyTaskRequest.cs" />
     <Compile Include="External\Requests\AddHolidayRequest.cs" />
+    <Compile Include="External\Requests\AddOneTimeTaskRequest.cs" />
     <Compile Include="External\Requests\AddUserRequest.cs" />
     <Compile Include="External\Requests\ConfirmUserRequest.cs" />
     <Compile Include="External\Requests\ConnectionRequest.cs" />
@@ -71,6 +72,7 @@
     <Compile Include="External\Results\DutyTypeListResult.cs" />
     <Compile Include="External\Results\FamilyResult.cs" />
     <Compile Include="External\Results\GenericResult.cs" />
+    <Compile Include="External\Results\OneTimeTaskResult.cs" />
     <Compile Include="External\Results\UserListResult.cs" />
     <Compile Include="External\Results\UserResult.cs" />
     <Compile Include="Internal\Country.cs" />
@@ -80,8 +82,11 @@
     <Compile Include="Internal\EmailMessage.cs" />
     <Compile Include="Internal\Family.cs" />
     <Compile Include="Internal\Holiday.cs" />
+    <Compile Include="Internal\Performer.cs" />
     <Compile Include="Internal\PhoneNumber.cs" />
     <Compile Include="Internal\Roles.cs" />
+    <Compile Include="Internal\Task.cs" />
+    <Compile Include="Internal\TaskAction.cs" />
     <Compile Include="Internal\User.cs" />
     <Compile Include="Internal\UserConnection.cs" />
     <Compile Include="Network\AuthRequest.cs" />

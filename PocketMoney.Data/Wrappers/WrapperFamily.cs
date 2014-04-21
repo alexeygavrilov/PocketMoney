@@ -23,7 +23,7 @@ namespace PocketMoney.Data.Wrappers
 
         public virtual bool IsAnonymous
         {
-            get { return false; }
+            get { return this.Id == Guid.Empty; }
         }
 
         public virtual IList<IUser> Members

@@ -30,6 +30,7 @@ namespace PocketMoney.Model.Internal
             this.Active = false;
             this.Points = 0;
             this.Connections = new List<UserConnection>();
+            this.AssignedTasks = new List<Performer>();
         }
 
         public User(Family family, string userName)
@@ -117,6 +118,8 @@ namespace PocketMoney.Model.Internal
         }
 
         public virtual IList<UserConnection> Connections { get; set; }
+
+        public virtual IList<Performer> AssignedTasks { get; set; }
         #endregion
 
         #region Methods

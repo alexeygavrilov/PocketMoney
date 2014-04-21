@@ -29,10 +29,7 @@ namespace PocketMoney.App
         {
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
-            Form form = Settings.Default.UserId == Guid.Empty ?
-                (Form)new LoginForm() :
-                (Form)new MainForm();
-            Application.Run(form);
+            Application.Run(new MainForm());
         }
 
         public static void Register()

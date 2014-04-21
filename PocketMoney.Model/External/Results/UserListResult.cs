@@ -24,5 +24,10 @@ namespace PocketMoney.Model.External.Results
 
         [DataMember, Details]
         public int Points { get; set; }
+
+        public override string ToString()
+        {
+            return this.UserName;
+        }
     }
 }

@@ -151,6 +151,8 @@ namespace PocketMoney.Service
 
             user.GenerateConfirmCode();
 
+            user.GenerateTokenKey();
+
             _userRepository.Add(user);
 
             UserResult result = new UserResult
@@ -231,10 +233,11 @@ namespace PocketMoney.Service
         {
             var users = _userRepository
                 .FindAll(x => x.Family.Id == model.Data.Id)
-                .Select(x => new
+                .AsEnumerable()
+                .Select(x => new UserInfo
                 {
                     UserId = x.Id,
-                    UserName = x.UserName,
+                    UserName = x.FullName(),
                     Points = x.Points
                 })
                 .ToList();
@@ -242,7 +245,7 @@ namespace PocketMoney.Service
             return new UserListResult
             {
                 TotalCount = users.Count,
-                List = users.SelectTo<UserInfo>().ToArray()
+                List = users.ToArray()
             };
         }
     }
