@@ -20,28 +20,28 @@ namespace PocketMoney.Service.Installers
                     .ImplementedBy<MessageService>()
                     .Interceptors<ProcessInterceptor>()
                     .LifeStyle
-                    .PerWebRequest);
+                    .Singleton);
 
             container.Register(
                 Component.For<ISettingService>()
                     .ImplementedBy<SettingService>()
                     .Interceptors<ProcessInterceptor>()
                     .LifeStyle
-                    .PerWebRequest);
+                    .Singleton);
 
             container.Register(
                 Component.For<IFamilyService>()
                     .ImplementedBy<FamilyService>()
                     .Interceptors<ProcessInterceptor>()
                     .LifeStyle
-                    .PerWebRequest);
+                    .Singleton);
 
             container.Register(
                 Component.For<IConnector>()
                     .ImplementedBy<Connector>()
                     .Interceptors<ProcessInterceptor>()
                     .LifeStyle
-                    .PerWebRequest);
+                    .Singleton);
         }
     }
 }

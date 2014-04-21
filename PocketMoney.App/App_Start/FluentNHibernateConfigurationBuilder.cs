@@ -1,30 +1,32 @@
 ﻿using System;
 using System.Configuration;
 using System.Reflection;
+using PocketMoney.Data.NHibernate;
+using PocketMoney.Data.NHibernate.Conventions;
 using Castle.Core.Configuration;
 using Castle.Facilities.NHibernateIntegration;
 using Castle.Facilities.NHibernateIntegration.Builders;
 using FluentNHibernate.Cfg;
 using FluentNHibernate.Cfg.Db;
-using PocketMoney.Data.NHibernate;
 using NHibernate.Tool.hbm2ddl;
+using Configuration = NHibernate.Cfg.Configuration;
 using PocketMoney.Util.IoC;
 
-namespace PocketMoney.Configuration.Web
+namespace PocketMoney.App
 {
     public class FluentNHibernateConfigurationBuilder : IConfigurationBuilder
     {
         #region IConfigurationBuilder Members
 
-        public NHibernate.Cfg.Configuration GetConfiguration(IConfiguration facilityConfiguration)
+        public Configuration GetConfiguration(IConfiguration facilityConfiguration)
         {
             var builder = new DefaultConfigurationBuilder();
-            NHibernate.Cfg.Configuration configuration = builder.GetConfiguration(facilityConfiguration);
+            Configuration configuration = builder.GetConfiguration(facilityConfiguration);
             ConnectionStringSettings connectionStringSetting = ConfigurationManager.ConnectionStrings["DefaultConnection"];
             configuration = Fluently.Configure(configuration)
                 .Database(() =>
                 {
-                    if (connectionStringSetting.ProviderName.StartsWith("System.List.SqlServerCe",
+                    if (connectionStringSetting.ProviderName.StartsWith("System.Data.SqlServerCe",
                                                                         StringComparison.OrdinalIgnoreCase))
                     {
                         return

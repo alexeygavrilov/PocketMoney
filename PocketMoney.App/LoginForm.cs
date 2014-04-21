@@ -7,10 +7,11 @@ using System.Windows.Forms;
 
 namespace PocketMoney.App
 {
-    public partial class Login : Form
+    public partial class LoginForm : Form
     {
-        public Login()
+        public LoginForm()
         {
+            Program.Register();
             InitializeComponent();
         }
 
@@ -23,7 +24,7 @@ namespace PocketMoney.App
                 var currentService = ServiceLocator.Current.GetInstance<ICurrentUserProvider>();
                 currentService.AddCurrentUser(result.Data);
                 this.Close();
-                var mainForm = new Main();
+                var mainForm = new MainForm();
                 mainForm.Show();
             }
             else

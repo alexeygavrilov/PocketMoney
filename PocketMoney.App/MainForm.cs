@@ -10,9 +10,9 @@ using System.Windows.Forms;
 
 namespace PocketMoney.App
 {
-    public partial class Main : Form
+    public partial class MainForm : Form
     {
-        public Main()
+        public MainForm()
         {
             InitializeComponent();
         }

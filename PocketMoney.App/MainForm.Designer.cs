@@ -1,6 +1,6 @@
 ﻿namespace PocketMoney.App
 {
-    partial class Main
+    partial class MainForm
     {
         /// <summary>
         /// Required designer variable.
