@@ -25,5 +25,14 @@ namespace PocketMoney.App
                 this.Close();
             }
         }
+
+        private void button2_Click(object sender, EventArgs e)
+        {
+            HomeworkTaskForm homework = new HomeworkTaskForm();
+            if (homework.ShowDialog() == System.Windows.Forms.DialogResult.OK)
+            {
+                this.Close();
+            }
+        }
     }
 }

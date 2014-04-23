@@ -1,26 +1,16 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
-using System.Drawing;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Forms;
 using Microsoft.Practices.ServiceLocation;
-using PocketMoney.Data;
 using PocketMoney.Model.External.Requests;
 using PocketMoney.Model.External.Results;
 using PocketMoney.Service.Interfaces;
-using PocketMoney.Util.ExtensionMethods;
 
 namespace PocketMoney.App
 {
     public partial class OnetimeTaskForm : BaseForm
     {
-        IFamilyService _familyService;
-        ITaskService _taskService;
-
         public OnetimeTaskForm()
             : base()
         {
@@ -29,9 +19,8 @@ namespace PocketMoney.App
 
         private void OnetimeTaskForm_Load(object sender, EventArgs e)
         {
-            _familyService = ServiceLocator.Current.GetInstance<IFamilyService>();
-            _taskService = ServiceLocator.Current.GetInstance<ITaskService>();
-            var result = _familyService.GetUsers(new FamilyRequest { Data = _currentUser.Family });
+            var familyService = ServiceLocator.Current.GetInstance<IFamilyService>();
+            var result = familyService.GetUsers(new FamilyRequest { Data = _currentUser.Family });
             if (result.Success)
             {
                 checkedListBox1.Items.Clear();
@@ -49,12 +38,13 @@ namespace PocketMoney.App
 
         private void button1_Click(object sender, EventArgs e)
         {
+            var taskService = ServiceLocator.Current.GetInstance<ITaskService>();
             IList<Guid> assignedTo = new List<Guid>();
             foreach(var checkedItem in checkedListBox1.CheckedItems)
             {
                 assignedTo.Add(((UserInfo)checkedItem).UserId);
             }
-            var result = _taskService.AddOneTimeTask(new AddOneTimeTaskRequest
+            var result = taskService.AddOneTimeTask(new AddOneTimeTaskRequest
             {
                 AssignedTo = assignedTo.ToArray(),
                 DeadlineDate = checkBox1.Checked ? new DateTime?(dateTimePicker1.Value) : null,
