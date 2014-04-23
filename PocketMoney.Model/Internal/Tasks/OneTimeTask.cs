@@ -7,8 +7,8 @@ namespace PocketMoney.Model.Internal
     {
         protected OneTimeTask() : base() { }
 
-        public OneTimeTask(string details, int points, DateTime? deadlineDate)
-            : base(TaskType.OneTimeTask, details, points, true)
+        public OneTimeTask(string details, int points, DateTime? deadlineDate, User creator)
+            : base(TaskType.OneTimeTask, details, points, true, creator)
         {
             this.DeadlineDate = deadlineDate;
         }

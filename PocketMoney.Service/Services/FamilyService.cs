@@ -1,7 +1,7 @@
 ﻿using System;
-using System.Linq;
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using System.Runtime.CompilerServices;
 using System.ServiceModel;
 using System.ServiceModel.Activation;
@@ -11,10 +11,9 @@ using PocketMoney.Model;
 using PocketMoney.Model.External.Requests;
 using PocketMoney.Model.External.Results;
 using PocketMoney.Model.Internal;
-using PocketMoney.Service.Behaviors;
 using PocketMoney.Service.Interfaces;
-using PocketMoney.Util.ExtensionMethods;
 using PocketMoney.Util;
+using PocketMoney.Util.ExtensionMethods;
 
 namespace PocketMoney.Service
 {

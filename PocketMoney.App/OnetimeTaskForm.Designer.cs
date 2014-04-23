@@ -83,6 +83,7 @@
             this.checkBox1.TabIndex = 4;
             this.checkBox1.Text = "Deadline";
             this.checkBox1.UseVisualStyleBackColor = true;
+            this.checkBox1.CheckedChanged += new System.EventHandler(this.checkBox1_CheckedChanged);
             // 
             // label3
             // 
@@ -127,6 +128,7 @@
             this.button1.TabIndex = 8;
             this.button1.Text = "Create Task";
             this.button1.UseVisualStyleBackColor = true;
+            this.button1.Click += new System.EventHandler(this.button1_Click);
             // 
             // OnetimeTaskForm
             // 
@@ -143,9 +145,6 @@
             this.Controls.Add(this.label1);
             this.Controls.Add(this.textBox1);
             this.Controls.Add(this.checkedListBox1);
-            this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedDialog;
-            this.MaximizeBox = false;
-            this.MinimizeBox = false;
             this.Name = "OnetimeTaskForm";
             this.Text = "OnetimeTaskForm";
             this.Load += new System.EventHandler(this.OnetimeTaskForm_Load);

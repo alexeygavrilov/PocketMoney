@@ -14,7 +14,7 @@ namespace PocketMoney.Model.Internal
             this.Points = new Point(this, 0);
         }
 
-        public Task(TaskType type, string details, int points, bool single)
+        public Task(TaskType type, string details, int points, bool single, User creator)
             : this()
         {
             this.Active = true;
@@ -22,6 +22,8 @@ namespace PocketMoney.Model.Internal
             this.Details = details;
             this.Points = new Point(this, points);
             this.Single = single;
+            this.Creator = creator;
+            this.Family = creator.Family;
         }
 
         [Details]

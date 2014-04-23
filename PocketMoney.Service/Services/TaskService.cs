@@ -1,13 +1,10 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Runtime.CompilerServices;
 using System.ServiceModel;
 using System.ServiceModel.Activation;
-using System.Text;
-using System.Threading.Tasks;
 using Castle.Services.Transaction;
 using PocketMoney.Data;
+using PocketMoney.Model;
 using PocketMoney.Model.External.Requests;
 using PocketMoney.Model.External.Results;
 using PocketMoney.Model.Internal;
@@ -19,13 +16,19 @@ namespace PocketMoney.Service
     [AspNetCompatibilityRequirements(RequirementsMode = AspNetCompatibilityRequirementsMode.Allowed)]
     public class TaskService : BaseService, ITaskService
     {
+        private IRepository<Task, TaskId, Guid> _taskRepository;
+        private IRepository<Performer, PerformerId, Guid> _performerRepository;
+
         public TaskService(
+            IRepository<Task, TaskId, Guid> taskRepository,
+            IRepository<Performer, PerformerId, Guid> performerRepository,
             IRepository<User, UserId, Guid> userRepository,
             IRepository<Family, FamilyId, Guid> familyRepository,
             ICurrentUserProvider currentUserProvider)
             : base(userRepository, familyRepository, currentUserProvider)
         {
-
+            _taskRepository = taskRepository;
+            _performerRepository = performerRepository;
         }
 
         [Transaction(TransactionMode.Requires)]
@@ -33,7 +36,25 @@ namespace PocketMoney.Service
         [OperationBehavior(TransactionScopeRequired = true)]
         public OneTimeTaskResult AddOneTimeTask(AddOneTimeTaskRequest model)
         {
-            throw new NotImplementedException();
+            var currentUser = _currentUserProvider.GetCurrentUser();
+
+            OneTimeTask task = new OneTimeTask(
+                model.Text,
+                model.Points,
+                model.DeadlineDate,
+                currentUser.To()
+                );
+
+            _taskRepository.Add(task);
+
+            foreach (var userId in model.AssignedTo)
+            {
+                var user = _userRepository.One(new UserId(userId));
+                Performer performer = new Performer(task, user);
+                _performerRepository.Add(performer);
+            }
+
+            return new OneTimeTaskResult() { TaskId = task.Id };
         }
     }
 }
