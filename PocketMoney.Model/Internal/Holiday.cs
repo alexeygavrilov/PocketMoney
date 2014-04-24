@@ -11,18 +11,23 @@ namespace PocketMoney.Model.Internal
     {
         protected Holiday() { }
 
-        public Holiday(Country country, string name, DateTime date)
+        public Holiday(Country country, string name, DayOfOne date)
         {
             this.Country = country;
             this.Name = name;
             this.Date = date;
         }
 
+        public Holiday(Country country, string name, DateTime date)
+            : this(country, name, new DayOfOne(date))
+        {
+        }
+
         public virtual Country Country { get; set; }
 
         public virtual string Name { get; set; }
 
-        public virtual DateTime Date { get; set; }
+        public virtual DayOfOne Date { get; set; }
     }
 
     [Serializable]

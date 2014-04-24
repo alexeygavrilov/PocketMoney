@@ -11,6 +11,9 @@ namespace PocketMoney.Model.External.Results
     [DataContract]
     public class UserListResult : ResultList<UserInfo>
     {
+        public UserListResult() { }
+
+        public UserListResult(UserInfo[] userList, int count) : base(userList, count) { }
     }
 
     [DataContract]

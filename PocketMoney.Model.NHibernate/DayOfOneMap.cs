@@ -11,9 +11,7 @@ namespace PocketMoney.Model.NHibernate
     {
         public DayOfOneMap()
         {
-            Map(x => x.Year).Index("IX_DayOfOne");
-            Map(x => x.Month).Index("IX_DayOfOne");
-            Map(x => x.Day).Index("IX_DayOfOne");
+            Map(x => x.Value).Column("DayOfOne").Index("IX_DayOfOne");
         }
     }
 }

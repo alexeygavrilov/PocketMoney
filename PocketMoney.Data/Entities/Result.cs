@@ -26,6 +26,14 @@ namespace PocketMoney.Data
     [DataContract]
     public abstract class ResultList<TData> : Result
     {
+        protected ResultList() { }
+
+        protected ResultList(TData[] list, int count)
+        {
+            this.List = list;
+            this.TotalCount = count;
+        }
+
         [DataMember, Details]
         public TData[] List { get; set; }
 
@@ -42,6 +50,13 @@ namespace PocketMoney.Data
     [DataContract]
     public abstract class ResultData<TData> : Result
     {
+        protected ResultData() { }
+
+        protected ResultData(TData data)
+        {
+            this.Data = data;
+        }
+
         [DataMember, Details]
         public TData Data { get; set; }
 

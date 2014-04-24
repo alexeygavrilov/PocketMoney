@@ -25,8 +25,8 @@ namespace PocketMoney.Model.Network
     }
 
     [DataContract]
-    public class NetworkAccountResult : ResultData<NetworkAccount> { }
+    public class NetworkAccountResult : ResultData<NetworkAccount> { public NetworkAccountResult(NetworkAccount account) : base(account) { } }
 
     [DataContract]
-    public class NetworkAccountList : ResultList<NetworkAccount> { }
+    public class NetworkAccountList : ResultList<NetworkAccount> { public NetworkAccountList(NetworkAccount[] accountList, int count) : base(accountList, count) { } }
 }

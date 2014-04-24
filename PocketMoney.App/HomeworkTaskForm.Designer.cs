@@ -43,6 +43,7 @@
             this.comboBox1 = new System.Windows.Forms.ComboBox();
             this.checkedListBox2 = new System.Windows.Forms.CheckedListBox();
             this.checkBox1 = new System.Windows.Forms.CheckBox();
+            this.label7 = new System.Windows.Forms.Label();
             ((System.ComponentModel.ISupportInitialize)(this.numericUpDown1)).BeginInit();
             this.SuspendLayout();
             // 
@@ -68,9 +69,9 @@
             this.label3.AutoSize = true;
             this.label3.Location = new System.Drawing.Point(74, 207);
             this.label3.Name = "label3";
-            this.label3.Size = new System.Drawing.Size(67, 13);
+            this.label3.Size = new System.Drawing.Size(44, 13);
             this.label3.TabIndex = 11;
-            this.label3.Text = "Score Points";
+            this.label3.Text = "Reward";
             // 
             // label2
             // 
@@ -194,12 +195,22 @@
             this.checkBox1.Text = "Include Holidays";
             this.checkBox1.UseVisualStyleBackColor = true;
             // 
+            // label7
+            // 
+            this.label7.AutoSize = true;
+            this.label7.Location = new System.Drawing.Point(194, 226);
+            this.label7.Name = "label7";
+            this.label7.Size = new System.Drawing.Size(35, 13);
+            this.label7.TabIndex = 22;
+            this.label7.Text = "points";
+            // 
             // HomeworkTaskForm
             // 
             this.AcceptButton = this.button1;
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(450, 504);
+            this.Controls.Add(this.label7);
             this.Controls.Add(this.checkBox1);
             this.Controls.Add(this.checkedListBox2);
             this.Controls.Add(this.comboBox1);
@@ -241,5 +252,6 @@
         private System.Windows.Forms.ComboBox comboBox1;
         private System.Windows.Forms.CheckedListBox checkedListBox2;
         private System.Windows.Forms.CheckBox checkBox1;
+        private System.Windows.Forms.Label label7;
     }
 }

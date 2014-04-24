@@ -12,6 +12,7 @@ namespace PocketMoney.Data
         string Name { get; }
         bool IsAnonymous { get; }
         IList<IUser> Members { get; }
+        int CountryCode { get; }
         //IAddress Address { get; }
     }
 }

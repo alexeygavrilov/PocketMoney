@@ -80,23 +80,21 @@ namespace PocketMoney.Service
 
             _userRepository.Add(user);
 
+            UserResult result = new UserResult(user.From())
+            {
+                Password = model.Password,
+                Login = email.Address
+            };
+
             var messResult = _messageService.SendEmail(new EmailMessageRequest(
                 user,
                 email.Address,
                 "Подтверждение пользователя",
                 string.Format("Привет {0} \r\nВаш код подтверждения: {1}", user.FullName(), code)));
 
-            UserResult result = new UserResult();
-
             if (!messResult.Success)
             {
                 result.SetErrorMessage<UserResult>(messResult.Message);
-            }
-            else
-            {
-                result.Data = user.From();
-                result.Password = model.Password;
-                result.Login = email.Address;
             }
             return result;
         }
@@ -111,7 +109,7 @@ namespace PocketMoney.Service
             {
                 user.Active = true;
                 _userRepository.Update(user);
-                return new UserResult { Data = user.From() };
+                return new UserResult(user.From());
             }
             else
                 throw new InvalidDataException("Некорректный код подтверждения");
@@ -154,11 +152,11 @@ namespace PocketMoney.Service
 
             _userRepository.Add(user);
 
-            UserResult result = new UserResult
+            UserResult result = new UserResult(user)
             {
-                Data = user,
                 Login = user.Email != null ? user.Email.Address : user.UserName,
-                Password = password
+                Password = password,
+                AuthToken = user.TokenKey
             };
 
             if (model.SendNotification & !string.IsNullOrEmpty(model.Email))
@@ -214,9 +212,8 @@ namespace PocketMoney.Service
                 {
                     user.LastLoginDate = Clock.UtcNow();
                     _userRepository.Update(user);
-                    return new UserResult
+                    return new UserResult(user)
                     {
-                        Data = user,
                         Login = model.UserName,
                         Password = model.Password,
                         AuthToken = user.TokenKey
@@ -241,11 +238,7 @@ namespace PocketMoney.Service
                 })
                 .ToList();
 
-            return new UserListResult
-            {
-                TotalCount = users.Count,
-                List = users.ToArray()
-            };
+            return new UserListResult(users.ToArray(), users.Count);
         }
     }
 }

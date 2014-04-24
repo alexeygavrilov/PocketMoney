@@ -111,7 +111,7 @@ namespace PocketMoney.Service
                     LastName = first["last_name"].ToObject<string>(),
                     Photo = first["photo"].ToObject<string>()
                 };
-                return new NetworkAccountResult { Data = account };
+                return new NetworkAccountResult(account);
             }
             else
             {
@@ -145,7 +145,7 @@ namespace PocketMoney.Service
                     });
                 }
             }
-            return new NetworkAccountList { List = list.ToArray(), TotalCount = count };
+            return new NetworkAccountList(list.ToArray(), count);
         }
     }
 }

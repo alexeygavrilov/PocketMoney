@@ -38,7 +38,7 @@ namespace PocketMoney.Service
         [Transaction(TransactionMode.Requires)]
         [MethodImpl(MethodImplOptions.Synchronized)]
         [OperationBehavior(TransactionScopeRequired = true)]
-        public virtual Result AddCountry(AddCountryRequest model)
+        public virtual IntResult AddCountry(AddCountryRequest model)
         {
             if (_countryRepository.Exists(x => x.Id == model.Code))
                 throw new InvalidDataException("Страна с кодом '{0}' уже существует в системе.", model.Code);
@@ -48,7 +48,7 @@ namespace PocketMoney.Service
             var country = new Country(model.Code, model.Name);
             _countryRepository.Add(country);
 
-            return Result.Empty;
+            return new IntResult(country.Id);
         }
 
         [MethodImpl(MethodImplOptions.Synchronized)]
@@ -63,14 +63,15 @@ namespace PocketMoney.Service
                     Code = x.Id,
                     Name = x.Name
                 }).ToArray();
-            return new CountryListResult { List = list, TotalCount = list.Length };
+
+            return new CountryListResult(list, list.Length);
         }
 
 
         [Transaction(TransactionMode.Requires)]
         [MethodImpl(MethodImplOptions.Synchronized)]
         [OperationBehavior(TransactionScopeRequired = true)]
-        public Result AddHoliday(AddHolidayRequest model)
+        public GuidResult AddHoliday(AddHolidayRequest model)
         {
             if (_holidaysRepository.Exists(x => x.Name == model.Name && x.Country.Id == model.CountryCode))
                 throw new InvalidDataException("Праздник с именем '{0}' на дату '{1}' уже существует в системе.", model.Name);
@@ -82,7 +83,7 @@ namespace PocketMoney.Service
             var holiday = new Holiday(country, model.Name, model.Date);
             _holidaysRepository.Add(holiday);
 
-            return Result.Empty;
+            return new GuidResult(holiday.Id);
         }
 
         [MethodImpl(MethodImplOptions.Synchronized)]
@@ -93,7 +94,7 @@ namespace PocketMoney.Service
             var list = _holidaysRepository
                 .FindAll(x => x.Country.Id == family.Country.Id)
                 .AsEnumerable()
-                .ToDictionary(k => k.Date, e => e.Name, EqualityComparer<DateTime>.Default);
+                .ToDictionary(k => k.Date, e => e.Name, EqualityComparer<DayOfOne>.Default);
 
             return new HolidayListResult { TotalCount = list.Count, Dictionary = list };
         }

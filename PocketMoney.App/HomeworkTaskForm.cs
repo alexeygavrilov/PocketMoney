@@ -11,6 +11,8 @@ using Microsoft.Practices.ServiceLocation;
 using PocketMoney.Model.External.Requests;
 using PocketMoney.Service.Interfaces;
 using PocketMoney.Util.ExtensionMethods;
+using PocketMoney.Model.External.Results;
+using PocketMoney.Model;
 
 namespace PocketMoney.App
 {
@@ -35,7 +37,13 @@ namespace PocketMoney.App
             }
             comboBox1.SelectedIndex = 0;
             checkedListBox2.Items.Clear();
-            checkedListBox2.Items.AddRange(Enum.GetNames(typeof(DayOfWeek)));
+            checkedListBox2.Items.Add(DayOfWeek.Monday);
+            checkedListBox2.Items.Add(DayOfWeek.Tuesday);
+            checkedListBox2.Items.Add(DayOfWeek.Wednesday);
+            checkedListBox2.Items.Add(DayOfWeek.Thursday);
+            checkedListBox2.Items.Add(DayOfWeek.Friday);
+            checkedListBox2.Items.Add(DayOfWeek.Saturday);
+            checkedListBox2.Items.Add(DayOfWeek.Sunday);
         }
 
         private void comboBox1_SelectedIndexChanged(object sender, EventArgs e)
@@ -62,7 +70,36 @@ namespace PocketMoney.App
 
         private void button1_Click(object sender, EventArgs e)
         {
+            var taskService = ServiceLocator.Current.GetInstance<ITaskService>();
+            IList<Guid> assignedTo = new List<Guid>();
+            foreach (var checkedItem in checkedListBox1.CheckedItems)
+            {
+                assignedTo.Add(((UserInfo)checkedItem).UserId);
+            }
+            IList<int> daysOfWeek = new List<int>();
+            foreach (var checkedItem in checkedListBox2.CheckedItems)
+            {
+                daysOfWeek.Add((int)((DayOfWeek)checkedItem));
+            }
 
+            var result = taskService.AddHomeworkTask(new AddHomeworkTaskRequest
+            {
+                AssignedTo = assignedTo.ToArray(),
+                Points = Convert.ToInt32(numericUpDown1.Value),
+                Text = textBox1.Text,
+                Form = new ScheduleForm
+                {
+                    DateRangeIndex = comboBox1.SelectedIndex,
+                    DaysOfWeek = daysOfWeek.ToArray(),
+                    IncludeHolidays = checkBox1.Checked,
+                    DateRangeFrom = dateTimePicker1.Value,
+                    DateRangeTo = dateTimePicker2.Value
+                }
+            });
+            if (!result.Success)
+            {
+                MessageBox.Show(result.Message, "Invalid", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+            }
         }
     }
 }

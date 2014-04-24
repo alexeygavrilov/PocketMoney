@@ -9,10 +9,11 @@ namespace PocketMoney.Model.NHibernate
         {
             Id(x => x.Id).GeneratedBy.GuidComb();
             
-            Map(x => x.Name).Not.Nullable().UniqueKey("UX_Holiday").Length(254);
-            Map(x => x.Date).Not.Nullable().UniqueKey("UX_Holiday");
+            Map(x => x.Name).Not.Nullable().Length(254);
 
-            References(x => x.Country).Not.Nullable().ForeignKey("FK_Holiday_Country").UniqueKey("UX_Holiday");
+            Component(x => x.Date);
+
+            References(x => x.Country).Not.Nullable().ForeignKey("FK_Holiday_Country");
         }
     }
 }

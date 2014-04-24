@@ -15,7 +15,10 @@ namespace PocketMoney.Service.Interfaces
     public interface ITaskService
     {
         [Process, OperationContract]
-        OneTimeTaskResult AddOneTimeTask(AddOneTimeTaskRequest model);
+        GuidResult AddOneTimeTask(AddOneTimeTaskRequest model);
+
+        [Process, OperationContract]
+        GuidResult AddHomeworkTask(AddHomeworkTaskRequest model);
 
     }
 }

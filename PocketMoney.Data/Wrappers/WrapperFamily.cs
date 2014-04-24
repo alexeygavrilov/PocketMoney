@@ -30,5 +30,10 @@ namespace PocketMoney.Data.Wrappers
         {
             get { return new List<IUser>(); }
         }
+
+        public int CountryCode
+        {
+            get { return 0; }
+        }
     }
 }

@@ -50,6 +50,11 @@ namespace PocketMoney.Model.Internal
         [Details]
         public virtual Point Points { get; set; }
 
+        public virtual int CountryCode 
+        {
+            get { return Country.Id; }
+        }
+
         public virtual bool IsAnonymous
         {
             get { return false; }

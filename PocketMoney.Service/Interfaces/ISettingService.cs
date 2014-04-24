@@ -15,13 +15,13 @@ namespace PocketMoney.Service.Interfaces
     public interface ISettingService
     {
         [Process, OperationContract]
-        Result AddCountry(AddCountryRequest model);
+        IntResult AddCountry(AddCountryRequest model);
 
         [Process, OperationContract]
         CountryListResult GetCountries(Request model);
 
         [Process, OperationContract]
-        Result AddHoliday(AddHolidayRequest model);
+        GuidResult AddHoliday(AddHolidayRequest model);
 
         [Process, OperationContract]
         HolidayListResult GetHolidays(Request model);

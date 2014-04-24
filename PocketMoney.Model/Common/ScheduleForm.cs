@@ -1,58 +1,70 @@
 ﻿using System;
+using System.Linq;
 using System.ComponentModel.DataAnnotations;
 using System.Runtime.Serialization;
 using PocketMoney.Data;
+using PocketMoney.Model.Internal;
+using System.Collections.Generic;
+using Microsoft.Practices.ServiceLocation;
 
 namespace PocketMoney.Model
 {
-    [DataContract]
-    [Serializable]
+    [DataContract, Serializable]
     public class ScheduleForm : ObjectBase
     {
-        [DataMember]
-        [Display(Name = "Праздники")]
-        [Details]
-        public bool Holidays { get; set; }
+        [DataMember, Details]
+        [Display(Name = "From")]
+        public DateTime DateRangeFrom { get; set; }
 
-        [DataMember]
-        [Display(Name = "Год")]
-        [Details]
-        public int Year { get; set; }
+        [DataMember, Details]
+        [Display(Name = "To")]
+        public DateTime DateRangeTo { get; set; }
 
-        [DataMember]
-        [Display(Name = "Понедельник")]
-        [Details]
-        public bool Monday { get; set; }
+        [DataMember, Details]
+        [Display(Name = "Date Range")]
+        public int DateRangeIndex { get; set; }
 
-        [DataMember]
-        [Display(Name = "Вторник")]
-        [Details]
-        public bool Tuesday { get; set; }
+        [DataMember, Details]
+        [Display(Name = "Days of Week")]
+        public int[] DaysOfWeek { get; set; }
 
-        [DataMember]
-        [Display(Name = "Среда")]
-        [Details]
-        public bool Wednesday { get; set; }
+        [DataMember, Details]
+        [Display(Name = "Include Holidays")]
+        public bool IncludeHolidays { get; set; }
 
-        [DataMember]
-        [Display(Name = "Четверг")]
-        [Details]
-        public bool Thursday { get; set; }
+        public IList<DayOfOne> CalculateDates()
+        {
+            var result = new List<DayOfOne>();
+            IList<DayOfOne> holidays = null;
+            if (!this.IncludeHolidays)
+            {
+                var holidaysRepository = ServiceLocator.Current.GetInstance<IRepository<Holiday, HolidayId, Guid>>();
+                var currentDataProvider = ServiceLocator.Current.GetInstance<ICurrentUserProvider>();
+                var user = currentDataProvider.GetCurrentUser();
+                holidays = holidaysRepository
+                    .FindAll(x => x.Country.Id == user.Family.CountryCode &&
+                        x.Date.Value >= DayOfOne.GetDayOfOneValue(this.DateRangeFrom) &&
+                        x.Date.Value <= DayOfOne.GetDayOfOneValue(this.DateRangeTo))
+                    .Select(x => x.Date).ToList();
+            }
+            DateTime currentDate = this.DateRangeFrom;
+            while (currentDate <= this.DateRangeTo)
+            {
+                if (this.DaysOfWeek.Contains((int)currentDate.DayOfWeek))
+                {
+                    var day = new DayOfOne(currentDate);
+                    if (holidays != null)
+                    {
+                        if (!holidays.Any(x => x == day))
+                            result.Add(day);
+                    }
+                    else
+                        result.Add(day);
+                }
+                currentDate = currentDate.AddDays(1);
+            }
 
-        [DataMember]
-        [Display(Name = "Пятница")]
-        [Details]
-        public bool Friday { get; set; }
-
-        [DataMember]
-        [Display(Name = "Суббота")]
-        [Details]
-        public bool Saturday { get; set; }
-
-        [DataMember]
-        [Display(Name = "Воскресенье")]
-        [Details]
-        public bool Sunday { get; set; }
-
+            return result;
+        }
     }
 }

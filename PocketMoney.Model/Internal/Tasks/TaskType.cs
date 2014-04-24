@@ -20,7 +20,7 @@ namespace PocketMoney.Model.Internal
         {
             _id = id;
             this.Name = name;
-//            this.ItemType = itemType;
+            //            this.ItemType = itemType;
         }
 
         private int _id;
@@ -53,7 +53,9 @@ namespace PocketMoney.Model.Internal
 
         public static TaskType OneTimeTask = new TaskType(1, "Onetime Task"); //, new TaskItemType[1] { TaskItemType.Person });
 
-        public static TaskType[] All = new TaskType[1] { TaskType.OneTimeTask };
+        public static TaskType HomeworkTask = new TaskType(2, "Homework Task");
+
+        public static TaskType[] All = new TaskType[2] { TaskType.OneTimeTask, TaskType.HomeworkTask };
 
         public bool Equals(TaskType other)
         {

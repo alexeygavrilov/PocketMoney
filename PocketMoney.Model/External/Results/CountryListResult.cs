@@ -6,6 +6,9 @@ namespace PocketMoney.Model.External.Results
     [DataContract]
     public class CountryListResult : ResultList<CountryInfo>
     {
+        public CountryListResult() { }
+
+        public CountryListResult(CountryInfo[] countryList, int count) : base(countryList, count) { }
     }
 
     [DataContract]
