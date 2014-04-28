@@ -18,7 +18,14 @@ namespace PocketMoney.Service.Interfaces
         GuidResult AddOneTimeTask(AddOneTimeTaskRequest model);
 
         [Process, OperationContract]
+        GuidResult AddRepeatTask(AddRepeatTaskRequest model);
+
+        [Process, OperationContract]
         GuidResult AddHomeworkTask(AddHomeworkTaskRequest model);
+
+        [Process, OperationContract]
+        GuidResult AddCleanTask(AddCleanTaskRequest model);
+
 
     }
 }

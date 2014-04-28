@@ -90,8 +90,44 @@ namespace PocketMoney.Service
                 TaskDate taskDate = new TaskDate(task, dateOfOne);
                 _taskDateRepository.Add(taskDate);
             }
-            
+
             return new GuidResult(task.Id);
+        }
+
+        [Transaction(TransactionMode.Requires)]
+        [MethodImpl(MethodImplOptions.Synchronized)]
+        [OperationBehavior(TransactionScopeRequired = true)]
+        public GuidResult AddCleanTask(AddCleanTaskRequest model)
+        {
+            var currentUser = _currentUserProvider.GetCurrentUser();
+
+            eDaysOfWeek days = eDaysOfWeek.None;
+            if (model.EnableScheduling)
+            {
+                foreach (int d in model.DaysOfWeek)
+                {
+                    days |= ((DayOfWeek)d).To();
+                }
+            }
+
+            CleanTask task = new CleanTask(model.Text, model.Points, currentUser.To(), days);
+
+            _taskRepository.Add(task);
+
+            foreach (var userId in model.AssignedTo)
+            {
+                var user = _userRepository.One(new UserId(userId));
+                Performer performer = new Performer(task, user);
+                _performerRepository.Add(performer);
+            }
+
+            return new GuidResult(task.Id);
+        }
+
+
+        public GuidResult AddRepeatTask(AddRepeatTaskRequest model)
+        {
+            throw new NotImplementedException();
         }
     }
 }

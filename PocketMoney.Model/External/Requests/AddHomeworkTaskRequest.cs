@@ -10,7 +10,7 @@ namespace PocketMoney.Model.External.Requests
     public class AddHomeworkTaskRequest : BaseTaskRequest
     {
         [DataMember, Details]
-        public ScheduleForm Form { get; set; }
+        public HomeworkForm Form { get; set; }
 
         public override IEnumerable<ValidationResult> Validate(ValidationContext validationContext)
         {

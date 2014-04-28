@@ -1,23 +1,27 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Windows.Forms;
-using Microsoft.Practices.ServiceLocation;
+﻿using Microsoft.Practices.ServiceLocation;
 using PocketMoney.Model.External.Requests;
 using PocketMoney.Model.External.Results;
 using PocketMoney.Service.Interfaces;
+using System;
+using System.Collections.Generic;
+using System.ComponentModel;
+using System.Data;
+using System.Drawing;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+using System.Windows.Forms;
 
 namespace PocketMoney.App
 {
-    public partial class OnetimeTaskForm : BaseForm
+    public partial class CleanTaskForm : BaseForm
     {
-        public OnetimeTaskForm()
-            : base()
+        public CleanTaskForm()
         {
             InitializeComponent();
         }
 
-        private void OnetimeTaskForm_Load(object sender, EventArgs e)
+        private void CleanTaskForm_Load(object sender, EventArgs e)
         {
             var familyService = ServiceLocator.Current.GetInstance<IFamilyService>();
             var result = familyService.GetUsers(new FamilyRequest { Data = _currentUser.Family });
@@ -29,14 +33,18 @@ namespace PocketMoney.App
                     checkedListBox1.Items.Add(ui);
                 }
             }
+            checkedListBox2.Items.Clear();
+            checkedListBox2.Items.Add(DayOfWeek.Monday);
+            checkedListBox2.Items.Add(DayOfWeek.Tuesday);
+            checkedListBox2.Items.Add(DayOfWeek.Wednesday);
+            checkedListBox2.Items.Add(DayOfWeek.Thursday);
+            checkedListBox2.Items.Add(DayOfWeek.Friday);
+            checkedListBox2.Items.Add(DayOfWeek.Saturday);
+            checkedListBox2.Items.Add(DayOfWeek.Sunday);
             comboBoxReminderHour.SelectedIndex = 11;
             comboBoxReminderMinutes.SelectedIndex = 0;
             comboBoxReminderPM.SelectedIndex = 1;
-        }
 
-        private void checkBox1_CheckedChanged(object sender, EventArgs e)
-        {
-            dateTimePicker1.Enabled = checkBox1.Checked;
         }
 
         private void button1_Click(object sender, EventArgs e)
@@ -47,17 +55,36 @@ namespace PocketMoney.App
             {
                 assignedTo.Add(((UserInfo)checkedItem).UserId);
             }
-            var result = taskService.AddOneTimeTask(new AddOneTimeTaskRequest
+            IList<int> daysOfWeek = new List<int>();
+            if (radioButton2.Checked)
+            {
+                foreach (var checkedItem in checkedListBox2.CheckedItems)
+                {
+                    daysOfWeek.Add((int)((DayOfWeek)checkedItem));
+                }
+            }
+            var result = taskService.AddCleanTask(new AddCleanTaskRequest
             {
                 AssignedTo = assignedTo.ToArray(),
-                DeadlineDate = checkBox1.Checked ? new DateTime?(dateTimePicker1.Value) : null,
                 Points = Convert.ToInt32(numericUpDown1.Value),
-                Text = textBox1.Text
+                Text = textBox1.Text,
+                EnableScheduling = radioButton2.Checked,
+                DaysOfWeek = daysOfWeek.ToArray()
             });
             if (!result.Success)
             {
                 MessageBox.Show(result.Message, "Invalid", MessageBoxButtons.OK, MessageBoxIcon.Warning);
             }
+        }
+
+        private void radioButton2_CheckedChanged(object sender, EventArgs e)
+        {
+            checkedListBox2.Enabled = true;
+        }
+
+        private void radioButton1_CheckedChanged(object sender, EventArgs e)
+        {
+            checkedListBox2.Enabled = false;
         }
 
         private void checkBoxReminder_CheckedChanged(object sender, EventArgs e)

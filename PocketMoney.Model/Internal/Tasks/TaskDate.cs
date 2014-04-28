@@ -1,13 +1,18 @@
 ﻿using System;
 using PocketMoney.Data;
+using System.Collections.Generic;
 
 namespace PocketMoney.Model.Internal
 {
     public class TaskDate : Entity<TaskDate, TaskDateId, Guid>
     {
-        protected TaskDate() { }
-        
+        protected TaskDate()
+        {
+            this.Actions = new List<TaskAction>();
+        }
+
         public TaskDate(Task task, DayOfOne date)
+            : this()
         {
             this.Task = task;
             this.Date = date;
@@ -16,6 +21,8 @@ namespace PocketMoney.Model.Internal
         public virtual Task Task { get; set; }
 
         public virtual DayOfOne Date { get; set; }
+
+        public virtual IList<TaskAction> Actions { get; set; }
     }
 
     [Serializable]

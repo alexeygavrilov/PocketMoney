@@ -9,11 +9,11 @@ namespace PocketMoney.Model.Network
     public abstract class NetworkRequest : Request
     {
         [DataMember, Details]
-        public NetworkType Type { get; set; }
+        public eNetworkType Type { get; set; }
 
         public override IEnumerable<ValidationResult> Validate(ValidationContext validationContext)
         {
-            if (this.Type == NetworkType.None)
+            if (this.Type == eNetworkType.None)
                 yield return new ValidationResult("Тип социальной сети должен быть определен.");
         }
     }
@@ -22,7 +22,7 @@ namespace PocketMoney.Model.Network
     public abstract class NetworkRequestData<TData> : RequestData<TData>
     {
         [DataMember, Details]
-        public NetworkType Type { get; set; }
+        public eNetworkType Type { get; set; }
 
     }
 

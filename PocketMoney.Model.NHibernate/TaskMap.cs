@@ -27,7 +27,7 @@ namespace PocketMoney.Model.NHibernate
             References(x => x.Family).Not.Nullable().ForeignKey("FK_Task_Family");
             References(x => x.Creator).Not.Nullable().ForeignKey("FK_Task_Creator");
 
-            HasMany(x => x.AssignedTo).Not.LazyLoad().ForeignKeyConstraintName("FK_Performer_Task").Cascade.Delete();
+            HasMany(x => x.AssignedTo).Not.LazyLoad().Cascade.Delete();
 
             HasManyToMany(x => x.Attachments).Table("TasksFiles").ForeignKeyConstraintNames("FK_Task_File", "FK_File_Task");
         }

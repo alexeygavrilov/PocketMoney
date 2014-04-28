@@ -23,7 +23,7 @@ namespace PocketMoney.Model.External.Results
         public int Reward { get; set; }
 
         [DataMember, Details]
-        public ScheduleForm Form { get; set; }
+        public HomeworkForm Form { get; set; }
 
         [Details, DataMember]
         public DayOfOne[] Days { get; set; }

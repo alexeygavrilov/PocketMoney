@@ -34,5 +34,23 @@ namespace PocketMoney.App
                 this.Close();
             }
         }
+
+        private void button3_Click(object sender, EventArgs e)
+        {
+            CleanTaskForm clean = new CleanTaskForm();
+            if (clean.ShowDialog() == System.Windows.Forms.DialogResult.OK)
+            {
+                this.Close();
+            }
+        }
+
+        private void button4_Click(object sender, EventArgs e)
+        {
+            RepeatTaskForm workout = new RepeatTaskForm();
+            if (workout.ShowDialog() == System.Windows.Forms.DialogResult.OK)
+            {
+                this.Close();
+            }
+        }
     }
 }

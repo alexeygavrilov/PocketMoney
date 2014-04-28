@@ -1,9 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using PocketMoney.Data;
+﻿using PocketMoney.Data;
+using System;
 
 namespace PocketMoney.Model.Internal
 {
@@ -13,19 +9,19 @@ namespace PocketMoney.Model.Internal
         {
         }
 
-        public TaskAction(eTaskAction action, DateTime actionDate, Performer performer, string note)
+        public TaskAction(eTaskActionType actionType, TaskDate taskDate, Performer performer, string note)
         {
-            this.Action = action;
-            this.ActionDate = actionDate;
+            this.ActionType = actionType;
+            this.TaskDate = taskDate;
             this.Performer = performer;
             this.Note = note;
         }
 
         [Details]
-        public virtual eTaskAction Action { get; set; }
+        public virtual eTaskActionType ActionType { get; set; }
 
         [Details]
-        public virtual DateTime ActionDate { get; set; }
+        public virtual TaskDate TaskDate { get; set; }
 
         [Details]
         public virtual Performer Performer { get; set; }
@@ -38,7 +34,7 @@ namespace PocketMoney.Model.Internal
 
     }
 
-    public enum eTaskAction : int
+    public enum eTaskActionType : int
     {
         None = 0,
         Processed = 1,

@@ -102,6 +102,12 @@
     <Compile Include="BaseForm.cs">
       <SubType>Form</SubType>
     </Compile>
+    <Compile Include="CleanTaskForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="CleanTaskForm.Designer.cs">
+      <DependentUpon>CleanTaskForm.cs</DependentUpon>
+    </Compile>
     <Compile Include="HomeworkTaskForm.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -135,8 +141,17 @@
       <DependentUpon>SelectTaskTypeForm.cs</DependentUpon>
     </Compile>
     <Compile Include="Settings.cs" />
+    <Compile Include="RepeatTaskForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="RepeatTaskForm.Designer.cs">
+      <DependentUpon>RepeatTaskForm.cs</DependentUpon>
+    </Compile>
     <EmbeddedResource Include="BaseForm.resx">
       <DependentUpon>BaseForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="CleanTaskForm.resx">
+      <DependentUpon>CleanTaskForm.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="HomeworkTaskForm.resx">
       <DependentUpon>HomeworkTaskForm.cs</DependentUpon>
@@ -161,6 +176,9 @@
     </Compile>
     <EmbeddedResource Include="SelectTaskTypeForm.resx">
       <DependentUpon>SelectTaskTypeForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="RepeatTaskForm.resx">
+      <DependentUpon>RepeatTaskForm.cs</DependentUpon>
     </EmbeddedResource>
     <None Include="log4net.config">
       <LastGenOutput>log4net.Designer.cs</LastGenOutput>

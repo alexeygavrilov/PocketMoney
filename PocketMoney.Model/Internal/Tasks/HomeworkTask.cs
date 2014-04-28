@@ -26,6 +26,5 @@ namespace PocketMoney.Model.Internal
 
         [Details]
         public virtual string Form { get; set; }
-        
     }
 }

@@ -24,7 +24,7 @@ namespace PocketMoney.Model.External.Requests
 
         [DataMember, Details]
         [Display(Name = "Расписание")]
-        public ScheduleForm Form { get; set; }
+        public HomeworkForm Form { get; set; }
 
         [DataMember, Details]
         [Display(Name = "Расписание обязаностей")]

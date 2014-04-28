@@ -10,7 +10,7 @@ using Microsoft.Practices.ServiceLocation;
 namespace PocketMoney.Model
 {
     [DataContract, Serializable]
-    public class ScheduleForm : ObjectBase
+    public class HomeworkForm : ObjectBase
     {
         [DataMember, Details]
         [Display(Name = "From")]

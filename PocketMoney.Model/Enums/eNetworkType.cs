@@ -1,9 +1,10 @@
 ﻿
 namespace PocketMoney.Model
 {
-    public enum NetworkType
+    public enum eNetworkType
     {
         None,
-        VK
+        VK,
+        FB
     }
 }

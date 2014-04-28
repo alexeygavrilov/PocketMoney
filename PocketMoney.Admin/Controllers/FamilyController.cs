@@ -51,7 +51,7 @@ namespace PocketMoney.Admin.Controllers
         public JsonResult GetUserVK(string id)
         {
             return Json(
-                _connector.GetAccount(new StringNetworkRequest { Data = id, Type = Model.NetworkType.VK }),
+                _connector.GetAccount(new StringNetworkRequest { Data = id, Type = Model.eNetworkType.VK }),
                 JsonRequestBehavior.AllowGet);
         }
 

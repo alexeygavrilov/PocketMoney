@@ -44,6 +44,10 @@ namespace PocketMoney.App
             checkedListBox2.Items.Add(DayOfWeek.Friday);
             checkedListBox2.Items.Add(DayOfWeek.Saturday);
             checkedListBox2.Items.Add(DayOfWeek.Sunday);
+            comboBoxReminderHour.SelectedIndex = 11;
+            comboBoxReminderMinutes.SelectedIndex = 0;
+            comboBoxReminderPM.SelectedIndex = 1;
+
         }
 
         private void comboBox1_SelectedIndexChanged(object sender, EventArgs e)
@@ -87,7 +91,7 @@ namespace PocketMoney.App
                 AssignedTo = assignedTo.ToArray(),
                 Points = Convert.ToInt32(numericUpDown1.Value),
                 Text = textBox1.Text,
-                Form = new ScheduleForm
+                Form = new HomeworkForm
                 {
                     DateRangeIndex = comboBox1.SelectedIndex,
                     DaysOfWeek = daysOfWeek.ToArray(),
@@ -101,5 +105,11 @@ namespace PocketMoney.App
                 MessageBox.Show(result.Message, "Invalid", MessageBoxButtons.OK, MessageBoxIcon.Warning);
             }
         }
+
+        private void checkBoxReminder_CheckedChanged(object sender, EventArgs e)
+        {
+            comboBoxReminderHour.Enabled = comboBoxReminderMinutes.Enabled = comboBoxReminderPM.Enabled = checkBoxReminder.Checked;
+        }
+
     }
 }

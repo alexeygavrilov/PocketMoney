@@ -27,19 +27,19 @@ namespace PocketMoney.Service
             _httpClient = new WebClient();
         }
 
-        private string GetAuthTokenKey(NetworkType type)
+        private string GetAuthTokenKey(eNetworkType type)
         {
             return type.ToString() + "_auth_token";
         }
 
-        private string GetHttpAuthUrl(NetworkType type, string apiId, string apiKey)
+        private string GetHttpAuthUrl(eNetworkType type, string apiId, string apiKey)
         {
-            if (type == NetworkType.VK)
+            if (type == eNetworkType.VK)
                 return string.Format("https://oauth.vk.com/access_token?client_id={0}&client_secret={1}&v=5.5&grant_type=client_credentials", apiId, apiKey);
             else
                 throw new NotImplementedException();
         }
-        private string GetToken(NetworkType type)
+        private string GetToken(eNetworkType type)
         {
             var token = _currentUserProvider.GetDate(GetAuthTokenKey(type)) as string;
 
@@ -59,9 +59,9 @@ namespace PocketMoney.Service
             return token;
         }
 
-        private string GetHttpApiUrl(NetworkType type, string methodName, IDictionary<string, string> args, bool addToken = true)
+        private string GetHttpApiUrl(eNetworkType type, string methodName, IDictionary<string, string> args, bool addToken = true)
         {
-            if (type == NetworkType.VK)
+            if (type == eNetworkType.VK)
             {
                 string parameters = string.Join("&",
                     args.Select(x => string.Format("{0}={1}", x.Key, x.Value)).ToArray());
@@ -74,7 +74,7 @@ namespace PocketMoney.Service
                 throw new NotImplementedException();
         }
 
-        private JObject Request(string url, NetworkType type)
+        private JObject Request(string url, eNetworkType type)
         {
             using (var stream = _httpClient.OpenRead(url))
             {

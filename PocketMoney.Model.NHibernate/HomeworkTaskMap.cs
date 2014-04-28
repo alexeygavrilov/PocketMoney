@@ -14,7 +14,7 @@ namespace PocketMoney.Model.NHibernate
         {
             Map(x => x.Form).Length(4000);
 
-            HasMany(x => x.Dates).KeyColumn("TaskId").LazyLoad().ForeignKeyConstraintName("FK_Date_Task").Cascade.Delete();
+            HasMany(x => x.Dates).KeyColumn("TaskId").LazyLoad().Cascade.Delete();
         }
     }
 }
