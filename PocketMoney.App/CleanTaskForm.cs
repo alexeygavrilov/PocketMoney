@@ -68,7 +68,7 @@ namespace PocketMoney.App
                 AssignedTo = assignedTo.ToArray(),
                 Points = Convert.ToInt32(numericUpDown1.Value),
                 Text = textBox1.Text,
-                EnableScheduling = radioButton2.Checked,
+                EveryDay = radioButton1.Checked,
                 DaysOfWeek = daysOfWeek.ToArray()
             });
             if (!result.Success)

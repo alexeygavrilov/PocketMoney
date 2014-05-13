@@ -15,7 +15,7 @@ namespace PocketMoney.Model.Internal
         }
 
         public HomeworkTask(string details, int points, User creator, string form)
-            : base(TaskType.HomeworkTask, details, points, true, creator)
+            : base(TaskType.HomeworkTask, details, points, creator)
         {
             this.Form = form;
             this.Dates = new List<TaskDate>();

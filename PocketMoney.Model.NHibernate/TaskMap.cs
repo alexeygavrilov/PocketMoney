@@ -18,8 +18,8 @@ namespace PocketMoney.Model.NHibernate
 
             Map(x => x.Details).Not.Nullable().Length(4000);
             Map(x => x.Active).Not.Nullable();
-            Map(x => x.Single).Not.Nullable();
-            Map(x => x.Reminder).Not.Nullable();
+            Map(x => x.EnableDateRange).Not.Nullable();
+            Map(x => x.Reminder).Nullable();
 
             Component(x => x.Type);
             Component(x => x.Points);

@@ -27,6 +27,11 @@ namespace PocketMoney.Model.External.Requests
         [Details]
         public int Points { get; set; }
 
+        [DataType(DataType.Time)]
+        [Display(Name = "Reminder")]
+        [Details]
+        public DateTime? ReminderTime { get; set; }
+
         public override IEnumerable<ValidationResult> Validate(ValidationContext validationContext)
         {
             if (string.IsNullOrWhiteSpace(this.Text))

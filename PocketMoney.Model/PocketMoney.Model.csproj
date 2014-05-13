@@ -50,6 +50,7 @@
     </Compile>
     <Compile Include="Common\DayOfOne.cs" />
     <Compile Include="Common\HomeworkForm.cs" />
+    <Compile Include="Common\RepeatForm.cs" />
     <Compile Include="Enums\eClientType.cs" />
     <Compile Include="Enums\eDaysOfWeek.cs" />
     <Compile Include="Enums\eNetworkType.cs" />
@@ -59,7 +60,6 @@
     <Compile Include="Extensions\IUserExtensions.cs" />
     <Compile Include="External\Requests\AddCleanTaskRequest.cs" />
     <Compile Include="External\Requests\AddCountryRequest.cs" />
-    <Compile Include="External\Requests\AddDutyTaskRequest.cs" />
     <Compile Include="External\Requests\AddHolidayRequest.cs" />
     <Compile Include="External\Requests\AddHomeworkTaskRequest.cs" />
     <Compile Include="External\Requests\AddOneTimeTaskRequest.cs" />

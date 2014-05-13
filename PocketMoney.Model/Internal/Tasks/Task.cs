@@ -14,17 +14,20 @@ namespace PocketMoney.Model.Internal
             this.Points = new Point(this, 0);
         }
 
-        public Task(TaskType type, string details, int points, bool single, User creator)
+        public Task(TaskType type, string details, int points, User creator)
             : this()
         {
+            this.EnableDateRange = type == TaskType.HomeworkTask || type == TaskType.RepeatTask;
             this.Active = true;
             this.Type = type;
             this.Details = details;
             this.Points = new Point(this, points);
-            this.Single = single;
             this.Creator = creator;
             this.Family = creator.Family;
         }
+
+        [Details]
+        public virtual bool EnableDateRange { get; set; }
 
         [Details]
         public virtual string Details { get; set; }
@@ -48,13 +51,10 @@ namespace PocketMoney.Model.Internal
         public virtual User Creator { get; set; }
 
         [Details]
-        public virtual int Reminder { get; set; }
+        public virtual int? Reminder { get; set; }
 
         [Details]
         public virtual IList<File> Attachments { get; set; }
-
-        [Details]
-        public virtual bool Single { get; set; }
 
         public virtual eObjectType ObjectType
         {

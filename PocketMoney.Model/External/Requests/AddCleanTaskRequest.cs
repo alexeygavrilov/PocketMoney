@@ -10,7 +10,10 @@ namespace PocketMoney.Model.External.Requests
     public class AddCleanTaskRequest : BaseTaskRequest
     {
         [DataMember, Details]
-        public bool EnableScheduling { get; set; }
+        public string RoomName { get; set; }
+
+        [DataMember, Details]
+        public bool EveryDay { get; set; }
 
         [DataMember, Details]
         [Display(Name = "Days of Week")]
@@ -18,8 +21,15 @@ namespace PocketMoney.Model.External.Requests
 
         public override IEnumerable<ValidationResult> Validate(ValidationContext validationContext)
         {
-            if (this.EnableScheduling && (this.DaysOfWeek == null || this.DaysOfWeek.Length == 0))
+            if(string.IsNullOrEmpty(this.RoomName))
+                yield return new ValidationResult("Room name is required field");
+
+            if (this.EveryDay && (this.DaysOfWeek == null || this.DaysOfWeek.Length == 0))
                 yield return new ValidationResult("Days of Week are required value");
+
+            foreach (var val in base.Validate(validationContext))
+                yield return val;
+
         }
     }
 }

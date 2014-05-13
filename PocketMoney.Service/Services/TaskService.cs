@@ -50,6 +50,11 @@ namespace PocketMoney.Service
                 currentUser.To()
                 );
 
+            if (model.ReminderTime.HasValue)
+            {
+                task.Reminder = model.ReminderTime.Value.TimeOfDay.Minutes;
+            }
+
             _taskRepository.Add(task);
 
             foreach (var userId in model.AssignedTo)
@@ -76,6 +81,10 @@ namespace PocketMoney.Service
                 Convert.ToBase64String(BinarySerializer.Serialaize(model.Form))
                 );
 
+            if (model.ReminderTime.HasValue)
+            {
+                task.Reminder = model.ReminderTime.Value.TimeOfDay.Minutes;
+            }
             _taskRepository.Add(task);
 
             foreach (var userId in model.AssignedTo)
@@ -102,7 +111,7 @@ namespace PocketMoney.Service
             var currentUser = _currentUserProvider.GetCurrentUser();
 
             eDaysOfWeek days = eDaysOfWeek.None;
-            if (model.EnableScheduling)
+            if (!model.EveryDay)
             {
                 foreach (int d in model.DaysOfWeek)
                 {
@@ -111,6 +120,11 @@ namespace PocketMoney.Service
             }
 
             CleanTask task = new CleanTask(model.Text, model.Points, currentUser.To(), days);
+
+            if (model.ReminderTime.HasValue)
+            {
+                task.Reminder = model.ReminderTime.Value.TimeOfDay.Minutes;
+            }
 
             _taskRepository.Add(task);
 
@@ -124,7 +138,9 @@ namespace PocketMoney.Service
             return new GuidResult(task.Id);
         }
 
-
+        [Transaction(TransactionMode.Requires)]
+        [MethodImpl(MethodImplOptions.Synchronized)]
+        [OperationBehavior(TransactionScopeRequired = true)]
         public GuidResult AddRepeatTask(AddRepeatTaskRequest model)
         {
             throw new NotImplementedException();

@@ -51,13 +51,15 @@ namespace PocketMoney.Model.Internal
 
         public virtual string Name { get; private set; }
 
-        public static TaskType OneTimeTask = new TaskType(1, "Onetime Task"); //, new TaskItemType[1] { TaskItemType.Person });
+        public static TaskType OneTimeTask = new TaskType(1, "Once Task"); //, new TaskItemType[1] { TaskItemType.Person });
 
-        public static TaskType HomeworkTask = new TaskType(2, "Homework Task");
+        public static TaskType RepeatTask = new TaskType(2, "Repeat Task");
 
-        public static TaskType CleanTask = new TaskType(3, "Clean Task");
+        public static TaskType HomeworkTask = new TaskType(3, "Homework Task");
 
-        public static TaskType[] All = new TaskType[3] { TaskType.OneTimeTask, TaskType.HomeworkTask, TaskType.CleanTask };
+        public static TaskType CleanTask = new TaskType(4, "Clean Task");
+
+        public static TaskType[] All = new TaskType[4] { TaskType.OneTimeTask, TaskType.RepeatTask, TaskType.HomeworkTask, TaskType.CleanTask };
 
         public bool Equals(TaskType other)
         {
