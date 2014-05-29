@@ -2,6 +2,7 @@
 using System.Windows.Forms;
 using Microsoft.Practices.ServiceLocation;
 using PocketMoney.Data;
+using System;
 
 namespace PocketMoney.App
 {
@@ -18,6 +19,29 @@ namespace PocketMoney.App
                 _currentDataProvider = ServiceLocator.Current.GetInstance<ICurrentUserProvider>();
                 _currentUser = _currentDataProvider.GetCurrentUser();
             }
+        }
+
+        protected TimeSpan? GetReminderTime()
+        {
+            if (((CheckBox)this.Controls["checkBoxReminder"]).Checked)
+            {
+                TimeSpan time = TimeSpan.Zero;
+                time.Add(TimeSpan.FromHours(Convert.ToInt32(((ComboBox)this.Controls["comboBoxReminderHour"]).SelectedValue)));
+                time.Add(TimeSpan.FromMinutes(Convert.ToInt32(((ComboBox)this.Controls["comboBoxReminderMinutes"]).SelectedValue)));
+                if (((ComboBox)this.Controls["comboBoxReminderPM"]).SelectedValue == "AM")
+                {
+                    if (time.Hours == 12 && time.Minutes == 0)
+                        time = TimeSpan.Zero;
+                }
+                else
+                {
+                    if (time.Hours < 12)
+                        time += TimeSpan.FromHours(12);
+                }
+                return time;
+            }
+            else
+                return null;
         }
 
         private void InitializeComponent()

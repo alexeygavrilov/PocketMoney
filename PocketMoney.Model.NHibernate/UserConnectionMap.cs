@@ -1,9 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using PocketMoney.Data.NHibernate;
+﻿using PocketMoney.Data.NHibernate;
 using PocketMoney.Model.Internal;
 
 namespace PocketMoney.Model.NHibernate

@@ -30,13 +30,10 @@ namespace PocketMoney.Model.External.Requests
         [DataType(DataType.Time)]
         [Display(Name = "Reminder")]
         [Details]
-        public DateTime? ReminderTime { get; set; }
+        public TimeSpan? ReminderTime { get; set; }
 
         public override IEnumerable<ValidationResult> Validate(ValidationContext validationContext)
         {
-            if (string.IsNullOrWhiteSpace(this.Text))
-                yield return new ValidationResult("Task details is required field");
-
             if (this.Points <= 0)
                 yield return new ValidationResult("Score Points should be positive number");
         }

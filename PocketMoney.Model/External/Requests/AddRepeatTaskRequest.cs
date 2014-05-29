@@ -20,6 +20,18 @@ namespace PocketMoney.Model.External.Requests
             if (string.IsNullOrEmpty(this.Name))
                 yield return new ValidationResult("Name is required field");
 
+            if (this.Form == null)
+                yield return new ValidationResult("Invalid form");
+
+            if (this.Form.DateRangeTo.HasValue && this.Form.DateRangeFrom >= this.Form.DateRangeTo.Value)
+                yield return new ValidationResult("Invalid date range");
+
+            if (this.Form.OccurrenceType == eOccurrenceType.None)
+                yield return new ValidationResult("You should select the repeat mode.");
+
+            if (this.Form.OccurrenceType == eOccurrenceType.Week && (this.Form.DaysOfWeek == null || this.Form.DaysOfWeek.Length == 0))
+                yield return new ValidationResult("Days of Week are required value");
+
             foreach (var val in base.Validate(validationContext))
                 yield return val;
 

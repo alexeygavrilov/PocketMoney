@@ -1,10 +1,5 @@
 ﻿using FluentNHibernate.Mapping;
 using PocketMoney.Model.Internal;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace PocketMoney.Model.NHibernate
 {
@@ -12,6 +7,7 @@ namespace PocketMoney.Model.NHibernate
     {
         public OneTimeTaskMap()
         {
+            Map(x => x.Name).Not.Nullable().Length(255);
             Map(x => x.DeadlineDate).Nullable();
         }
     }

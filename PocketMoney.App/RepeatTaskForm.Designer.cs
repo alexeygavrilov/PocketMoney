@@ -38,13 +38,13 @@
             this.button1 = new System.Windows.Forms.Button();
             this.radioButton1 = new System.Windows.Forms.RadioButton();
             this.groupBox1 = new System.Windows.Forms.GroupBox();
+            this.radioEndBy = new System.Windows.Forms.RadioButton();
+            this.label4 = new System.Windows.Forms.Label();
+            this.numericUpDown2 = new System.Windows.Forms.NumericUpDown();
+            this.radioEndAfter = new System.Windows.Forms.RadioButton();
             this.label5 = new System.Windows.Forms.Label();
             this.dateTimePicker2 = new System.Windows.Forms.DateTimePicker();
             this.dateTimePicker1 = new System.Windows.Forms.DateTimePicker();
-            this.radioEndAfter = new System.Windows.Forms.RadioButton();
-            this.numericUpDown2 = new System.Windows.Forms.NumericUpDown();
-            this.label4 = new System.Windows.Forms.Label();
-            this.radioEndBy = new System.Windows.Forms.RadioButton();
             this.numericUpDown3 = new System.Windows.Forms.NumericUpDown();
             this.label6 = new System.Windows.Forms.Label();
             this.radioButton2 = new System.Windows.Forms.RadioButton();
@@ -61,6 +61,8 @@
             this.comboBoxReminderMinutes = new System.Windows.Forms.ComboBox();
             this.comboBoxReminderHour = new System.Windows.Forms.ComboBox();
             this.checkBoxReminder = new System.Windows.Forms.CheckBox();
+            this.textBox2 = new System.Windows.Forms.TextBox();
+            this.label11 = new System.Windows.Forms.Label();
             ((System.ComponentModel.ISupportInitialize)(this.numericUpDown1)).BeginInit();
             this.groupBox1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.numericUpDown2)).BeginInit();
@@ -108,7 +110,7 @@
             // label2
             // 
             this.label2.AutoSize = true;
-            this.label2.Location = new System.Drawing.Point(36, 85);
+            this.label2.Location = new System.Drawing.Point(36, 113);
             this.label2.Name = "label2";
             this.label2.Size = new System.Drawing.Size(65, 13);
             this.label2.TabIndex = 27;
@@ -117,15 +119,15 @@
             // label1
             // 
             this.label1.AutoSize = true;
-            this.label1.Location = new System.Drawing.Point(33, 8);
+            this.label1.Location = new System.Drawing.Point(33, 36);
             this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(87, 13);
+            this.label1.Size = new System.Drawing.Size(60, 13);
             this.label1.TabIndex = 26;
-            this.label1.Text = "Task Description";
+            this.label1.Text = "Description";
             // 
             // textBox1
             // 
-            this.textBox1.Location = new System.Drawing.Point(33, 27);
+            this.textBox1.Location = new System.Drawing.Point(33, 55);
             this.textBox1.Multiline = true;
             this.textBox1.Name = "textBox1";
             this.textBox1.Size = new System.Drawing.Size(294, 51);
@@ -134,9 +136,9 @@
             // checkedListBox1
             // 
             this.checkedListBox1.FormattingEnabled = true;
-            this.checkedListBox1.Location = new System.Drawing.Point(33, 105);
+            this.checkedListBox1.Location = new System.Drawing.Point(33, 133);
             this.checkedListBox1.Name = "checkedListBox1";
-            this.checkedListBox1.Size = new System.Drawing.Size(294, 94);
+            this.checkedListBox1.Size = new System.Drawing.Size(294, 64);
             this.checkedListBox1.TabIndex = 24;
             // 
             // button1
@@ -178,6 +180,54 @@
             this.groupBox1.TabStop = false;
             this.groupBox1.Text = "Date Range";
             // 
+            // radioEndBy
+            // 
+            this.radioEndBy.AutoSize = true;
+            this.radioEndBy.Checked = true;
+            this.radioEndBy.Location = new System.Drawing.Point(19, 77);
+            this.radioEndBy.Name = "radioEndBy";
+            this.radioEndBy.Size = new System.Drawing.Size(58, 17);
+            this.radioEndBy.TabIndex = 25;
+            this.radioEndBy.TabStop = true;
+            this.radioEndBy.Text = "End by";
+            this.radioEndBy.UseVisualStyleBackColor = true;
+            // 
+            // label4
+            // 
+            this.label4.AutoSize = true;
+            this.label4.Location = new System.Drawing.Point(152, 60);
+            this.label4.Name = "label4";
+            this.label4.Size = new System.Drawing.Size(66, 13);
+            this.label4.TabIndex = 24;
+            this.label4.Text = "occurrences";
+            // 
+            // numericUpDown2
+            // 
+            this.numericUpDown2.Location = new System.Drawing.Point(94, 54);
+            this.numericUpDown2.Minimum = new decimal(new int[] {
+            1,
+            0,
+            0,
+            0});
+            this.numericUpDown2.Name = "numericUpDown2";
+            this.numericUpDown2.Size = new System.Drawing.Size(51, 20);
+            this.numericUpDown2.TabIndex = 23;
+            this.numericUpDown2.Value = new decimal(new int[] {
+            1,
+            0,
+            0,
+            0});
+            // 
+            // radioEndAfter
+            // 
+            this.radioEndAfter.AutoSize = true;
+            this.radioEndAfter.Location = new System.Drawing.Point(19, 54);
+            this.radioEndAfter.Name = "radioEndAfter";
+            this.radioEndAfter.Size = new System.Drawing.Size(68, 17);
+            this.radioEndAfter.TabIndex = 22;
+            this.radioEndAfter.Text = "End after";
+            this.radioEndAfter.UseVisualStyleBackColor = true;
+            // 
             // label5
             // 
             this.label5.AutoSize = true;
@@ -200,54 +250,6 @@
             this.dateTimePicker1.Name = "dateTimePicker1";
             this.dateTimePicker1.Size = new System.Drawing.Size(146, 20);
             this.dateTimePicker1.TabIndex = 19;
-            // 
-            // radioEndAfter
-            // 
-            this.radioEndAfter.AutoSize = true;
-            this.radioEndAfter.Location = new System.Drawing.Point(19, 54);
-            this.radioEndAfter.Name = "radioEndAfter";
-            this.radioEndAfter.Size = new System.Drawing.Size(68, 17);
-            this.radioEndAfter.TabIndex = 22;
-            this.radioEndAfter.Text = "End after";
-            this.radioEndAfter.UseVisualStyleBackColor = true;
-            // 
-            // numericUpDown2
-            // 
-            this.numericUpDown2.Location = new System.Drawing.Point(94, 54);
-            this.numericUpDown2.Minimum = new decimal(new int[] {
-            1,
-            0,
-            0,
-            0});
-            this.numericUpDown2.Name = "numericUpDown2";
-            this.numericUpDown2.Size = new System.Drawing.Size(51, 20);
-            this.numericUpDown2.TabIndex = 23;
-            this.numericUpDown2.Value = new decimal(new int[] {
-            1,
-            0,
-            0,
-            0});
-            // 
-            // label4
-            // 
-            this.label4.AutoSize = true;
-            this.label4.Location = new System.Drawing.Point(152, 60);
-            this.label4.Name = "label4";
-            this.label4.Size = new System.Drawing.Size(66, 13);
-            this.label4.TabIndex = 24;
-            this.label4.Text = "occurrences";
-            // 
-            // radioEndBy
-            // 
-            this.radioEndBy.AutoSize = true;
-            this.radioEndBy.Checked = true;
-            this.radioEndBy.Location = new System.Drawing.Point(19, 77);
-            this.radioEndBy.Name = "radioEndBy";
-            this.radioEndBy.Size = new System.Drawing.Size(58, 17);
-            this.radioEndBy.TabIndex = 25;
-            this.radioEndBy.TabStop = true;
-            this.radioEndBy.Text = "End by";
-            this.radioEndBy.UseVisualStyleBackColor = true;
             // 
             // numericUpDown3
             // 
@@ -471,12 +473,30 @@
             this.checkBoxReminder.UseVisualStyleBackColor = true;
             this.checkBoxReminder.CheckedChanged += new System.EventHandler(this.checkBoxReminder_CheckedChanged);
             // 
+            // textBox2
+            // 
+            this.textBox2.Location = new System.Drawing.Point(80, 12);
+            this.textBox2.Name = "textBox2";
+            this.textBox2.Size = new System.Drawing.Size(247, 20);
+            this.textBox2.TabIndex = 51;
+            // 
+            // label11
+            // 
+            this.label11.AutoSize = true;
+            this.label11.Location = new System.Drawing.Point(36, 15);
+            this.label11.Name = "label11";
+            this.label11.Size = new System.Drawing.Size(35, 13);
+            this.label11.TabIndex = 50;
+            this.label11.Text = "Name";
+            // 
             // RepeatTaskForm
             // 
             this.AcceptButton = this.button1;
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(358, 631);
+            this.Controls.Add(this.textBox2);
+            this.Controls.Add(this.label11);
             this.Controls.Add(this.comboBoxReminderPM);
             this.Controls.Add(this.comboBoxReminderMinutes);
             this.Controls.Add(this.comboBoxReminderHour);
@@ -554,5 +574,7 @@
         private System.Windows.Forms.ComboBox comboBoxReminderMinutes;
         private System.Windows.Forms.ComboBox comboBoxReminderHour;
         private System.Windows.Forms.CheckBox checkBoxReminder;
+        private System.Windows.Forms.TextBox textBox2;
+        private System.Windows.Forms.Label label11;
     }
 }

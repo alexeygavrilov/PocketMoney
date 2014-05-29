@@ -52,7 +52,9 @@ namespace PocketMoney.App
                 AssignedTo = assignedTo.ToArray(),
                 DeadlineDate = checkBox1.Checked ? new DateTime?(dateTimePicker1.Value) : null,
                 Points = Convert.ToInt32(numericUpDown1.Value),
-                Text = textBox1.Text
+                Text = textBox1.Text,
+                Name = textBox2.Text,
+                ReminderTime = this.GetReminderTime()
             });
             if (!result.Success)
             {

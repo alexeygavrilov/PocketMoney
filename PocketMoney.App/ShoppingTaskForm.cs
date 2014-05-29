@@ -1,27 +1,24 @@
-﻿using Microsoft.Practices.ServiceLocation;
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Windows.Forms;
+using Microsoft.Practices.ServiceLocation;
 using PocketMoney.Model.External.Requests;
 using PocketMoney.Model.External.Results;
 using PocketMoney.Service.Interfaces;
-using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
-using System.Drawing;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Windows.Forms;
+using PocketMoney.Model.External;
 
 namespace PocketMoney.App
 {
-    public partial class CleanTaskForm : BaseForm
+    public partial class ShoppingTaskForm : BaseForm
     {
-        public CleanTaskForm()
+        public ShoppingTaskForm()
+            : base()
         {
             InitializeComponent();
         }
 
-        private void CleanTaskForm_Load(object sender, EventArgs e)
+        private void OnetimeTaskForm_Load(object sender, EventArgs e)
         {
             var familyService = ServiceLocator.Current.GetInstance<IFamilyService>();
             var result = familyService.GetUsers(new FamilyRequest { Data = _currentUser.Family });
@@ -33,18 +30,14 @@ namespace PocketMoney.App
                     checkedListBox1.Items.Add(ui);
                 }
             }
-            checkedListBox2.Items.Clear();
-            checkedListBox2.Items.Add(DayOfWeek.Monday);
-            checkedListBox2.Items.Add(DayOfWeek.Tuesday);
-            checkedListBox2.Items.Add(DayOfWeek.Wednesday);
-            checkedListBox2.Items.Add(DayOfWeek.Thursday);
-            checkedListBox2.Items.Add(DayOfWeek.Friday);
-            checkedListBox2.Items.Add(DayOfWeek.Saturday);
-            checkedListBox2.Items.Add(DayOfWeek.Sunday);
             comboBoxReminderHour.SelectedIndex = 11;
             comboBoxReminderMinutes.SelectedIndex = 0;
             comboBoxReminderPM.SelectedIndex = 1;
+        }
 
+        private void checkBox1_CheckedChanged(object sender, EventArgs e)
+        {
+            dateTimePicker1.Enabled = checkBox1.Checked;
         }
 
         private void button1_Click(object sender, EventArgs e)
@@ -55,38 +48,29 @@ namespace PocketMoney.App
             {
                 assignedTo.Add(((UserInfo)checkedItem).UserId);
             }
-            IList<int> daysOfWeek = new List<int>();
-            if (radioButton2.Checked)
+            IList<ShopItem> shoppingList = new List<ShopItem>();
+            foreach (DataGridViewRow item in dataGridView1.Rows)
             {
-                foreach (var checkedItem in checkedListBox2.CheckedItems)
+                if (!item.IsNewRow)
                 {
-                    daysOfWeek.Add((int)((DayOfWeek)checkedItem));
+                    shoppingList.Add(new ShopItem((string)item.Cells[0].Value, (string)item.Cells[1].Value));
                 }
             }
-            var result = taskService.AddCleanTask(new AddCleanTaskRequest
+
+            var result = taskService.AddShoppingTask(new AddShoppingTaskRequest
             {
                 AssignedTo = assignedTo.ToArray(),
+                DeadlineDate = checkBox1.Checked ? new DateTime?(dateTimePicker1.Value) : null,
                 Points = Convert.ToInt32(numericUpDown1.Value),
                 Text = textBox1.Text,
-                RoomName = textBox2.Text,
-                EveryDay = radioButton1.Checked,
-                DaysOfWeek = daysOfWeek.ToArray(), 
-                ReminderTime = this.GetReminderTime()
+                ShopName = textBox2.Text,
+                ReminderTime = this.GetReminderTime(),
+                ShoppingList = shoppingList.ToArray()
             });
             if (!result.Success)
             {
                 MessageBox.Show(result.Message, "Invalid", MessageBoxButtons.OK, MessageBoxIcon.Warning);
             }
-        }
-
-        private void radioButton2_CheckedChanged(object sender, EventArgs e)
-        {
-            checkedListBox2.Enabled = true;
-        }
-
-        private void radioButton1_CheckedChanged(object sender, EventArgs e)
-        {
-            checkedListBox2.Enabled = false;
         }
 
         private void checkBoxReminder_CheckedChanged(object sender, EventArgs e)

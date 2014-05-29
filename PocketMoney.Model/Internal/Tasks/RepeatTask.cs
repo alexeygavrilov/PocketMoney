@@ -3,25 +3,28 @@ using System.Collections.Generic;
 
 namespace PocketMoney.Model.Internal
 {
-    public class HomeworkTask : Task
+    public class RepeatTask : Task
     {
-        protected HomeworkTask()
-            : base()
-        {
+        protected RepeatTask() : base() {
             this.Dates = new List<TaskDate>();
         }
 
-        public HomeworkTask(string details, int points, User creator, string form)
-            : base(TaskType.HomeworkTask, details, points, creator)
+        public RepeatTask(string name, string details, int points, User creator, string form)
+            : base(TaskType.RepeatTask, details, points, creator)
         {
+            this.Name = name;
             this.Form = form;
             this.Dates = new List<TaskDate>();
         }
+
+        [Details]
+        public virtual string Name { get; set; }
 
         [Details]
         public virtual IList<TaskDate> Dates { get; set; }
 
         [Details]
         public virtual string Form { get; set; }
+
     }
 }

@@ -49,8 +49,9 @@
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="Common\DayOfOne.cs" />
-    <Compile Include="Common\HomeworkForm.cs" />
-    <Compile Include="Common\RepeatForm.cs" />
+    <Compile Include="External\HomeworkForm.cs" />
+    <Compile Include="External\RepeatForm.cs" />
+    <Compile Include="External\ShopItem.cs" />
     <Compile Include="Enums\eClientType.cs" />
     <Compile Include="Enums\eDaysOfWeek.cs" />
     <Compile Include="Enums\eNetworkType.cs" />
@@ -64,6 +65,7 @@
     <Compile Include="External\Requests\AddHomeworkTaskRequest.cs" />
     <Compile Include="External\Requests\AddOneTimeTaskRequest.cs" />
     <Compile Include="External\Requests\AddRepeatTaskRequest.cs" />
+    <Compile Include="External\Requests\AddShoppingTaskRequest.cs" />
     <Compile Include="External\Requests\AddUserRequest.cs" />
     <Compile Include="External\Requests\BaseTaskRequest.cs" />
     <Compile Include="External\Requests\ConfirmUserRequest.cs" />
@@ -82,7 +84,10 @@
     <Compile Include="External\Results\UserResult.cs" />
     <Compile Include="Interfaces\IObject.cs" />
     <Compile Include="Internal\Country.cs" />
+    <Compile Include="Internal\ShopItem.cs" />
     <Compile Include="Internal\Tasks\CleanTask.cs" />
+    <Compile Include="Internal\Tasks\RepeatTask.cs" />
+    <Compile Include="Internal\Tasks\ShopTask.cs" />
     <Compile Include="Internal\Tasks\TaskDate.cs" />
     <Compile Include="Internal\Email.cs" />
     <Compile Include="Internal\EmailMessage.cs" />

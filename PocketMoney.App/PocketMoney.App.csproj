@@ -108,6 +108,12 @@
     <Compile Include="CleanTaskForm.Designer.cs">
       <DependentUpon>CleanTaskForm.cs</DependentUpon>
     </Compile>
+    <Compile Include="ShoppingTaskForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="ShoppingTaskForm.Designer.cs">
+      <DependentUpon>ShoppingTaskForm.cs</DependentUpon>
+    </Compile>
     <Compile Include="HomeworkTaskForm.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -152,6 +158,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="CleanTaskForm.resx">
       <DependentUpon>CleanTaskForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="ShoppingTaskForm.resx">
+      <DependentUpon>ShoppingTaskForm.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="HomeworkTaskForm.resx">
       <DependentUpon>HomeworkTaskForm.cs</DependentUpon>

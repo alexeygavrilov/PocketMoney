@@ -65,6 +65,9 @@
     <Compile Include="CountryMap.cs" />
     <Compile Include="DayOfOneMap.cs" />
     <Compile Include="HomeworkTaskMap.cs" />
+    <Compile Include="RepeatTaskMap.cs" />
+    <Compile Include="ShopItemMap.cs" />
+    <Compile Include="ShopTaskMap.cs" />
     <Compile Include="TaskDateMap.cs" />
     <Compile Include="HolidayMap.cs" />
     <Compile Include="EmailMap.cs" />

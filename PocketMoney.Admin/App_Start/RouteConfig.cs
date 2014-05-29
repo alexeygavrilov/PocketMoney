@@ -13,6 +13,7 @@ namespace PocketMoney.Admin
         public static void RegisterRoutes(RouteCollection routes)
         {
             routes.IgnoreRoute("{resource}.axd/{*pathInfo}");
+            routes.IgnoreRoute("Images/{*pathInfo}");
 
             routes.Add("FileRoute",
                 new Route(FileRouteHandler.FileURL, new FileRouteHandler()));

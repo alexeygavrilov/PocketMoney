@@ -26,6 +26,8 @@ namespace PocketMoney.Service.Interfaces
         [Process, OperationContract]
         GuidResult AddCleanTask(AddCleanTaskRequest model);
 
+        [Process, OperationContract]
+        GuidResult AddShoppingTask(AddShoppingTaskRequest model);
 
     }
 }

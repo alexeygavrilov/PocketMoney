@@ -1,23 +1,23 @@
-﻿using System;
-using System.Linq;
-using System.ComponentModel.DataAnnotations;
-using System.Runtime.Serialization;
+﻿using Microsoft.Practices.ServiceLocation;
 using PocketMoney.Data;
 using PocketMoney.Model.Internal;
+using System;
 using System.Collections.Generic;
-using Microsoft.Practices.ServiceLocation;
+using System.ComponentModel.DataAnnotations;
+using System.Linq;
+using System.Runtime.Serialization;
 
-namespace PocketMoney.Model
+namespace PocketMoney.Model.External
 {
     [DataContract, Serializable]
     public class HomeworkForm : ObjectBase
     {
         [DataMember, Details]
-        [Display(Name = "From")]
+        [Display(Name = "Start")]
         public DateTime DateRangeFrom { get; set; }
 
         [DataMember, Details]
-        [Display(Name = "To")]
+        [Display(Name = "End")]
         public DateTime DateRangeTo { get; set; }
 
         [DataMember, Details]

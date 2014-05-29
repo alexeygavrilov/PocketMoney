@@ -7,6 +7,7 @@ namespace PocketMoney.Model.NHibernate
     {
         public CleanTaskMap()
         {
+            Map(x => x.RoomName).Not.Nullable().Length(255).Index("IX_RoomName");
             Map(x => x.DaysOfWeek).Not.Nullable();
         }
     }

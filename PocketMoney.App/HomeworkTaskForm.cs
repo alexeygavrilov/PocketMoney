@@ -1,18 +1,12 @@
-﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
-using System.Drawing;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Windows.Forms;
-using Microsoft.Practices.ServiceLocation;
+﻿using Microsoft.Practices.ServiceLocation;
+using PocketMoney.Model.External;
 using PocketMoney.Model.External.Requests;
-using PocketMoney.Service.Interfaces;
-using PocketMoney.Util.ExtensionMethods;
 using PocketMoney.Model.External.Results;
-using PocketMoney.Model;
+using PocketMoney.Service.Interfaces;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Windows.Forms;
 
 namespace PocketMoney.App
 {
@@ -90,7 +84,8 @@ namespace PocketMoney.App
             {
                 AssignedTo = assignedTo.ToArray(),
                 Points = Convert.ToInt32(numericUpDown1.Value),
-                Text = textBox1.Text,
+                Text = textBox1.Text, 
+                ReminderTime = this.GetReminderTime(),
                 Form = new HomeworkForm
                 {
                     DateRangeIndex = comboBox1.SelectedIndex,

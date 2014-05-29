@@ -59,7 +59,9 @@ namespace PocketMoney.Model.Internal
 
         public static TaskType CleanTask = new TaskType(4, "Clean Task");
 
-        public static TaskType[] All = new TaskType[4] { TaskType.OneTimeTask, TaskType.RepeatTask, TaskType.HomeworkTask, TaskType.CleanTask };
+        public static TaskType ShoppingTask = new TaskType(5, "Shopping Task");
+
+        public static TaskType[] All = new TaskType[5] { TaskType.OneTimeTask, TaskType.RepeatTask, TaskType.HomeworkTask, TaskType.CleanTask, TaskType.ShoppingTask };
 
         public bool Equals(TaskType other)
         {

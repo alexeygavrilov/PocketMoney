@@ -19,7 +19,7 @@ namespace PocketMoney.App
 
         private void button1_Click(object sender, EventArgs e)
         {
-            OnetimeTaskForm oneTime = new OnetimeTaskForm();
+            ShoppingTaskForm oneTime = new ShoppingTaskForm();
             if (oneTime.ShowDialog() == DialogResult.OK)
             {
                 this.Close();
@@ -48,6 +48,15 @@ namespace PocketMoney.App
         {
             RepeatTaskForm workout = new RepeatTaskForm();
             if (workout.ShowDialog() == System.Windows.Forms.DialogResult.OK)
+            {
+                this.Close();
+            }
+        }
+
+        private void button5_Click(object sender, EventArgs e)
+        {
+            ShoppingTaskForm shopping = new ShoppingTaskForm();
+            if (shopping.ShowDialog() == System.Windows.Forms.DialogResult.OK)
             {
                 this.Close();
             }
