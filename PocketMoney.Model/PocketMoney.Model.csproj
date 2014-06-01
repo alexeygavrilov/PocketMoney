@@ -51,6 +51,11 @@
     <Compile Include="Common\DayOfOne.cs" />
     <Compile Include="External\HomeworkForm.cs" />
     <Compile Include="External\RepeatForm.cs" />
+    <Compile Include="External\Results\HolidayListResult.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="External\Results\TaskList.cs" />
+    <Compile Include="External\Results\TaskResult.cs" />
     <Compile Include="External\ShopItem.cs" />
     <Compile Include="Enums\eClientType.cs" />
     <Compile Include="Enums\eDaysOfWeek.cs" />
@@ -76,8 +81,6 @@
     <Compile Include="External\Requests\RegisterUserRequest.cs" />
     <Compile Include="External\Requests\EmailMessageRequest.cs" />
     <Compile Include="External\Results\CountryListResult.cs" />
-    <Compile Include="External\Results\DutyTaskResult.cs" />
-    <Compile Include="External\Results\DutyTypeListResult.cs" />
     <Compile Include="External\Results\FamilyResult.cs" />
     <Compile Include="External\Results\GenericResult.cs" />
     <Compile Include="External\Results\UserListResult.cs" />

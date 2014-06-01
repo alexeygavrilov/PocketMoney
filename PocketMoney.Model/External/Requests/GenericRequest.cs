@@ -1,4 +1,5 @@
-﻿using System.Runtime.Serialization;
+﻿using System;
+using System.Runtime.Serialization;
 using PocketMoney.Data;
 
 namespace PocketMoney.Model.External.Requests
@@ -10,6 +11,11 @@ namespace PocketMoney.Model.External.Requests
 
     [DataContract]
     public class IntRequest : RequestData<int>
+    {
+    }
+
+    [DataContract]
+    public class GuidRequest : RequestData<Guid>
     {
     }
 }

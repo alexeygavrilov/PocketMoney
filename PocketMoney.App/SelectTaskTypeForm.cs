@@ -19,7 +19,7 @@ namespace PocketMoney.App
 
         private void button1_Click(object sender, EventArgs e)
         {
-            ShoppingTaskForm oneTime = new ShoppingTaskForm();
+            OnetimeTaskForm oneTime = new OnetimeTaskForm();
             if (oneTime.ShowDialog() == DialogResult.OK)
             {
                 this.Close();

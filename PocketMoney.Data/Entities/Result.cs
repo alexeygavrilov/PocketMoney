@@ -57,6 +57,11 @@ namespace PocketMoney.Data
             this.Data = data;
         }
 
+        protected ResultData(String errorMessage)
+            : base(errorMessage)
+        {
+        }
+
         [DataMember, Details]
         public TData Data { get; set; }
 

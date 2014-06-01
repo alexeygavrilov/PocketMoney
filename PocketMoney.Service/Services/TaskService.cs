@@ -14,6 +14,8 @@ using PocketMoney.Util.Serialization;
 using Microsoft.Practices.ServiceLocation;
 using I = PocketMoney.Model.Internal;
 using E = PocketMoney.Model.External;
+using System.Collections.Generic;
+using NHibernate.Linq;
 
 namespace PocketMoney.Service
 {
@@ -213,6 +215,72 @@ namespace PocketMoney.Service
             }
 
             return new GuidResult(task.Id);
+        }
+
+
+        [OperationBehavior, MethodImpl(MethodImplOptions.Synchronized)]
+        public TaskListResult AllTasks(Request model)
+        {
+            var currentUser = _currentUserProvider.GetCurrentUser();
+            var result = _taskRepository
+                .FindAll(x => x.Family.Id == currentUser.Family.Id && x.Active)
+                .AsEnumerable()
+                .Select(task => new TaskView(task))
+                .ToArray();
+
+            return new TaskListResult(result, result.Length);
+        }
+
+        [OperationBehavior, MethodImpl(MethodImplOptions.Synchronized)]
+        public TaskListResult MyTasks(Request model)
+        {
+            throw new NotImplementedException();
+        }
+
+        private TResult GetTask<TResult, TView, TEntity>(GuidRequest taskId, Func<TEntity, TView> view)
+            where TResult : ResultData<TView>, new()
+        {
+            TResult result = new TResult();
+            TEntity task = _taskRepository.One(new TaskId(taskId.Data)).As<TEntity>();
+            if (task != null)
+            {
+                result.Data = view(task);
+            }
+            else
+            {
+                result.SetErrorMessage("Cannot found task.");
+            }
+            return result;
+        }
+
+        [OperationBehavior, MethodImpl(MethodImplOptions.Synchronized)]
+        public OneTimeTaskResult GetOneTimeTask(GuidRequest taskId)
+        {
+            return this.GetTask<OneTimeTaskResult, OneTimeTaskView, OneTimeTask>(taskId, task => new OneTimeTaskView(task));
+        }
+
+        [OperationBehavior, MethodImpl(MethodImplOptions.Synchronized)]
+        public RepeatTaskResult GetRepeatTask(GuidRequest taskId)
+        {
+            return this.GetTask<RepeatTaskResult, RepeatTaskView, RepeatTask>(taskId, task => new RepeatTaskView(task));
+        }
+
+        [OperationBehavior, MethodImpl(MethodImplOptions.Synchronized)]
+        public HomeworkTaskResult GetHomeworkTask(GuidRequest taskId)
+        {
+            return this.GetTask<HomeworkTaskResult, HomeworkTaskView, HomeworkTask>(taskId, task => new HomeworkTaskView(task));
+        }
+
+        [OperationBehavior, MethodImpl(MethodImplOptions.Synchronized)]
+        public CleanTaskResult GetCleanTask(GuidRequest taskId)
+        {
+            return this.GetTask<CleanTaskResult, CleanTaskView, CleanTask>(taskId, task => new CleanTaskView(task));
+        }
+
+        [OperationBehavior, MethodImpl(MethodImplOptions.Synchronized)]
+        public ShoppingTaskResult GetShoppingTask(GuidRequest taskId)
+        {
+            return this.GetTask<ShoppingTaskResult, ShoppingTaskView, ShopTask>(taskId, task => new ShoppingTaskView(task));
         }
     }
 }

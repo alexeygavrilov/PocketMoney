@@ -7,6 +7,8 @@ namespace PocketMoney.Model.Internal
 {
     public abstract class Task : Entity<Task, TaskId, Guid>, IObject
     {
+        public const string TITLE_FORMAT = "{0}: {1}";
+
         protected Task()
         {
             this.AssignedTo = new List<Performer>();
@@ -59,6 +61,11 @@ namespace PocketMoney.Model.Internal
         public virtual eObjectType ObjectType
         {
             get { return eObjectType.Task; }
+        }
+
+        public virtual string Title()
+        {
+            return string.Format(TITLE_FORMAT, this.Type.Name, this.Details.Substring(0, 50));
         }
     }
 

@@ -13,6 +13,11 @@ namespace PocketMoney.Model.Internal
             this.DaysOfWeek = daysOfWeek;
         }
 
+        public override string Title()
+        {
+            return string.Format("Tidy up " + this.RoomName);
+        }
+
         [Details]
         public virtual string RoomName { get; set; }
 

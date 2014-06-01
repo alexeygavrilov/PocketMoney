@@ -18,6 +18,12 @@ namespace PocketMoney.App
             InitializeComponent();
         }
 
+        public ShoppingTaskForm(Guid taskId)
+            : base(taskId)
+        {
+            InitializeComponent();
+        }
+
         private void OnetimeTaskForm_Load(object sender, EventArgs e)
         {
             var familyService = ServiceLocator.Current.GetInstance<IFamilyService>();
@@ -46,7 +52,7 @@ namespace PocketMoney.App
             IList<Guid> assignedTo = new List<Guid>();
             foreach (var checkedItem in checkedListBox1.CheckedItems)
             {
-                assignedTo.Add(((UserInfo)checkedItem).UserId);
+                assignedTo.Add(((UserView)checkedItem).UserId);
             }
             IList<ShopItem> shoppingList = new List<ShopItem>();
             foreach (DataGridViewRow item in dataGridView1.Rows)

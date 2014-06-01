@@ -17,21 +17,60 @@ namespace PocketMoney.App
             InitializeComponent();
         }
 
+        public OnetimeTaskForm(Guid taskId)
+            : base(taskId)
+        {
+            InitializeComponent();
+        }
+
         private void OnetimeTaskForm_Load(object sender, EventArgs e)
         {
             var familyService = ServiceLocator.Current.GetInstance<IFamilyService>();
             var result = familyService.GetUsers(new FamilyRequest { Data = _currentUser.Family });
-            if (result.Success)
+            if (!result.Success)
             {
-                checkedListBox1.Items.Clear();
-                foreach (var ui in result.List.Where(x => x.UserId != _currentUser.Id))
-                {
-                    checkedListBox1.Items.Add(ui);
-                }
+                MessageBox.Show(result.Message, "Invalid", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+            }
+
+            checkedListBox1.Items.Clear();
+            foreach (var ui in result.List.Where(x => x.UserId != _currentUser.Id))
+            {
+                checkedListBox1.Items.Add(ui);
             }
             comboBoxReminderHour.SelectedIndex = 11;
             comboBoxReminderMinutes.SelectedIndex = 0;
             comboBoxReminderPM.SelectedIndex = 1;
+
+            if (_currentTaskId != Guid.Empty)
+            {
+                var taskResult = _taskService.GetOneTimeTask(new GuidRequest { Data = _currentTaskId });
+                if (!taskResult.Success)
+                {
+                    MessageBox.Show(taskResult.Message, "Invalid", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                }
+                var task = taskResult.Data;
+                textBox2.Text = task.Name;
+                textBox1.Text = task.Text;
+                this.SetReminderTime(task.ReminderTime);
+                numericUpDown1.Value = (decimal)task.Points;
+                if (task.DeadlineDate.HasValue)
+                {
+                    dateTimePicker1.Enabled = checkBox1.Checked = true;
+                    dateTimePicker1.Value = task.DeadlineDate.Value;
+                }
+                else
+                {
+                    dateTimePicker1.Enabled = checkBox1.Checked = false;
+                }
+
+                for (int i = 0; i < checkedListBox1.Items.Count; i++)
+                {
+                    if (task.AssignedTo.ContainsKey(((UserView)checkedListBox1.Items[i]).UserId))
+                    {
+                        checkedListBox1.SetItemChecked(i, true);
+                    }
+                }
+            }
         }
 
         private void checkBox1_CheckedChanged(object sender, EventArgs e)
@@ -41,13 +80,12 @@ namespace PocketMoney.App
 
         private void button1_Click(object sender, EventArgs e)
         {
-            var taskService = ServiceLocator.Current.GetInstance<ITaskService>();
             IList<Guid> assignedTo = new List<Guid>();
             foreach (var checkedItem in checkedListBox1.CheckedItems)
             {
-                assignedTo.Add(((UserInfo)checkedItem).UserId);
+                assignedTo.Add(((UserView)checkedItem).UserId);
             }
-            var result = taskService.AddOneTimeTask(new AddOneTimeTaskRequest
+            var result = _taskService.AddOneTimeTask(new AddOneTimeTaskRequest
             {
                 AssignedTo = assignedTo.ToArray(),
                 DeadlineDate = checkBox1.Checked ? new DateTime?(dateTimePicker1.Value) : null,

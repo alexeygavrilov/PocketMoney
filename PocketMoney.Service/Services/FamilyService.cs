@@ -230,7 +230,7 @@ namespace PocketMoney.Service
             var users = _userRepository
                 .FindAll(x => x.Family.Id == model.Data.Id)
                 .AsEnumerable()
-                .Select(x => new UserInfo
+                .Select(x => new UserView
                 {
                     UserId = x.Id,
                     UserName = x.FullName(),

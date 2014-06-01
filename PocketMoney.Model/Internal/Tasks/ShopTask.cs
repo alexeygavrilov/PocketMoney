@@ -28,5 +28,14 @@ namespace PocketMoney.Model.Internal
 
         [Details]
         public virtual IList<ShopItem> ShoppingList { get; set; }
+
+        public override string Title()
+        {
+            if (string.IsNullOrEmpty(this.ShopName))
+                return "Shopping";
+            else
+                return "Shopping at " + this.ShopName;
+        }
+
     }
 }

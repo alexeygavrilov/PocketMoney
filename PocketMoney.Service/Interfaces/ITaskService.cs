@@ -29,5 +29,25 @@ namespace PocketMoney.Service.Interfaces
         [Process, OperationContract]
         GuidResult AddShoppingTask(AddShoppingTaskRequest model);
 
+        [Process, OperationContract]
+        TaskListResult AllTasks(Request model);
+
+        [Process, OperationContract]
+        TaskListResult MyTasks(Request model);
+
+        [Process, OperationContract]
+        OneTimeTaskResult GetOneTimeTask(GuidRequest taskId);
+
+        [Process, OperationContract]
+        RepeatTaskResult GetRepeatTask(GuidRequest taskId);
+
+        [Process, OperationContract]
+        HomeworkTaskResult GetHomeworkTask(GuidRequest taskId);
+
+        [Process, OperationContract]
+        CleanTaskResult GetCleanTask(GuidRequest taskId);
+
+        [Process, OperationContract]
+        ShoppingTaskResult GetShoppingTask(GuidRequest taskId);
     }
 }

@@ -153,6 +153,12 @@
     <Compile Include="RepeatTaskForm.Designer.cs">
       <DependentUpon>RepeatTaskForm.cs</DependentUpon>
     </Compile>
+    <Compile Include="TaskListForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="TaskListForm.Designer.cs">
+      <DependentUpon>TaskListForm.cs</DependentUpon>
+    </Compile>
     <EmbeddedResource Include="BaseForm.resx">
       <DependentUpon>BaseForm.cs</DependentUpon>
     </EmbeddedResource>
@@ -188,6 +194,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="RepeatTaskForm.resx">
       <DependentUpon>RepeatTaskForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="TaskListForm.resx">
+      <DependentUpon>TaskListForm.cs</DependentUpon>
     </EmbeddedResource>
     <None Include="log4net.config">
       <LastGenOutput>log4net.Designer.cs</LastGenOutput>

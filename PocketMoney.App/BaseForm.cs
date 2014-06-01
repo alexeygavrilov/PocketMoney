@@ -3,6 +3,7 @@ using System.Windows.Forms;
 using Microsoft.Practices.ServiceLocation;
 using PocketMoney.Data;
 using System;
+using PocketMoney.Service.Interfaces;
 
 namespace PocketMoney.App
 {
@@ -10,6 +11,8 @@ namespace PocketMoney.App
     {
         protected ICurrentUserProvider _currentDataProvider = null;
         protected IUser _currentUser = null;
+        protected Guid _currentTaskId = Guid.Empty;
+        protected ITaskService _taskService = null;
 
         protected BaseForm()
         {
@@ -18,7 +21,14 @@ namespace PocketMoney.App
             {
                 _currentDataProvider = ServiceLocator.Current.GetInstance<ICurrentUserProvider>();
                 _currentUser = _currentDataProvider.GetCurrentUser();
+                _taskService = ServiceLocator.Current.GetInstance<ITaskService>();
             }
+        }
+
+        protected BaseForm(Guid taskId)
+            : this()
+        {
+            _currentTaskId = taskId;
         }
 
         protected TimeSpan? GetReminderTime()
@@ -42,6 +52,28 @@ namespace PocketMoney.App
             }
             else
                 return null;
+        }
+
+        protected void SetReminderTime(TimeSpan? time)
+        {
+            if (time.HasValue)
+            {
+                DateTime date = DateTime.MinValue.Add(time.Value);
+                ((ComboBox)this.Controls["comboBoxReminderHour"]).Enabled =
+                    ((ComboBox)this.Controls["comboBoxReminderMinutes"]).Enabled =
+                    ((ComboBox)this.Controls["comboBoxReminderPM"]).Enabled =
+                    ((CheckBox)this.Controls["checkBoxReminder"]).Checked = true;
+                ((ComboBox)this.Controls["comboBoxReminderHour"]).SelectedValue = date.ToString("hh");
+                ((ComboBox)this.Controls["comboBoxReminderMinutes"]).SelectedValue = date.ToString("mm");
+                ((ComboBox)this.Controls["comboBoxReminderPM"]).SelectedValue = date.ToString("tt");
+            }
+            else
+            {
+                ((ComboBox)this.Controls["comboBoxReminderHour"]).Enabled =
+                    ((ComboBox)this.Controls["comboBoxReminderMinutes"]).Enabled =
+                    ((ComboBox)this.Controls["comboBoxReminderPM"]).Enabled =
+                    ((CheckBox)this.Controls["checkBoxReminder"]).Checked = false;
+            }
         }
 
         private void InitializeComponent()

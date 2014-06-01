@@ -23,5 +23,10 @@ namespace PocketMoney.Model.Internal
 
         [Details]
         public virtual string Form { get; set; }
+
+        public override string Title()
+        {
+            return "Homework";
+        }
     }
 }

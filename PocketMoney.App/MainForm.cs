@@ -34,5 +34,12 @@ namespace PocketMoney.App
             SelectTaskTypeForm taskType = new SelectTaskTypeForm();
             taskType.ShowDialog();
         }
+
+        private void button1_Click(object sender, EventArgs e)
+        {
+            TaskListForm taskList = new TaskListForm();
+            taskList.ShowDialog();
+
+        }
     }
 }

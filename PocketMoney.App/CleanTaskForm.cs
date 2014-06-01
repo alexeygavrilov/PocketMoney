@@ -4,12 +4,7 @@ using PocketMoney.Model.External.Results;
 using PocketMoney.Service.Interfaces;
 using System;
 using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
-using System.Drawing;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Forms;
 
 namespace PocketMoney.App
@@ -17,6 +12,12 @@ namespace PocketMoney.App
     public partial class CleanTaskForm : BaseForm
     {
         public CleanTaskForm()
+        {
+            InitializeComponent();
+        }
+
+        public CleanTaskForm(Guid taskId)
+            : base(taskId)
         {
             InitializeComponent();
         }
@@ -45,6 +46,10 @@ namespace PocketMoney.App
             comboBoxReminderMinutes.SelectedIndex = 0;
             comboBoxReminderPM.SelectedIndex = 1;
 
+            if (_currentTaskId != Guid.Empty)
+            {
+                //var 
+            }
         }
 
         private void button1_Click(object sender, EventArgs e)
@@ -53,7 +58,7 @@ namespace PocketMoney.App
             IList<Guid> assignedTo = new List<Guid>();
             foreach (var checkedItem in checkedListBox1.CheckedItems)
             {
-                assignedTo.Add(((UserInfo)checkedItem).UserId);
+                assignedTo.Add(((UserView)checkedItem).UserId);
             }
             IList<int> daysOfWeek = new List<int>();
             if (radioButton2.Checked)

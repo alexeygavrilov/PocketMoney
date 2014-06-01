@@ -1,23 +1,19 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
+﻿using PocketMoney.Data;
+using System;
 using System.Runtime.Serialization;
-using System.Text;
-using System.Threading.Tasks;
-using PocketMoney.Data;
 
 namespace PocketMoney.Model.External.Results
 {
     [DataContract]
-    public class UserListResult : ResultList<UserInfo>
+    public class UserListResult : ResultList<UserView>
     {
         public UserListResult() { }
 
-        public UserListResult(UserInfo[] userList, int count) : base(userList, count) { }
+        public UserListResult(UserView[] userList, int count) : base(userList, count) { }
     }
 
     [DataContract]
-    public class UserInfo
+    public class UserView : ObjectBase
     {
         [DataMember, Details]
         public Guid UserId { get; set; }

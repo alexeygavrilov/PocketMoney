@@ -13,6 +13,13 @@ namespace PocketMoney.App
     public partial class RepeatTaskForm : BaseForm
     {
         public RepeatTaskForm()
+            : base()
+        {
+            InitializeComponent();
+        }
+
+        public RepeatTaskForm(Guid taskId)
+            : base(taskId)
         {
             InitializeComponent();
         }
@@ -50,7 +57,7 @@ namespace PocketMoney.App
             IList<Guid> assignedTo = new List<Guid>();
             foreach (var checkedItem in checkedListBox1.CheckedItems)
             {
-                assignedTo.Add(((UserInfo)checkedItem).UserId);
+                assignedTo.Add(((UserView)checkedItem).UserId);
             }
             IList<int> daysOfWeek = new List<int>();
             foreach (var checkedItem in checkedListBox2.CheckedItems)
@@ -80,7 +87,7 @@ namespace PocketMoney.App
                 AssignedTo = assignedTo.ToArray(),
                 Points = Convert.ToInt32(numericUpDown1.Value),
                 Text = textBox1.Text,
-                ReminderTime = this.GetReminderTime(), 
+                ReminderTime = this.GetReminderTime(),
                 Name = textBox2.Text,
                 Form = new RepeatForm
                 {

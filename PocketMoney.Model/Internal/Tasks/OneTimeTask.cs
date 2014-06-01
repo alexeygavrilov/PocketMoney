@@ -20,5 +20,9 @@ namespace PocketMoney.Model.Internal
         [Details]
         public virtual DateTime? DeadlineDate { get; set; }
 
+        public override string Title()
+        {
+            return "Task: " + this.Name;
+        }
     }
 }

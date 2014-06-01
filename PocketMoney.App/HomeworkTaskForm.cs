@@ -17,6 +17,12 @@ namespace PocketMoney.App
             InitializeComponent();
         }
 
+        public HomeworkTaskForm(Guid taskId)
+            : base(taskId)
+        {
+            InitializeComponent();
+        }
+
         private void HomeworkTaskForm_Load(object sender, EventArgs e)
         {
             var familyService = ServiceLocator.Current.GetInstance<IFamilyService>();
@@ -72,7 +78,7 @@ namespace PocketMoney.App
             IList<Guid> assignedTo = new List<Guid>();
             foreach (var checkedItem in checkedListBox1.CheckedItems)
             {
-                assignedTo.Add(((UserInfo)checkedItem).UserId);
+                assignedTo.Add(((UserView)checkedItem).UserId);
             }
             IList<int> daysOfWeek = new List<int>();
             foreach (var checkedItem in checkedListBox2.CheckedItems)
