@@ -56,6 +56,7 @@
     </Compile>
     <Compile Include="External\Results\TaskList.cs" />
     <Compile Include="External\Results\TaskResult.cs" />
+    <Compile Include="External\Results\TaskViewFactory.cs" />
     <Compile Include="External\ShopItem.cs" />
     <Compile Include="Enums\eClientType.cs" />
     <Compile Include="Enums\eDaysOfWeek.cs" />
@@ -64,12 +65,12 @@
     <Compile Include="Extensions\IFamilyExtensions.cs" />
     <Compile Include="Extensions\IFileExtensions.cs" />
     <Compile Include="Extensions\IUserExtensions.cs" />
-    <Compile Include="External\Requests\AddCleanTaskRequest.cs" />
-    <Compile Include="External\Requests\AddCountryRequest.cs" />
-    <Compile Include="External\Requests\AddHolidayRequest.cs" />
-    <Compile Include="External\Requests\AddHomeworkTaskRequest.cs" />
-    <Compile Include="External\Requests\AddOneTimeTaskRequest.cs" />
-    <Compile Include="External\Requests\AddRepeatTaskRequest.cs" />
+    <Compile Include="External\Requests\CleanTaskRequest.cs" />
+    <Compile Include="External\Requests\CountryRequest.cs" />
+    <Compile Include="External\Requests\HolidayRequest.cs" />
+    <Compile Include="External\Requests\HomeworkTaskRequest.cs" />
+    <Compile Include="External\Requests\OneTimeTaskRequest.cs" />
+    <Compile Include="External\Requests\RepeatTaskRequest.cs" />
     <Compile Include="External\Requests\AddShoppingTaskRequest.cs" />
     <Compile Include="External\Requests\AddUserRequest.cs" />
     <Compile Include="External\Requests\BaseTaskRequest.cs" />
@@ -85,6 +86,7 @@
     <Compile Include="External\Results\GenericResult.cs" />
     <Compile Include="External\Results\UserListResult.cs" />
     <Compile Include="External\Results\UserResult.cs" />
+    <Compile Include="Interfaces\IForm.cs" />
     <Compile Include="Interfaces\IObject.cs" />
     <Compile Include="Internal\Country.cs" />
     <Compile Include="Internal\ShopItem.cs" />

@@ -12,13 +12,13 @@ namespace PocketMoney.Model.Internal
         public RepeatTask(string name, string details, int points, User creator, string form)
             : base(TaskType.RepeatTask, details, points, creator)
         {
-            this.Name = name;
+            this.RepeatName = name;
             this.Form = form;
             this.Dates = new List<TaskDate>();
         }
 
         [Details]
-        public virtual string Name { get; set; }
+        public virtual string RepeatName { get; set; }
 
         [Details]
         public virtual IList<TaskDate> Dates { get; set; }
@@ -26,9 +26,5 @@ namespace PocketMoney.Model.Internal
         [Details]
         public virtual string Form { get; set; }
 
-        public override string Title()
-        {
-            return "Task: " + this.Name;
-        }
     }
 }

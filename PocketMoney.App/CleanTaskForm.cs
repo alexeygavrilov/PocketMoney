@@ -46,15 +46,34 @@ namespace PocketMoney.App
             comboBoxReminderMinutes.SelectedIndex = 0;
             comboBoxReminderPM.SelectedIndex = 1;
 
-            if (_currentTaskId != Guid.Empty)
-            {
-                //var 
-            }
+            this.FillData<CleanTaskView>(
+                x => _taskService.GetCleanTask(x),
+                task =>
+                {
+                    textBox2.Text = task.RoomName;
+                    if (task.EveryDay)
+                    {
+                        radioButton1.Checked = true;
+                        checkedListBox2.Enabled = radioButton2.Checked = false;
+                    }
+                    else
+                    {
+                        radioButton1.Checked = false;
+                        checkedListBox2.Enabled = radioButton2.Checked = true;
+
+                        for (int i = 0; i < checkedListBox2.Items.Count; i++)
+                        {
+                            if (task.DaysOfWeek.Contains((int)((DayOfWeek)checkedListBox2.Items[i])))
+                            {
+                                checkedListBox2.SetItemChecked(i, true);
+                            }
+                        }
+                    }
+                });
         }
 
         private void button1_Click(object sender, EventArgs e)
         {
-            var taskService = ServiceLocator.Current.GetInstance<ITaskService>();
             IList<Guid> assignedTo = new List<Guid>();
             foreach (var checkedItem in checkedListBox1.CheckedItems)
             {
@@ -68,16 +87,34 @@ namespace PocketMoney.App
                     daysOfWeek.Add((int)((DayOfWeek)checkedItem));
                 }
             }
-            var result = taskService.AddCleanTask(new AddCleanTaskRequest
+            Data.Result result = null;
+            if (_currentTaskId == Guid.Empty)
             {
-                AssignedTo = assignedTo.ToArray(),
-                Points = Convert.ToInt32(numericUpDown1.Value),
-                Text = textBox1.Text,
-                RoomName = textBox2.Text,
-                EveryDay = radioButton1.Checked,
-                DaysOfWeek = daysOfWeek.ToArray(), 
-                ReminderTime = this.GetReminderTime()
-            });
+                result = _taskService.AddCleanTask(new AddCleanTaskRequest
+                {
+                    AssignedTo = assignedTo.ToArray(),
+                    Points = Convert.ToInt32(numericUpDown1.Value),
+                    Text = textBox1.Text,
+                    RoomName = textBox2.Text,
+                    EveryDay = radioButton1.Checked,
+                    DaysOfWeek = daysOfWeek.ToArray(),
+                    ReminderTime = this.GetReminderTime()
+                });
+            }
+            else
+            {
+                result = _taskService.UpdateCleanTask(new UpdateCleanTaskRequest
+                {
+                    Id = _currentTaskId,
+                    AssignedTo = assignedTo.ToArray(),
+                    Points = Convert.ToInt32(numericUpDown1.Value),
+                    Text = textBox1.Text,
+                    RoomName = textBox2.Text,
+                    EveryDay = radioButton1.Checked,
+                    DaysOfWeek = daysOfWeek.ToArray(),
+                    ReminderTime = this.GetReminderTime()
+                });
+            }
             if (!result.Success)
             {
                 MessageBox.Show(result.Message, "Invalid", MessageBoxButtons.OK, MessageBoxIcon.Warning);

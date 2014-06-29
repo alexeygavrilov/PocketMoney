@@ -2,9 +2,13 @@
 
 namespace PocketMoney.Model
 {
-    public interface IObject
+    public interface IIdentity
     {
         Guid Id { get; }
+    }
+
+    public interface IObject : IIdentity
+    {
         eObjectType ObjectType { get; }
     }
 

@@ -16,13 +16,24 @@ namespace PocketMoney.Model.External.Results
     }
 
     [DataContract]
-    public class TaskView : ObjectBase
+    public abstract class TaskView : ObjectBase
     {
-        public TaskView(Task task)
+        public const string TITLE_FORMAT = "Task: {0}";
+
+        protected TaskView(Guid taskId, TaskType type, string text, Point points, int? reminderTime, IDictionary<Guid, string> assignedTo)
+        {
+            this.TaskId = taskId;
+            this.TaskType = type.Id;
+            this.Text = text;
+            this.Points = points.Value;
+            this.ReminderTime = reminderTime.HasValue ? new TimeSpan?(TimeSpan.FromMinutes(reminderTime.Value)) : null;
+            this.AssignedTo = assignedTo;
+        }
+
+        protected TaskView(Task task)
         {
             this.TaskId = task.Id;
             this.TaskType = task.Type.Id;
-            this.Title = task.Title();
             this.Text = task.Details;
             this.Points = task.Points.Value;
             this.ReminderTime = task.Reminder.HasValue ? new TimeSpan?(TimeSpan.FromMinutes(task.Reminder.Value)) : null;
@@ -38,7 +49,7 @@ namespace PocketMoney.Model.External.Results
         public int TaskType { get; set; }
 
         [DataMember, Details]
-        public string Title { get; set; }
+        public string Title { get { return this.GetTitle(); } }
 
         [DataMember, Details]
         public string Text { get; set; }
@@ -52,5 +63,6 @@ namespace PocketMoney.Model.External.Results
         [DataMember, Details]
         public TimeSpan? ReminderTime { get; set; }
 
+        public abstract string GetTitle();
     }
 }

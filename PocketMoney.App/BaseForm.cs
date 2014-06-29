@@ -4,6 +4,9 @@ using Microsoft.Practices.ServiceLocation;
 using PocketMoney.Data;
 using System;
 using PocketMoney.Service.Interfaces;
+using System.Globalization;
+using PocketMoney.Model.External.Results;
+using PocketMoney.Model.External.Requests;
 
 namespace PocketMoney.App
 {
@@ -31,14 +34,46 @@ namespace PocketMoney.App
             _currentTaskId = taskId;
         }
 
+        protected void FillData<TView>(Func<GuidRequest, ResultData<TView>> get, Action<TView> set) where TView : TaskView
+        {
+            if (_currentTaskId != Guid.Empty)
+            {
+                var taskResult = get(new GuidRequest { Data = _currentTaskId });
+                if (!taskResult.Success)
+                {
+                    MessageBox.Show(taskResult.Message, "Invalid", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                }
+                var task = taskResult.Data;
+
+                ((TextBox)this.Controls["textBox1"]).Text = task.Text;
+
+                this.SetReminderTime(task.ReminderTime);
+
+                ((NumericUpDown)this.Controls["numericUpDown1"]).Value = (decimal)task.Points;
+
+                var __checkedListBox1 = (CheckedListBox)this.Controls["checkedListBox1"];
+                for (int i = 0; i < __checkedListBox1.Items.Count; i++)
+                {
+                    if (task.AssignedTo.ContainsKey(((UserView)__checkedListBox1.Items[i]).UserId))
+                    {
+                        __checkedListBox1.SetItemChecked(i, true);
+                    }
+                }
+
+                set(task);
+            }
+
+        }
+
         protected TimeSpan? GetReminderTime()
         {
             if (((CheckBox)this.Controls["checkBoxReminder"]).Checked)
             {
-                TimeSpan time = TimeSpan.Zero;
-                time.Add(TimeSpan.FromHours(Convert.ToInt32(((ComboBox)this.Controls["comboBoxReminderHour"]).SelectedValue)));
-                time.Add(TimeSpan.FromMinutes(Convert.ToInt32(((ComboBox)this.Controls["comboBoxReminderMinutes"]).SelectedValue)));
-                if (((ComboBox)this.Controls["comboBoxReminderPM"]).SelectedValue == "AM")
+                TimeSpan time =
+                    TimeSpan.FromHours(Convert.ToInt32(((ComboBox)this.Controls["comboBoxReminderHour"]).SelectedItem))
+                    +
+                    TimeSpan.FromMinutes(Convert.ToInt32(((ComboBox)this.Controls["comboBoxReminderMinutes"]).SelectedItem));
+                if ((string)((ComboBox)this.Controls["comboBoxReminderPM"]).SelectedItem == "AM")
                 {
                     if (time.Hours == 12 && time.Minutes == 0)
                         time = TimeSpan.Zero;
@@ -63,9 +98,9 @@ namespace PocketMoney.App
                     ((ComboBox)this.Controls["comboBoxReminderMinutes"]).Enabled =
                     ((ComboBox)this.Controls["comboBoxReminderPM"]).Enabled =
                     ((CheckBox)this.Controls["checkBoxReminder"]).Checked = true;
-                ((ComboBox)this.Controls["comboBoxReminderHour"]).SelectedValue = date.ToString("hh");
-                ((ComboBox)this.Controls["comboBoxReminderMinutes"]).SelectedValue = date.ToString("mm");
-                ((ComboBox)this.Controls["comboBoxReminderPM"]).SelectedValue = date.ToString("tt");
+                ((ComboBox)this.Controls["comboBoxReminderHour"]).SelectedItem = date.ToString("hh");
+                ((ComboBox)this.Controls["comboBoxReminderMinutes"]).SelectedItem = date.ToString("mm");
+                ((ComboBox)this.Controls["comboBoxReminderPM"]).SelectedItem = date.ToString("tt", CultureInfo.InvariantCulture);
             }
             else
             {

@@ -1,12 +1,13 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Windows.Forms;
-using Microsoft.Practices.ServiceLocation;
+﻿using Microsoft.Practices.ServiceLocation;
+using PocketMoney.Data;
+using PocketMoney.Model.External;
 using PocketMoney.Model.External.Requests;
 using PocketMoney.Model.External.Results;
 using PocketMoney.Service.Interfaces;
-using PocketMoney.Model.External;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Windows.Forms;
 
 namespace PocketMoney.App
 {
@@ -39,6 +40,28 @@ namespace PocketMoney.App
             comboBoxReminderHour.SelectedIndex = 11;
             comboBoxReminderMinutes.SelectedIndex = 0;
             comboBoxReminderPM.SelectedIndex = 1;
+
+            this.FillData<ShoppingTaskView>(
+                x => _taskService.GetShoppingTask(x),
+                task =>
+                {
+                    textBox2.Text = task.ShopName;
+                    if (task.DeadlineDate.HasValue)
+                    {
+                        dateTimePicker1.Enabled = checkBox1.Checked = true;
+                        dateTimePicker1.Value = task.DeadlineDate.Value;
+                    }
+                    else
+                    {
+                        dateTimePicker1.Enabled = checkBox1.Checked = false;
+                    }
+
+                    foreach (var shopItem in task.ShoppingList.OrderBy(x => x.OrderNumber))
+                    {
+                        dataGridView1.Rows.Add(shopItem.ItemName, shopItem.Qty);
+                    }
+                });
+
         }
 
         private void checkBox1_CheckedChanged(object sender, EventArgs e)
@@ -55,24 +78,44 @@ namespace PocketMoney.App
                 assignedTo.Add(((UserView)checkedItem).UserId);
             }
             IList<ShopItem> shoppingList = new List<ShopItem>();
+            int index = 0;
             foreach (DataGridViewRow item in dataGridView1.Rows)
             {
                 if (!item.IsNewRow)
                 {
-                    shoppingList.Add(new ShopItem((string)item.Cells[0].Value, (string)item.Cells[1].Value));
+                    shoppingList.Add(new ShopItem(index++, (string)item.Cells[0].Value, (string)item.Cells[1].Value));
                 }
             }
 
-            var result = taskService.AddShoppingTask(new AddShoppingTaskRequest
+            Result result = null;
+
+            if (_currentTaskId == Guid.Empty)
             {
-                AssignedTo = assignedTo.ToArray(),
-                DeadlineDate = checkBox1.Checked ? new DateTime?(dateTimePicker1.Value) : null,
-                Points = Convert.ToInt32(numericUpDown1.Value),
-                Text = textBox1.Text,
-                ShopName = textBox2.Text,
-                ReminderTime = this.GetReminderTime(),
-                ShoppingList = shoppingList.ToArray()
-            });
+                result = taskService.AddShoppingTask(new AddShoppingTaskRequest
+                {
+                    AssignedTo = assignedTo.ToArray(),
+                    DeadlineDate = checkBox1.Checked ? new DateTime?(dateTimePicker1.Value) : null,
+                    Points = Convert.ToInt32(numericUpDown1.Value),
+                    Text = textBox1.Text,
+                    ShopName = textBox2.Text,
+                    ReminderTime = this.GetReminderTime(),
+                    ShoppingList = shoppingList.ToArray()
+                });
+            }
+            else
+            {
+                result = taskService.UpdateShoppingTask(new UpdateShoppingTaskRequest
+                {
+                    Id = _currentTaskId,
+                    AssignedTo = assignedTo.ToArray(),
+                    DeadlineDate = checkBox1.Checked ? new DateTime?(dateTimePicker1.Value) : null,
+                    Points = Convert.ToInt32(numericUpDown1.Value),
+                    Text = textBox1.Text,
+                    ShopName = textBox2.Text,
+                    ReminderTime = this.GetReminderTime(),
+                    ShoppingList = shoppingList.ToArray()
+                });
+            }
             if (!result.Success)
             {
                 MessageBox.Show(result.Message, "Invalid", MessageBoxButtons.OK, MessageBoxIcon.Warning);

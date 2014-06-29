@@ -9,7 +9,7 @@ namespace PocketMoney.Model.NHibernate
         {
             Map(x => x.Form).Length(4000);
 
-            HasMany(x => x.Dates).KeyColumn("TaskId").LazyLoad().Cascade.Delete();
+            HasMany(x => x.Dates).KeyColumn("TaskId").LazyLoad().Not.KeyUpdate();
         }
     }
 }

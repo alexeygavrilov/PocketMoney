@@ -7,10 +7,10 @@ namespace PocketMoney.Model.NHibernate
     {
         public RepeatTaskMap()
         {
-            Map(x => x.Name).Not.Nullable().Length(255);
+            Map(x => x.RepeatName).Column("Name").Not.Nullable().Length(255);
             Map(x => x.Form).Length(4000);
 
-            HasMany(x => x.Dates).KeyColumn("TaskId").LazyLoad().Cascade.Delete();
+            HasMany(x => x.Dates).KeyColumn("TaskId").LazyLoad().Not.KeyUpdate();
         }
     }
 }

@@ -2,6 +2,7 @@
 using System.ComponentModel.DataAnnotations;
 using System.Runtime.Serialization;
 using PocketMoney.Data;
+using System;
 
 
 namespace PocketMoney.Model.External.Requests
@@ -36,6 +37,23 @@ namespace PocketMoney.Model.External.Requests
                 yield return val;
 
         }
-
     }
+
+    [DataContract]
+    public class UpdateRepeatTaskRequest : AddRepeatTaskRequest, IIdentity
+    {
+        [DataMember, Details]
+        public Guid Id { get; set; }
+
+        public override IEnumerable<ValidationResult> Validate(ValidationContext validationContext)
+        {
+            if (this.Id == Guid.Empty)
+                yield return new ValidationResult("Task identifier is required");
+
+            foreach (var val in base.Validate(validationContext))
+                yield return val;
+
+        }
+    }
+
 }

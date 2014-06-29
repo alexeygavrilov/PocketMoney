@@ -9,10 +9,11 @@ namespace PocketMoney.Model.External
     {
         protected ShopItem() { }
 
-        public ShopItem(string name, string qty = null)
+        public ShopItem(int orderNumber, string name, string qty = null)
         {
             this.ItemName = name;
             this.Qty = qty;
+            this.OrderNumber = orderNumber;
         }
 
         [DataMember, Details]
@@ -20,5 +21,8 @@ namespace PocketMoney.Model.External
 
         [DataMember, Details]
         public string Qty { get; set; }
+
+        [DataMember, Details]
+        public int OrderNumber { get; set; }
     }
 }

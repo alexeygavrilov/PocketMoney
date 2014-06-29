@@ -98,6 +98,10 @@
     <Folder Include="Extensions\" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\PocketMoney.Data.NHibernate\PocketMoney.Data.NHibernate.csproj">
+      <Project>{c4152651-78a9-40f5-a8a8-266ffdd15c29}</Project>
+      <Name>PocketMoney.Data.NHibernate</Name>
+    </ProjectReference>
     <ProjectReference Include="..\PocketMoney.Data\PocketMoney.Data.csproj">
       <Project>{cfa0e50c-e297-4b2a-87c1-d861b5999b00}</Project>
       <Name>PocketMoney.Data</Name>

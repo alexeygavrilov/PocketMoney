@@ -23,18 +23,26 @@ namespace PocketMoney.Model.External.Results
     }
 
     [DataContract]
-    public class CleanTaskView : TaskView
+    public sealed class CleanTaskView : TaskView
     {
+        public CleanTaskView(string roomName, bool everyDay, int[] daysOfWeek, Guid taskId, TaskType type, string text, Point points, int? reminderTime, IDictionary<Guid, string> assignedTo)
+            : base(taskId, type, text, points, reminderTime, assignedTo)
+        {
+            this.RoomName = roomName;
+            this.EveryDay = everyDay;
+            this.DaysOfWeek = daysOfWeek;
+        }
+        
         public CleanTaskView(CleanTask task)
             : base(task)
         {
             this.RoomName = task.RoomName;
-            this.EveryDay = task.DaysOfWeek != eDaysOfWeek.None;
+            this.EveryDay = task.DaysOfWeek == eDaysOfWeek.None;
             IList<int> days = new List<int>();
             foreach (var d in EnumExtention.GetAllItems<eDaysOfWeek>())
             {
-                if (task.DaysOfWeek.HasFlag(d))
-                    days.Add((int)d);
+                if (task.DaysOfWeek.HasFlag(d) && d != eDaysOfWeek.None)
+                    days.Add((int)d.To());
             }
             this.DaysOfWeek = days.ToArray();
         }
@@ -47,6 +55,11 @@ namespace PocketMoney.Model.External.Results
 
         [DataMember, Details]
         public int[] DaysOfWeek { get; set; }
+
+        public override string GetTitle()
+        {
+            return string.Format("Tidy up " + this.RoomName);
+        }
     }
 
     [DataContract]
@@ -62,8 +75,14 @@ namespace PocketMoney.Model.External.Results
     }
 
     [DataContract]
-    public class HomeworkTaskView : TaskView
+    public sealed class HomeworkTaskView : TaskView
     {
+        public HomeworkTaskView(HomeworkForm form, Guid taskId, TaskType type, string text, Point points, int? reminderTime, IDictionary<Guid, string> assignedTo)
+            : base(taskId, type, text, points, reminderTime, assignedTo)
+        {
+            this.Form = form;
+        }
+
         public HomeworkTaskView(HomeworkTask task)
             : base(task)
         {
@@ -72,6 +91,11 @@ namespace PocketMoney.Model.External.Results
 
         [DataMember, Details]
         public HomeworkForm Form { get; set; }
+
+        public override string GetTitle()
+        {
+            return "Homework";
+        }
     }
 
     [DataContract]
@@ -88,12 +112,19 @@ namespace PocketMoney.Model.External.Results
     }
 
     [DataContract]
-    public class OneTimeTaskView : TaskView
+    public sealed class OneTimeTaskView : TaskView
     {
+        public OneTimeTaskView(string name, DateTime? deadline, Guid taskId, TaskType type, string text, Point points, int? reminderTime, IDictionary<Guid, string> assignedTo)
+            : base(taskId, type, text, points, reminderTime, assignedTo)
+        {
+            this.Name = name;
+            this.DeadlineDate = deadline;
+        }
+
         public OneTimeTaskView(OneTimeTask task)
             : base(task)
         {
-            this.Name = task.Name;
+            this.Name = task.OneTimeName;
             this.DeadlineDate = task.DeadlineDate;
         }
 
@@ -102,6 +133,11 @@ namespace PocketMoney.Model.External.Results
 
         [DataMember, Details]
         public DateTime? DeadlineDate { get; set; }
+
+        public override string GetTitle()
+        {
+            return string.Format(TITLE_FORMAT, this.Name);
+        }
     }
 
     [DataContract]
@@ -118,12 +154,19 @@ namespace PocketMoney.Model.External.Results
     }
 
     [DataContract]
-    public class RepeatTaskView : TaskView
+    public sealed class RepeatTaskView : TaskView
     {
+        public RepeatTaskView(string name, RepeatForm form, Guid taskId, TaskType type, string text, Point points, int? reminderTime, IDictionary<Guid, string> assignedTo)
+            : base(taskId, type, text, points, reminderTime, assignedTo)
+        {
+            this.Name = name;
+            this.Form = form;
+        }
+
         public RepeatTaskView(RepeatTask task)
             : base(task)
         {
-            this.Name = task.Name;
+            this.Name = task.RepeatName;
             this.Form = (RepeatForm)BinarySerializer.Deserialaize(Convert.FromBase64String(task.Form), typeof(RepeatForm));
         }
 
@@ -132,6 +175,11 @@ namespace PocketMoney.Model.External.Results
 
         [DataMember, Details]
         public RepeatForm Form { get; set; }
+
+        public override string GetTitle()
+        {
+            return string.Format(TITLE_FORMAT, this.Name);
+        }
     }
 
     [DataContract]
@@ -148,14 +196,22 @@ namespace PocketMoney.Model.External.Results
     }
 
     [DataContract]
-    public class ShoppingTaskView : TaskView
+    public sealed class ShoppingTaskView : TaskView
     {
+        public ShoppingTaskView(string shopName, DateTime? deadline, ShopItem[] shoppingList, Guid taskId, TaskType type, string text, Point points, int? reminderTime, IDictionary<Guid, string> assignedTo)
+            : base(taskId, type, text, points, reminderTime, assignedTo)
+        {
+            this.ShopName = shopName;
+            this.DeadlineDate = deadline;
+            this.ShoppingList = shoppingList;
+        }
+
         public ShoppingTaskView(ShopTask task)
             : base(task)
         {
             this.ShopName = task.ShopName;
             this.DeadlineDate = task.DeadlineDate;
-            this.ShoppingList = task.ShoppingList.Select(x => new External.ShopItem(x.Name, x.Qty)).ToArray();
+            this.ShoppingList = task.ShoppingList.Select(x => new External.ShopItem(x.OrderNumber, x.Name, x.Qty)).ToArray();
         }
 
         [DataMember, Details]
@@ -166,5 +222,15 @@ namespace PocketMoney.Model.External.Results
 
         [DataMember, Details]
         public ShopItem[] ShoppingList { get; set; }
+
+        public override string GetTitle()
+        {
+            if (string.IsNullOrEmpty(this.ShopName))
+                return "Shopping";
+            else
+                return "Shopping at " + this.ShopName;
+        }
+
+
     }
 }

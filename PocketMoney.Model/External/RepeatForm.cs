@@ -8,7 +8,7 @@ using System.Runtime.Serialization;
 namespace PocketMoney.Model.External
 {
     [DataContract, Serializable]
-    public class RepeatForm : ObjectBase
+    public class RepeatForm : ObjectBase, IScheduleForm
     {
         [DataMember, Details]
         [Display(Name = "Start")]

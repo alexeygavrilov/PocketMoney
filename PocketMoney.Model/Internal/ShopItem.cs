@@ -7,11 +7,12 @@ namespace PocketMoney.Model.Internal
     {
         protected ShopItem() { }
 
-        public ShopItem(ShopTask task, string name, string qty)
+        public ShopItem(ShopTask task, string name, string qty, int orderNumber)
         {
             this.Task = task;
             this.Name = name;
             this.Qty = qty;
+            this.OrderNumber = orderNumber;
         }
 
         [Details]
@@ -19,6 +20,9 @@ namespace PocketMoney.Model.Internal
 
         [Details]
         public virtual string Qty { get; set; }
+
+        [Details]
+        public virtual int OrderNumber { get; set; }
 
         [Details]
         public virtual ShopTask Task { get; set; }

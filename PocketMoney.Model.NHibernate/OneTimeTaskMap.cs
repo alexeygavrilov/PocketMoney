@@ -7,7 +7,7 @@ namespace PocketMoney.Model.NHibernate
     {
         public OneTimeTaskMap()
         {
-            Map(x => x.Name).Not.Nullable().Length(255);
+            Map(x => x.OneTimeName).Column("Name").Not.Nullable().Length(255);
             Map(x => x.DeadlineDate).Nullable();
         }
     }

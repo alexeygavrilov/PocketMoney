@@ -29,5 +29,10 @@ namespace PocketMoney.App
                 MessageBox.Show(result.Message, "Invalid", MessageBoxButtons.OK, MessageBoxIcon.Warning);
             }
         }
+
+        private void LoginForm_Load(object sender, EventArgs e)
+        {
+            button1_Click(button1, EventArgs.Empty);
+        }
     }
 }

@@ -27,4 +27,22 @@ namespace PocketMoney.Model.External.Requests
                 yield return val;
         }
     }
+
+    [DataContract]
+    public class UpdateHomeworkTaskRequest : AddHomeworkTaskRequest, IIdentity
+    {
+        [DataMember, Details]
+        public Guid Id { get; set; }
+
+        public override IEnumerable<ValidationResult> Validate(ValidationContext validationContext)
+        {
+            if (this.Id == Guid.Empty)
+                yield return new ValidationResult("Task identifier is required");
+
+            foreach (var val in base.Validate(validationContext))
+                yield return val;
+
+        }
+    }
+
 }

@@ -37,6 +37,6 @@ namespace PocketMoney.Model.External.Requests
             if (this.Points <= 0)
                 yield return new ValidationResult("Score Points should be positive number");
         }
-
     }
+
 }

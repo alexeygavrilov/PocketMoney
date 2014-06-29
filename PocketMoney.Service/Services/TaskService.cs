@@ -16,6 +16,11 @@ using I = PocketMoney.Model.Internal;
 using E = PocketMoney.Model.External;
 using System.Collections.Generic;
 using NHibernate.Linq;
+using NHibernate;
+using PocketMoney.Data.NHibernate;
+using NHibernate.SqlCommand;
+using NHibernate.Criterion;
+using NHibernate.Transform;
 
 namespace PocketMoney.Service
 {
@@ -23,10 +28,13 @@ namespace PocketMoney.Service
     [AspNetCompatibilityRequirements(RequirementsMode = AspNetCompatibilityRequirementsMode.Allowed)]
     public class TaskService : BaseService, ITaskService
     {
+        #region Members
         private IRepository<Task, TaskId, Guid> _taskRepository;
         private IRepository<Performer, PerformerId, Guid> _performerRepository;
         private IRepository<TaskDate, TaskDateId, Guid> _taskDateRepository;
+        #endregion
 
+        #region Ctor
         public TaskService(
             IRepository<Task, TaskId, Guid> taskRepository,
             IRepository<Performer, PerformerId, Guid> performerRepository,
@@ -40,21 +48,16 @@ namespace PocketMoney.Service
             _performerRepository = performerRepository;
             _taskDateRepository = taskDateRepository;
         }
+        #endregion
 
-        [Transaction(TransactionMode.Requires)]
-        [MethodImpl(MethodImplOptions.Synchronized)]
-        [OperationBehavior(TransactionScopeRequired = true)]
-        public GuidResult AddOneTimeTask(AddOneTimeTaskRequest model)
+        #region Private Methods
+        private GuidResult AddTask<TModel, TEntity>(TModel model, Func<IUser, TEntity> createEntity, Action<TEntity> afterCreate = null)
+            where TEntity : Task
+            where TModel : BaseTaskRequest
         {
             var currentUser = _currentUserProvider.GetCurrentUser();
 
-            OneTimeTask task = new OneTimeTask(
-                model.Name,
-                model.Text,
-                model.Points,
-                model.DeadlineDate,
-                currentUser.To()
-                );
+            TEntity task = createEntity(currentUser);
 
             if (model.ReminderTime.HasValue)
             {
@@ -68,177 +71,66 @@ namespace PocketMoney.Service
                 var user = _userRepository.One(new UserId(userId));
                 Performer performer = new Performer(task, user);
                 _performerRepository.Add(performer);
+                task.AssignedTo.Add(performer);
+            }
+
+            if (afterCreate != null)
+            {
+                afterCreate(task);
             }
 
             return new GuidResult(task.Id);
         }
 
-        [Transaction(TransactionMode.Requires)]
-        [MethodImpl(MethodImplOptions.Synchronized)]
-        [OperationBehavior(TransactionScopeRequired = true)]
-        public GuidResult AddHomeworkTask(AddHomeworkTaskRequest model)
+        private Result UpdateTask<TModel, TEntity>(TModel model, Action<TEntity> updateEntity)
+            where TEntity : Task
+            where TModel : BaseTaskRequest, IIdentity
         {
             var currentUser = _currentUserProvider.GetCurrentUser();
 
-            HomeworkTask task = new HomeworkTask(
-                model.Text,
-                model.Points,
-                currentUser.To(),
-                Convert.ToBase64String(BinarySerializer.Serialaize(model.Form))
-                );
+            TEntity task = _taskRepository.One(new TaskId(model.Id)).As<TEntity>();
+
+            if (task == null)
+            {
+                return Result.Unsuccessfully(string.Format("Task with identifier {0} has not been found.", model.Id));
+            }
+
+            updateEntity(task);
+
+            task.Active = true;
+            task.Details = model.Text;
+            task.Points = new Point(task, model.Points);
 
             if (model.ReminderTime.HasValue)
             {
                 task.Reminder = (int)model.ReminderTime.Value.TotalMinutes;
             }
-            _taskRepository.Add(task);
 
-            foreach (var userId in model.AssignedTo)
+            _taskRepository.Update(task);
+
+            foreach (var user in _userRepository.FindAll(x => x.Family.Id == currentUser.Family.Id))
             {
-                var user = _userRepository.One(new UserId(userId));
-                Performer performer = new Performer(task, user);
-                _performerRepository.Add(performer);
-            }
-
-            foreach (var dateOfOne in model.Form.CalculateDates())
-            {
-                TaskDate taskDate = new TaskDate(task, dateOfOne);
-                _taskDateRepository.Add(taskDate);
-            }
-
-            return new GuidResult(task.Id);
-        }
-
-        [Transaction(TransactionMode.Requires)]
-        [MethodImpl(MethodImplOptions.Synchronized)]
-        [OperationBehavior(TransactionScopeRequired = true)]
-        public GuidResult AddCleanTask(AddCleanTaskRequest model)
-        {
-            var currentUser = _currentUserProvider.GetCurrentUser();
-
-            eDaysOfWeek days = eDaysOfWeek.None;
-            if (!model.EveryDay)
-            {
-                foreach (int d in model.DaysOfWeek)
+                if (model.AssignedTo.Any(x => x == user.Id) && !task.AssignedTo.Any(x => x.User.Id == user.Id))
                 {
-                    days |= ((DayOfWeek)d).To();
+                    Performer performer = new Performer(task, user);
+                    _performerRepository.Add(performer);
+                    task.AssignedTo.Add(performer);
+                }
+                else if (!model.AssignedTo.Any(x => x == user.Id) && task.AssignedTo.Any(x => x.User.Id == user.Id))
+                {
+                    var performer = task.AssignedTo.First(x => x.User.Id == user.Id);
+                    task.AssignedTo.Remove(performer);
+                    _performerRepository.Remove(performer);
                 }
             }
 
-            CleanTask task = new CleanTask(model.RoomName, model.Text, model.Points, currentUser.To(), days);
-
-            if (model.ReminderTime.HasValue)
-            {
-                task.Reminder = (int)model.ReminderTime.Value.TotalMinutes;
-            }
-
-            _taskRepository.Add(task);
-
-            foreach (var userId in model.AssignedTo)
-            {
-                var user = _userRepository.One(new UserId(userId));
-                Performer performer = new Performer(task, user);
-                _performerRepository.Add(performer);
-            }
-
-            return new GuidResult(task.Id);
-        }
-
-        [Transaction(TransactionMode.Requires)]
-        [MethodImpl(MethodImplOptions.Synchronized)]
-        [OperationBehavior(TransactionScopeRequired = true)]
-        public GuidResult AddRepeatTask(AddRepeatTaskRequest model)
-        {
-            var currentUser = _currentUserProvider.GetCurrentUser();
-
-            RepeatTask task = new RepeatTask(
-                model.Name,
-                model.Text,
-                model.Points,
-                currentUser.To(),
-                Convert.ToBase64String(BinarySerializer.Serialaize(model.Form))
-                );
-
-            if (model.ReminderTime.HasValue)
-            {
-                task.Reminder = (int)model.ReminderTime.Value.TotalMinutes;
-            }
-            _taskRepository.Add(task);
-
-            foreach (var userId in model.AssignedTo)
-            {
-                var user = _userRepository.One(new UserId(userId));
-                Performer performer = new Performer(task, user);
-                _performerRepository.Add(performer);
-            }
-
-            foreach (var dateOfOne in model.Form.CalculateDates())
-            {
-                TaskDate taskDate = new TaskDate(task, dateOfOne);
-                _taskDateRepository.Add(taskDate);
-            }
-
-            return new GuidResult(task.Id);
-        }
-
-
-        [Transaction(TransactionMode.Requires)]
-        [MethodImpl(MethodImplOptions.Synchronized)]
-        [OperationBehavior(TransactionScopeRequired = true)]
-        public GuidResult AddShoppingTask(AddShoppingTaskRequest model)
-        {
-            var currentUser = _currentUserProvider.GetCurrentUser();
-            var shopItemRepository = ServiceLocator.Current.GetInstance<IRepository<I.ShopItem, I.ShopItemId, Guid>>();
-
-            ShopTask task = new ShopTask(model.ShopName,
-                model.Text,
-                model.Points,
-                model.DeadlineDate,
-                currentUser.To());
-
-            if (model.ReminderTime.HasValue)
-            {
-                task.Reminder = (int)model.ReminderTime.Value.TotalMinutes;
-            }
-            _taskRepository.Add(task);
-
-            foreach (var userId in model.AssignedTo)
-            {
-                var user = _userRepository.One(new UserId(userId));
-                Performer performer = new Performer(task, user);
-                _performerRepository.Add(performer);
-            }
-
-            foreach (var item in model.ShoppingList)
-            {
-                shopItemRepository.Add(new ShopItem(task, item.ItemName, item.Qty));
-            }
-
-            return new GuidResult(task.Id);
-        }
-
-
-        [OperationBehavior, MethodImpl(MethodImplOptions.Synchronized)]
-        public TaskListResult AllTasks(Request model)
-        {
-            var currentUser = _currentUserProvider.GetCurrentUser();
-            var result = _taskRepository
-                .FindAll(x => x.Family.Id == currentUser.Family.Id && x.Active)
-                .AsEnumerable()
-                .Select(task => new TaskView(task))
-                .ToArray();
-
-            return new TaskListResult(result, result.Length);
-        }
-
-        [OperationBehavior, MethodImpl(MethodImplOptions.Synchronized)]
-        public TaskListResult MyTasks(Request model)
-        {
-            throw new NotImplementedException();
+            return Result.Successfully();
         }
 
         private TResult GetTask<TResult, TView, TEntity>(GuidRequest taskId, Func<TEntity, TView> view)
             where TResult : ResultData<TView>, new()
+            where TView : TaskView
+            where TEntity : Task
         {
             TResult result = new TResult();
             TEntity task = _taskRepository.One(new TaskId(taskId.Data)).As<TEntity>();
@@ -253,6 +145,231 @@ namespace PocketMoney.Service
             return result;
         }
 
+        private IList<TaskDate> UpdateDates(IScheduleForm form, Task task)
+        {
+            var modelDates = form.CalculateDates();
+
+            var taskDates = _taskDateRepository.FindAll(x => x.Task.Id == task.Id).ToList();
+
+            for (var i = taskDates.Count - 1; i >= 0; i--)
+            {
+                var date = taskDates[i];
+                if (!modelDates.Any(x => x == date.Date))
+                {
+                    _taskDateRepository.Remove(date);
+                    taskDates.RemoveAt(i);
+                }
+            }
+
+            foreach (var dateOfOne in modelDates)
+            {
+                if (!taskDates.Any(x => x.Date == dateOfOne))
+                {
+                    TaskDate taskDate = new TaskDate(task, dateOfOne);
+                    _taskDateRepository.Add(taskDate);
+                    taskDates.Add(taskDate);
+                }
+            }
+
+            return taskDates;
+        }
+
+        #endregion
+
+        #region Add Methods
+        [Transaction(TransactionMode.Requires)]
+        [MethodImpl(MethodImplOptions.Synchronized)]
+        [OperationBehavior(TransactionScopeRequired = true)]
+        public GuidResult AddOneTimeTask(AddOneTimeTaskRequest model)
+        {
+            return this.AddTask<AddOneTimeTaskRequest, OneTimeTask>(model,
+                currentUser => new OneTimeTask(
+                                model.Name,
+                                model.Text,
+                                model.Points,
+                                model.DeadlineDate,
+                                currentUser.To()));
+        }
+
+        [Transaction(TransactionMode.Requires)]
+        [MethodImpl(MethodImplOptions.Synchronized)]
+        [OperationBehavior(TransactionScopeRequired = true)]
+        public GuidResult AddHomeworkTask(AddHomeworkTaskRequest model)
+        {
+            return this.AddTask<AddHomeworkTaskRequest, HomeworkTask>(model,
+                currentUser => new HomeworkTask(
+                                model.Text,
+                                model.Points,
+                                currentUser.To(),
+                                Convert.ToBase64String(BinarySerializer.Serialaize(model.Form))),
+                task =>
+                {
+                    foreach (var dateOfOne in model.Form.CalculateDates())
+                    {
+                        TaskDate taskDate = new TaskDate(task, dateOfOne);
+                        _taskDateRepository.Add(taskDate);
+                    }
+                });
+        }
+
+        [Transaction(TransactionMode.Requires)]
+        [MethodImpl(MethodImplOptions.Synchronized)]
+        [OperationBehavior(TransactionScopeRequired = true)]
+        public GuidResult AddCleanTask(AddCleanTaskRequest model)
+        {
+            return this.AddTask<AddCleanTaskRequest, CleanTask>(model,
+                currentUser => new CleanTask(
+                                model.RoomName,
+                                model.Text,
+                                model.Points,
+                                currentUser.To(),
+                                model.GetDaysOfWeek()));
+        }
+
+        [Transaction(TransactionMode.Requires)]
+        [MethodImpl(MethodImplOptions.Synchronized)]
+        [OperationBehavior(TransactionScopeRequired = true)]
+        public GuidResult AddRepeatTask(AddRepeatTaskRequest model)
+        {
+            return this.AddTask<AddRepeatTaskRequest, RepeatTask>(model,
+                currentUser => new RepeatTask(
+                    model.Name,
+                    model.Text,
+                    model.Points,
+                    currentUser.To(),
+                    Convert.ToBase64String(BinarySerializer.Serialaize(model.Form))),
+                task =>
+                {
+                    foreach (var dateOfOne in model.Form.CalculateDates())
+                    {
+                        TaskDate taskDate = new TaskDate(task, dateOfOne);
+                        _taskDateRepository.Add(taskDate);
+                    }
+                });
+        }
+
+
+        [Transaction(TransactionMode.Requires)]
+        [MethodImpl(MethodImplOptions.Synchronized)]
+        [OperationBehavior(TransactionScopeRequired = true)]
+        public GuidResult AddShoppingTask(AddShoppingTaskRequest model)
+        {
+            return this.AddTask<AddShoppingTaskRequest, ShopTask>(model,
+                currentUser => new ShopTask(model.ShopName,
+                    model.Text,
+                    model.Points,
+                    model.DeadlineDate,
+                    currentUser.To()),
+                task =>
+                {
+                    var shopItemRepository = ServiceLocator.Current.GetInstance<IRepository<I.ShopItem, I.ShopItemId, Guid>>();
+                    foreach (var item in model.ShoppingList)
+                    {
+                        shopItemRepository.Add(new ShopItem(task, item.ItemName, item.Qty, item.OrderNumber));
+                    }
+                });
+        }
+        #endregion
+
+        #region Update Methods
+        [Transaction(TransactionMode.Requires)]
+        [MethodImpl(MethodImplOptions.Synchronized)]
+        [OperationBehavior(TransactionScopeRequired = true)]
+        public Result UpdateOneTimeTask(UpdateOneTimeTaskRequest model)
+        {
+            return this.UpdateTask<UpdateOneTimeTaskRequest, OneTimeTask>(model, task =>
+            {
+                task.OneTimeName = model.Name;
+                task.DeadlineDate = model.DeadlineDate;
+            });
+        }
+
+        [Transaction(TransactionMode.Requires)]
+        [MethodImpl(MethodImplOptions.Synchronized)]
+        [OperationBehavior(TransactionScopeRequired = true)]
+        public Result UpdateRepeatTask(UpdateRepeatTaskRequest model)
+        {
+            return this.UpdateTask<UpdateRepeatTaskRequest, RepeatTask>(model, task =>
+            {
+                task.RepeatName = model.Name;
+                task.Form = Convert.ToBase64String(BinarySerializer.Serialaize(model.Form));
+                task.Dates = this.UpdateDates(model.Form, task);
+            });
+        }
+
+        [Transaction(TransactionMode.Requires)]
+        [MethodImpl(MethodImplOptions.Synchronized)]
+        [OperationBehavior(TransactionScopeRequired = true)]
+        public Result UpdateHomeworkTask(UpdateHomeworkTaskRequest model)
+        {
+            return this.UpdateTask<UpdateHomeworkTaskRequest, HomeworkTask>(model, task =>
+            {
+                task.Form = Convert.ToBase64String(BinarySerializer.Serialaize(model.Form));
+
+                task.Dates = this.UpdateDates(model.Form, task);
+            });
+        }
+
+        [Transaction(TransactionMode.Requires)]
+        [MethodImpl(MethodImplOptions.Synchronized)]
+        [OperationBehavior(TransactionScopeRequired = true)]
+        public Result UpdateCleanTask(UpdateCleanTaskRequest model)
+        {
+            return this.UpdateTask<UpdateCleanTaskRequest, CleanTask>(model, task =>
+            {
+                task.RoomName = model.RoomName;
+                task.DaysOfWeek = model.GetDaysOfWeek();
+            });
+        }
+
+        [Transaction(TransactionMode.Requires)]
+        [MethodImpl(MethodImplOptions.Synchronized)]
+        [OperationBehavior(TransactionScopeRequired = true)]
+        public Result UpdateShoppingTask(UpdateShoppingTaskRequest model)
+        {
+            return this.UpdateTask<UpdateShoppingTaskRequest, ShopTask>(model, task =>
+            {
+                task.ShopName = model.ShopName;
+                task.DeadlineDate = model.DeadlineDate;
+
+                var shopItemRepository = ServiceLocator.Current.GetInstance<IRepository<I.ShopItem, I.ShopItemId, Guid>>();
+
+                var taskList = task.ShoppingList;
+
+                for (var i = taskList.Count - 1; i >= 0; i--)
+                {
+                    var shopItem = taskList[i];
+                    if (!model.ShoppingList.Any(x => x.ItemName == shopItem.Name))
+                    {
+                        shopItemRepository.Remove(shopItem);
+                        taskList.RemoveAt(i);
+                    }
+                }
+
+                foreach (var item in model.ShoppingList)
+                {
+                    var shopItem = taskList.FirstOrDefault(x => x.Name == item.ItemName);
+                    if (shopItem != null)
+                    {
+                        if (shopItem.Qty != item.Qty || shopItem.OrderNumber != item.OrderNumber)
+                        {
+                            shopItem.Qty = item.Qty;
+                            shopItem.OrderNumber = item.OrderNumber;
+                            shopItemRepository.Update(shopItem);
+                        }
+                    }
+                    else
+                    {
+                        shopItem = new ShopItem(task, item.ItemName, item.Qty, item.OrderNumber);
+                        shopItemRepository.Add(shopItem);
+                        taskList.Add(shopItem);
+                    }
+                }
+            });
+        }
+        #endregion
+
+        #region Get Methods
         [OperationBehavior, MethodImpl(MethodImplOptions.Synchronized)]
         public OneTimeTaskResult GetOneTimeTask(GuidRequest taskId)
         {
@@ -282,5 +399,55 @@ namespace PocketMoney.Service
         {
             return this.GetTask<ShoppingTaskResult, ShoppingTaskView, ShopTask>(taskId, task => new ShoppingTaskView(task));
         }
+        #endregion
+
+        #region List Methods
+
+        [OperationBehavior, MethodImpl(MethodImplOptions.Synchronized)]
+        public TaskListResult AllTasks(Request model)
+        {
+            var currentUser = _currentUserProvider.GetCurrentUser();
+
+            Performer performer = null;
+            User user = null;
+            TaskViewFactoryEx task = null;
+
+            var list = _taskRepository.QueryOver<Task, TaskId, Guid>()
+                .JoinAlias(x => x.AssignedTo, () => performer, JoinType.LeftOuterJoin)
+                .JoinAlias(() => performer.User, () => user, JoinType.LeftOuterJoin)
+                .Where(x => x.Family.Id == currentUser.Family.Id && x.Active)
+                .Select(
+                    Projections.Property<Task>(x => x.Id).WithAlias(() => task.TaskId),
+                    Projections.Property<Task>(x => x.Type).WithAlias(() => task.TaskType),
+                    Projections.Property<Task>(x => x.Details).WithAlias(() => task.Details),
+                    Projections.Property<Task>(x => x.Points).WithAlias(() => task.Points),
+                    Projections.Property<Task>(x => x.Reminder).WithAlias(() => task.Reminder),
+                    Projections.Property<CleanTask>(c => c.RoomName).WithAlias(() => task.RoomName),
+                    Projections.Property<ShopTask>(s => s.ShopName).WithAlias(() => task.ShopName),
+                    Projections.Property<RepeatTask>(r => r.RepeatName).WithAlias(() => task.RepeatName),
+                    Projections.Property<OneTimeTask>(o => o.OneTimeName).WithAlias(() => task.OneTimeName),
+                    Projections.Property(() => user.Id).WithAlias(() => task.UserId),
+                    Projections.Property(() => user.UserName).WithAlias(() => task.UserName),
+                    Projections.Property(() => user.AdditionalName).WithAlias(() => task.AdditionalName)
+                    )
+                .OrderBy(x => x.DateCreated).Asc
+                .TransformUsing(Transformers.AliasToBean<TaskViewFactoryEx>())
+                .List<TaskViewFactoryEx>();
+
+            var result = list
+                .GroupBy(g => g.TaskId)
+                .Select(x => x.First().Create(x.ToDictionary(k => k.UserId, u => User.FullName(u.UserName, u.AdditionalName), EqualityComparer<Guid>.Default)))
+                .ToArray();
+
+            return new TaskListResult(result, result.Length);
+        }
+
+        [OperationBehavior, MethodImpl(MethodImplOptions.Synchronized)]
+        public TaskListResult MyTasks(Request model)
+        {
+            throw new NotImplementedException();
+        }
+        #endregion
+
     }
 }

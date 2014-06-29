@@ -21,7 +21,7 @@ namespace PocketMoney.Model.External.Requests
 
         public override IEnumerable<ValidationResult> Validate(ValidationContext validationContext)
         {
-            if(string.IsNullOrEmpty(this.RoomName))
+            if (string.IsNullOrEmpty(this.RoomName))
                 yield return new ValidationResult("Room name is required field");
 
             if (this.EveryDay && (this.DaysOfWeek == null || this.DaysOfWeek.Length == 0))
@@ -31,5 +31,36 @@ namespace PocketMoney.Model.External.Requests
                 yield return val;
 
         }
+
+        public eDaysOfWeek GetDaysOfWeek()
+        {
+            eDaysOfWeek days = eDaysOfWeek.None;
+            if (!this.EveryDay)
+            {
+                foreach (int d in this.DaysOfWeek)
+                {
+                    days |= ((DayOfWeek)d).To();
+                }
+            }
+            return days;
+        }
     }
+
+    [DataContract]
+    public class UpdateCleanTaskRequest : AddCleanTaskRequest, IIdentity
+    {
+        [DataMember, Details]
+        public Guid Id { get; set; }
+
+        public override IEnumerable<ValidationResult> Validate(ValidationContext validationContext)
+        {
+            if (this.Id == Guid.Empty)
+                yield return new ValidationResult("Task identifier is required");
+
+            foreach (var val in base.Validate(validationContext))
+                yield return val;
+
+        }
+    }
+
 }

@@ -10,7 +10,7 @@ namespace PocketMoney.Model.NHibernate
             Map(x => x.ShopName).Nullable().Length(255);
             Map(x => x.DeadlineDate).Nullable();
 
-            HasMany(x => x.ShoppingList).Not.LazyLoad().ForeignKeyConstraintName("FK_Task_ShopItem");
+            HasMany(x => x.ShoppingList).LazyLoad().ForeignKeyConstraintName("FK_Task_ShopItem").Not.KeyUpdate();
         }
     }
 }

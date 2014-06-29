@@ -107,6 +107,16 @@ namespace PocketMoney.Data
             _message = errorMessage;
         }
 
+        public static Result Successfully()
+        {
+            return new EmptyResult();
+        }
+
+        public static Result Unsuccessfully(string message)
+        {
+            return new EmptyResult(message);
+        }
+
         //[DataMember]
         //public virtual object Data { get; private set; }
 
@@ -173,6 +183,10 @@ namespace PocketMoney.Data
 
         private sealed class EmptyResult : Result
         {
+            public EmptyResult() : base() { }
+
+            public EmptyResult(string message) : base(message) { }
+
             protected override void ClearData()
             {
             }

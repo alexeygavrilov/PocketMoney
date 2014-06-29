@@ -48,6 +48,23 @@ namespace PocketMoney.App
             comboBoxReminderMinutes.SelectedIndex = 0;
             comboBoxReminderPM.SelectedIndex = 1;
 
+
+            this.FillData<HomeworkTaskView>(
+                x => _taskService.GetHomeworkTask(x),
+                task =>
+                {
+                    for (int i = 0; i < checkedListBox2.Items.Count; i++)
+                    {
+                        if (task.Form.DaysOfWeek.Contains((int)((DayOfWeek)checkedListBox2.Items[i])))
+                        {
+                            checkedListBox2.SetItemChecked(i, true);
+                        }
+                    }
+                    checkBox1.Checked = task.Form.IncludeHolidays;
+                    comboBox1.SelectedIndex = task.Form.DateRangeIndex;
+                    dateTimePicker1.Value = task.Form.DateRangeFrom;
+                    dateTimePicker2.Value = task.Form.DateRangeTo;
+                });
         }
 
         private void comboBox1_SelectedIndexChanged(object sender, EventArgs e)
@@ -86,21 +103,45 @@ namespace PocketMoney.App
                 daysOfWeek.Add((int)((DayOfWeek)checkedItem));
             }
 
-            var result = taskService.AddHomeworkTask(new AddHomeworkTaskRequest
+            Data.Result result = null;
+            if (_currentTaskId == Guid.Empty)
             {
-                AssignedTo = assignedTo.ToArray(),
-                Points = Convert.ToInt32(numericUpDown1.Value),
-                Text = textBox1.Text, 
-                ReminderTime = this.GetReminderTime(),
-                Form = new HomeworkForm
+                result = taskService.AddHomeworkTask(new AddHomeworkTaskRequest
                 {
-                    DateRangeIndex = comboBox1.SelectedIndex,
-                    DaysOfWeek = daysOfWeek.ToArray(),
-                    IncludeHolidays = checkBox1.Checked,
-                    DateRangeFrom = dateTimePicker1.Value,
-                    DateRangeTo = dateTimePicker2.Value
-                }
-            });
+                    AssignedTo = assignedTo.ToArray(),
+                    Points = Convert.ToInt32(numericUpDown1.Value),
+                    Text = textBox1.Text,
+                    ReminderTime = this.GetReminderTime(),
+                    Form = new HomeworkForm
+                    {
+                        DateRangeIndex = comboBox1.SelectedIndex,
+                        DaysOfWeek = daysOfWeek.ToArray(),
+                        IncludeHolidays = checkBox1.Checked,
+                        DateRangeFrom = dateTimePicker1.Value,
+                        DateRangeTo = dateTimePicker2.Value
+                    }
+                });
+            }
+            else
+            {
+                result = _taskService.UpdateHomeworkTask(new UpdateHomeworkTaskRequest
+                {
+                    Id = _currentTaskId,
+                    AssignedTo = assignedTo.ToArray(),
+                    Points = Convert.ToInt32(numericUpDown1.Value),
+                    Text = textBox1.Text,
+                    ReminderTime = this.GetReminderTime(),
+                    Form = new HomeworkForm
+                    {
+                        DateRangeIndex = comboBox1.SelectedIndex,
+                        DaysOfWeek = daysOfWeek.ToArray(),
+                        IncludeHolidays = checkBox1.Checked,
+                        DateRangeFrom = dateTimePicker1.Value,
+                        DateRangeTo = dateTimePicker2.Value
+                    }
+                });
+            }
+
             if (!result.Success)
             {
                 MessageBox.Show(result.Message, "Invalid", MessageBoxButtons.OK, MessageBoxIcon.Warning);

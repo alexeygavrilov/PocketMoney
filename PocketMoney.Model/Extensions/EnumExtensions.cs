@@ -26,5 +26,28 @@ namespace PocketMoney.Model
                     return eDaysOfWeek.None;
             }
         }
+
+        public static DayOfWeek To(this eDaysOfWeek day)
+        {
+            switch (day)
+            {
+                case eDaysOfWeek.Monday:
+                    return DayOfWeek.Monday;
+                case eDaysOfWeek.Tuesday:
+                    return DayOfWeek.Tuesday;
+                case eDaysOfWeek.Wednesday:
+                    return DayOfWeek.Wednesday;
+                case eDaysOfWeek.Thursday:
+                    return DayOfWeek.Thursday;
+                case eDaysOfWeek.Friday:
+                    return DayOfWeek.Friday;
+                case eDaysOfWeek.Saturday:
+                    return DayOfWeek.Saturday;
+                case eDaysOfWeek.Sunday:
+                    return DayOfWeek.Sunday;
+                default:
+                    return 0;
+            }
+        }
     }
 }

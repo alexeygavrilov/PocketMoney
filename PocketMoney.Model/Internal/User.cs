@@ -179,7 +179,12 @@ namespace PocketMoney.Model.Internal
 
         public virtual string FullName()
         {
-            return (this.UserName + " " + this.AdditionalName ?? string.Empty).Trim();
+            return FullName(this.UserName, this.AdditionalName);
+        }
+
+        public static string FullName(string userName, string additionalName)
+        {
+            return (userName + " " + additionalName ?? string.Empty).Trim();
         }
 
         public virtual string GenerateTokenKey()
@@ -187,6 +192,7 @@ namespace PocketMoney.Model.Internal
             this.TokenKey = string.Concat("abcdefghijkmnopqrstuvwxyzABCDEFGHJKLMNOPQRSTUVWXYZ0123456789".Generation(8), "-", this.Family.TokenKey);
             return this.TokenKey;
         }
+
         #endregion
     }
 

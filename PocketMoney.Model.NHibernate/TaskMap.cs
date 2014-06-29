@@ -1,10 +1,6 @@
 ﻿using PocketMoney.Data.NHibernate;
 using PocketMoney.FileSystem;
 using PocketMoney.Model.Internal;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 
 namespace PocketMoney.Model.NHibernate
 {
@@ -27,9 +23,9 @@ namespace PocketMoney.Model.NHibernate
             References(x => x.Family).Not.Nullable().ForeignKey("FK_Task_Family");
             References(x => x.Creator).Not.Nullable().ForeignKey("FK_Task_Creator");
 
-            HasMany(x => x.AssignedTo).Not.LazyLoad().Cascade.Delete();
+            HasMany(x => x.AssignedTo).LazyLoad().ForeignKeyConstraintName("FK_Performer_Task").Not.KeyUpdate();
 
-            HasManyToMany(x => x.Attachments).Table("TasksFiles").ForeignKeyConstraintNames("FK_Task_File", "FK_File_Task");
+            HasManyToMany(x => x.Attachments).LazyLoad().Table("TasksFiles").ForeignKeyConstraintNames("FK_Task_File", "FK_File_Task");
         }
     }
 

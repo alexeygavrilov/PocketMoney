@@ -1,4 +1,5 @@
 ﻿using Microsoft.Practices.ServiceLocation;
+using PocketMoney.Data;
 using PocketMoney.Model.External;
 using PocketMoney.Model.External.Requests;
 using PocketMoney.Model.External.Results;
@@ -49,6 +50,45 @@ namespace PocketMoney.App
             comboBoxReminderMinutes.SelectedIndex = 0;
             comboBoxReminderPM.SelectedIndex = 1;
 
+            this.FillData<RepeatTaskView>(
+                x => _taskService.GetRepeatTask(x),
+                task =>
+                {
+
+                    textBox1.Text = task.Text;
+                    textBox2.Text = task.Name;
+
+                    for (int i = 0; i < checkedListBox2.Items.Count; i++)
+                    {
+                        if (task.Form.DaysOfWeek.Contains((int)((DayOfWeek)checkedListBox2.Items[i])))
+                        {
+                            checkedListBox2.SetItemChecked(i, true);
+                        }
+                    }
+                    
+                    radioButton1.Checked = task.Form.OccurrenceType == eOccurrenceType.Day;
+                    radioButton2.Checked = task.Form.OccurrenceType == eOccurrenceType.Weekday;
+                    radioButton3.Checked = task.Form.OccurrenceType == eOccurrenceType.Week;
+                    radioButton4.Checked = task.Form.OccurrenceType == eOccurrenceType.Month;
+
+                    numericUpDown3.Value = task.Form.EveryDay;
+                    numericUpDown4.Value = task.Form.EveryWeek;
+                    numericUpDown6.Value = task.Form.EveryMonth;
+                    numericUpDown5.Value = task.Form.DayOfMonth;
+                    dateTimePicker1.Value = task.Form.DateRangeFrom;
+
+                    if (task.Form.OccurrenceNumber.HasValue)
+                    {
+                        radioEndAfter.Checked = true;
+                        numericUpDown2.Value = task.Form.OccurrenceNumber.Value;
+                    }
+                    if (task.Form.DateRangeTo.HasValue)
+                    {
+                        radioEndBy.Checked = true;
+                        dateTimePicker2.Value = task.Form.DateRangeTo.Value;
+                    }
+                });
+
         }
 
         private void button1_Click(object sender, EventArgs e)
@@ -82,26 +122,55 @@ namespace PocketMoney.App
                 occurrenceType = eOccurrenceType.Month;
             }
 
-            var result = taskService.AddRepeatTask(new AddRepeatTaskRequest
+            Result result = null;
+
+            if (_currentTaskId == Guid.Empty)
             {
-                AssignedTo = assignedTo.ToArray(),
-                Points = Convert.ToInt32(numericUpDown1.Value),
-                Text = textBox1.Text,
-                ReminderTime = this.GetReminderTime(),
-                Name = textBox2.Text,
-                Form = new RepeatForm
+                result = taskService.AddRepeatTask(new AddRepeatTaskRequest
                 {
-                    OccurrenceType = occurrenceType,
-                    EveryDay = (int)numericUpDown3.Value,
-                    EveryWeek = (int)numericUpDown4.Value,
-                    EveryMonth = (int)numericUpDown6.Value,
-                    DayOfMonth = (int)numericUpDown5.Value,
-                    DaysOfWeek = daysOfWeek.ToArray(),
-                    DateRangeFrom = dateTimePicker1.Value,
-                    OccurrenceNumber = radioEndAfter.Checked ? new int?((int)numericUpDown2.Value) : null,
-                    DateRangeTo = radioEndBy.Checked ? new DateTime?(dateTimePicker2.Value) : null
-                }
-            });
+                    AssignedTo = assignedTo.ToArray(),
+                    Points = Convert.ToInt32(numericUpDown1.Value),
+                    Text = textBox1.Text,
+                    ReminderTime = this.GetReminderTime(),
+                    Name = textBox2.Text,
+                    Form = new RepeatForm
+                    {
+                        OccurrenceType = occurrenceType,
+                        EveryDay = (int)numericUpDown3.Value,
+                        EveryWeek = (int)numericUpDown4.Value,
+                        EveryMonth = (int)numericUpDown6.Value,
+                        DayOfMonth = (int)numericUpDown5.Value,
+                        DaysOfWeek = daysOfWeek.ToArray(),
+                        DateRangeFrom = dateTimePicker1.Value,
+                        OccurrenceNumber = radioEndAfter.Checked ? new int?((int)numericUpDown2.Value) : null,
+                        DateRangeTo = radioEndBy.Checked ? new DateTime?(dateTimePicker2.Value) : null
+                    }
+                });
+            }
+            else
+            {
+                result = taskService.UpdateRepeatTask(new UpdateRepeatTaskRequest
+                {
+                    Id = _currentTaskId,
+                    AssignedTo = assignedTo.ToArray(),
+                    Points = Convert.ToInt32(numericUpDown1.Value),
+                    Text = textBox1.Text,
+                    ReminderTime = this.GetReminderTime(),
+                    Name = textBox2.Text,
+                    Form = new RepeatForm
+                    {
+                        OccurrenceType = occurrenceType,
+                        EveryDay = (int)numericUpDown3.Value,
+                        EveryWeek = (int)numericUpDown4.Value,
+                        EveryMonth = (int)numericUpDown6.Value,
+                        DayOfMonth = (int)numericUpDown5.Value,
+                        DaysOfWeek = daysOfWeek.ToArray(),
+                        DateRangeFrom = dateTimePicker1.Value,
+                        OccurrenceNumber = radioEndAfter.Checked ? new int?((int)numericUpDown2.Value) : null,
+                        DateRangeTo = radioEndBy.Checked ? new DateTime?(dateTimePicker2.Value) : null
+                    }
+                });
+            }
             if (!result.Success)
             {
                 MessageBox.Show(result.Message, "Invalid", MessageBoxButtons.OK, MessageBoxIcon.Warning);
