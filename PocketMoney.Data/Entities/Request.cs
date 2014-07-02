@@ -4,10 +4,16 @@ using System.Runtime.Serialization;
 
 namespace PocketMoney.Data
 {
-
     [DataContract]
     public abstract class RequestData<TData> : Request
     {
+        protected RequestData() { }
+
+        protected RequestData(TData data)
+        {
+            this.Data = data;
+        }
+
         [DataMember, Details]
         public TData Data { get; set; }
 

@@ -12,7 +12,7 @@ using NHibernate.Tool.hbm2ddl;
 using Configuration = NHibernate.Cfg.Configuration;
 using PocketMoney.Util.IoC;
 
-namespace PocketMoney.App
+namespace PocketMoney.ParentApp
 {
     public class FluentNHibernateConfigurationBuilder : IConfigurationBuilder
     {

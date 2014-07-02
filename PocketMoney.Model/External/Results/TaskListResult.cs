@@ -20,12 +20,13 @@ namespace PocketMoney.Model.External.Results
     {
         public const string TITLE_FORMAT = "Task: {0}";
 
-        protected TaskView(Guid taskId, TaskType type, string text, Point points, int? reminderTime, IDictionary<Guid, string> assignedTo)
+        protected TaskView(Guid taskId, TaskType type, string text, Reward reward, int? reminderTime, IDictionary<Guid, string> assignedTo)
         {
             this.TaskId = taskId;
             this.TaskType = type.Id;
             this.Text = text;
-            this.Points = points.Value;
+            this.Points = reward.Points;
+            this.Gift = reward.Gift;
             this.ReminderTime = reminderTime.HasValue ? new TimeSpan?(TimeSpan.FromMinutes(reminderTime.Value)) : null;
             this.AssignedTo = assignedTo;
         }
@@ -35,7 +36,8 @@ namespace PocketMoney.Model.External.Results
             this.TaskId = task.Id;
             this.TaskType = task.Type.Id;
             this.Text = task.Details;
-            this.Points = task.Points.Value;
+            this.Points = task.Reward.Points;
+            this.Gift = task.Reward.Gift;
             this.ReminderTime = task.Reminder.HasValue ? new TimeSpan?(TimeSpan.FromMinutes(task.Reminder.Value)) : null;
             this.AssignedTo = task.AssignedTo
                 .Where(p => p.Active)
@@ -61,7 +63,27 @@ namespace PocketMoney.Model.External.Results
         public int Points { get; set; }
 
         [DataMember, Details]
+        public string Gift { get; set; }
+
+        [DataMember, Details]
         public TimeSpan? ReminderTime { get; set; }
+
+        [DataMember, Details]
+        public string Reward
+        {
+            get
+            {
+                return !string.IsNullOrEmpty(this.Gift) ? this.Gift : this.Points.ToString() + " points";
+            }
+        }
+
+        public string Responsibility
+        {
+            get
+            {
+                return string.Join(", ", this.AssignedTo.Select(x => x.Value).ToArray());
+            }
+        }
 
         public abstract string GetTitle();
     }

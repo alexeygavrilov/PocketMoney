@@ -1,9 +1,9 @@
-﻿using System.ServiceModel;
-using PocketMoney.Data;
+﻿using PocketMoney.Data;
 using PocketMoney.Data.Wrappers;
 using PocketMoney.Model.External.Requests;
 using PocketMoney.Model.External.Results;
 using PocketMoney.Service.Behaviors;
+using System.ServiceModel;
 
 namespace PocketMoney.Service.Interfaces
 {
@@ -11,22 +11,18 @@ namespace PocketMoney.Service.Interfaces
     [ServiceKnownType(typeof(WrapperUser))]
     [ServiceKnownType(typeof(WrapperFamily))]
     [ServiceKnownType(typeof(WrapperFile))]
-    [ServiceKnownType(typeof(Role))]
-    public interface ISettingService
+    public interface IGoalService
     {
         [Process, OperationContract]
-        IntResult AddCountry(AddCountryRequest model);
+        GuidResult AddGoal(AddGoalRequest model);
 
         [Process, OperationContract]
-        CountryListResult GetCountries(Request model);
+        Result UpdateGoal(UpdateGoalRequest model);
+
+        GoalResult GetGoal(GuidRequest goalId);
 
         [Process, OperationContract]
-        GuidResult AddHoliday(AddHolidayRequest model);
+        GoalListResult AllGoals(Request model);
 
-        [Process, OperationContract]
-        HolidayListResult GetHolidays(Request model);
-
-        [Process, OperationContract]
-        StringListResult GetLessons(Request model);
     }
 }

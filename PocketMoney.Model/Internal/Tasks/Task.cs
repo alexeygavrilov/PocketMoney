@@ -11,17 +11,17 @@ namespace PocketMoney.Model.Internal
         {
             this.AssignedTo = new List<Performer>();
             this.Attachments = new List<File>();
-            this.Points = new Point(this, 0);
+            this.Reward = new Reward(this, 0);
         }
 
-        public Task(TaskType type, string details, int points, User creator)
+        public Task(TaskType type, string details, Reward reward, User creator)
             : this()
         {
             this.EnableDateRange = type == TaskType.HomeworkTask || type == TaskType.RepeatTask;
             this.Active = true;
             this.Type = type;
             this.Details = details;
-            this.Points = new Point(this, points);
+            this.Reward = new Reward(this, reward.Points, reward.Gift);
             this.Creator = creator;
             this.Family = creator.Family;
         }
@@ -42,7 +42,7 @@ namespace PocketMoney.Model.Internal
         public virtual bool Active { get; set; }
 
         [Details]
-        public virtual Point Points { get; set; }
+        public virtual Reward Reward { get; set; }
 
         [Details]
         public virtual Family Family { get; set; }
@@ -74,5 +74,4 @@ namespace PocketMoney.Model.Internal
         {
         }
     }
-
 }

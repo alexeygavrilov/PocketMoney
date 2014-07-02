@@ -234,7 +234,7 @@ namespace PocketMoney.Service
                 {
                     UserId = x.Id,
                     UserName = x.FullName(),
-                    Points = x.Points.Value
+                    Points = x.Points.Points
                 })
                 .ToList();
 

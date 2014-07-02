@@ -1,4 +1,4 @@
-﻿namespace PocketMoney.App.Properties {
+﻿namespace PocketMoney.ParentApp.Properties {
     
     
     // This class allows you to handle specific events on the settings class:

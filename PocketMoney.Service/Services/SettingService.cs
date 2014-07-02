@@ -5,7 +5,6 @@ using System.Runtime.CompilerServices;
 using System.ServiceModel;
 using System.ServiceModel.Activation;
 using System.Text;
-using System.Threading.Tasks;
 using Castle.Services.Transaction;
 using PocketMoney.Data;
 using PocketMoney.Model.External.Requests;
@@ -22,10 +21,12 @@ namespace PocketMoney.Service
     {
         private readonly IRepository<Country, CountryId, int> _countryRepository;
         private readonly IRepository<Holiday, HolidayId, Guid> _holidaysRepository;
+        private readonly IRepository<Task, TaskId, Guid> _taskRepository;
 
         public SettingService(
             IRepository<Country, CountryId, int> countryRepository,
             IRepository<Holiday, HolidayId, Guid> holidaysRepository,
+            IRepository<Task, TaskId, Guid> taskRepository,
             IRepository<User, UserId, Guid> userRepository,
             IRepository<Family, FamilyId, Guid> familyRepository,
             ICurrentUserProvider currentUserProvider)
@@ -33,6 +34,7 @@ namespace PocketMoney.Service
         {
             _countryRepository = countryRepository;
             _holidaysRepository = holidaysRepository;
+            _taskRepository = taskRepository;
         }
 
         [Transaction(TransactionMode.Requires)]
@@ -67,7 +69,6 @@ namespace PocketMoney.Service
             return new CountryListResult(list, list.Length);
         }
 
-
         [Transaction(TransactionMode.Requires)]
         [MethodImpl(MethodImplOptions.Synchronized)]
         [OperationBehavior(TransactionScopeRequired = true)]
@@ -97,6 +98,18 @@ namespace PocketMoney.Service
                 .ToDictionary(k => k.Date, e => e.Name, EqualityComparer<DayOfOne>.Default);
 
             return new HolidayListResult { TotalCount = list.Count, Dictionary = list };
+        }
+
+        [MethodImpl(MethodImplOptions.Synchronized)]
+        [OperationBehavior(TransactionScopeRequired = true)]
+        public StringListResult GetLessons(Request model)
+        {
+            var list = _taskRepository.AllOf<HomeworkTask>()
+                .Select(x => x.Lesson)
+                .Distinct()
+                .ToArray();
+
+            return new StringListResult(list, list.Length);
         }
     }
 }

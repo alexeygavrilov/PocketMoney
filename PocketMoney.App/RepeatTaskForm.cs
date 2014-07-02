@@ -9,7 +9,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Windows.Forms;
 
-namespace PocketMoney.App
+namespace PocketMoney.ParentApp
 {
     public partial class RepeatTaskForm : BaseForm
     {
@@ -129,7 +129,8 @@ namespace PocketMoney.App
                 result = taskService.AddRepeatTask(new AddRepeatTaskRequest
                 {
                     AssignedTo = assignedTo.ToArray(),
-                    Points = Convert.ToInt32(numericUpDown1.Value),
+                    Points = radioButton5.Checked ? Convert.ToInt32(numericUpDown1.Value) : 0,
+                    Gift = radioButton6.Checked ? textBox3.Text : null,
                     Text = textBox1.Text,
                     ReminderTime = this.GetReminderTime(),
                     Name = textBox2.Text,
@@ -153,7 +154,8 @@ namespace PocketMoney.App
                 {
                     Id = _currentTaskId,
                     AssignedTo = assignedTo.ToArray(),
-                    Points = Convert.ToInt32(numericUpDown1.Value),
+                    Points = radioButton5.Checked ? Convert.ToInt32(numericUpDown1.Value) : 0,
+                    Gift = radioButton6.Checked ? textBox3.Text : null,
                     Text = textBox1.Text,
                     ReminderTime = this.GetReminderTime(),
                     Name = textBox2.Text,
@@ -180,6 +182,12 @@ namespace PocketMoney.App
         private void checkBoxReminder_CheckedChanged(object sender, EventArgs e)
         {
             comboBoxReminderHour.Enabled = comboBoxReminderMinutes.Enabled = comboBoxReminderPM.Enabled = checkBoxReminder.Checked;
+        }
+
+        private void Reward_CheckedChanged(object sender, EventArgs e)
+        {
+            numericUpDown1.Enabled = radioButton5.Checked;
+            textBox3.Enabled = radioButton6.Checked;
         }
 
     }

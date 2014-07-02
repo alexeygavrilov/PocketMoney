@@ -51,12 +51,15 @@
     <Compile Include="Common\DayOfOne.cs" />
     <Compile Include="External\HomeworkForm.cs" />
     <Compile Include="External\RepeatForm.cs" />
+    <Compile Include="External\Requests\GoalRequest.cs" />
+    <Compile Include="External\Requests\RewardRequest.cs" />
+    <Compile Include="External\Results\GoalResult.cs" />
     <Compile Include="External\Results\HolidayListResult.cs">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="External\Results\TaskList.cs" />
+    <Compile Include="External\Results\TaskListResult.cs" />
     <Compile Include="External\Results\TaskResult.cs" />
-    <Compile Include="External\Results\TaskViewFactory.cs" />
+    <Compile Include="External\QueryModel.cs" />
     <Compile Include="External\ShopItem.cs" />
     <Compile Include="Enums\eClientType.cs" />
     <Compile Include="Enums\eDaysOfWeek.cs" />
@@ -88,7 +91,10 @@
     <Compile Include="External\Results\UserResult.cs" />
     <Compile Include="Interfaces\IForm.cs" />
     <Compile Include="Interfaces\IObject.cs" />
+    <Compile Include="Internal\Attainment.cs" />
     <Compile Include="Internal\Country.cs" />
+    <Compile Include="Internal\Goal.cs" />
+    <Compile Include="Internal\Reward.cs" />
     <Compile Include="Internal\ShopItem.cs" />
     <Compile Include="Internal\Tasks\CleanTask.cs" />
     <Compile Include="Internal\Tasks\RepeatTask.cs" />

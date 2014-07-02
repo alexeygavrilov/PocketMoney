@@ -8,7 +8,7 @@ using Castle.Windsor;
 using Castle.Windsor.Configuration.Interpreters;
 using Castle.Windsor.Installer;
 using Microsoft.Practices.ServiceLocation;
-using PocketMoney.App.Properties;
+using PocketMoney.ParentApp.Properties;
 using PocketMoney.Data;
 using PocketMoney.Data.NHibernate;
 using PocketMoney.Util;
@@ -17,7 +17,7 @@ using System;
 using System.Reflection;
 using System.Windows.Forms;
 
-namespace PocketMoney.App
+namespace PocketMoney.ParentApp
 {
     static class Program
     {

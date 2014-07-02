@@ -18,7 +18,7 @@ namespace PocketMoney.Model.NHibernate
             Map(x => x.Reminder).Nullable();
 
             Component(x => x.Type);
-            Component(x => x.Points);
+            Component(x => x.Reward);
 
             References(x => x.Family).Not.Nullable().ForeignKey("FK_Task_Family");
             References(x => x.Creator).Not.Nullable().ForeignKey("FK_Task_Creator");

@@ -8,6 +8,7 @@ namespace PocketMoney.Model.NHibernate
         public HomeworkTaskMap()
         {
             Map(x => x.Form).Length(4000);
+            Map(x => x.Lesson).Nullable().Length(50);
 
             HasMany(x => x.Dates).KeyColumn("TaskId").LazyLoad().Not.KeyUpdate();
         }

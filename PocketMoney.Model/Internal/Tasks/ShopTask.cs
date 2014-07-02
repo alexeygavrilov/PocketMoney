@@ -12,8 +12,8 @@ namespace PocketMoney.Model.Internal
             this.ShoppingList = new List<ShopItem>();
         }
 
-        public ShopTask(string shop, string details, int points, DateTime? deadlineDate, User creator)
-            : base(TaskType.ShoppingTask, details, points, creator)
+        public ShopTask(string shop, string details, Reward reward, DateTime? deadlineDate, User creator)
+            : base(TaskType.ShoppingTask, details, reward, creator)
         {
             this.ShopName = shop;
             this.DeadlineDate = deadlineDate;

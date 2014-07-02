@@ -1,14 +1,7 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
-using System.Drawing;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Forms;
 
-namespace PocketMoney.App
+namespace PocketMoney.ParentApp
 {
     public partial class SelectTaskTypeForm : Form
     {
@@ -22,6 +15,7 @@ namespace PocketMoney.App
             OnetimeTaskForm oneTime = new OnetimeTaskForm();
             if (oneTime.ShowDialog() == DialogResult.OK)
             {
+                this.DialogResult = System.Windows.Forms.DialogResult.OK;
                 this.Close();
             }
         }
@@ -31,6 +25,7 @@ namespace PocketMoney.App
             HomeworkTaskForm homework = new HomeworkTaskForm();
             if (homework.ShowDialog() == System.Windows.Forms.DialogResult.OK)
             {
+                this.DialogResult = System.Windows.Forms.DialogResult.OK;
                 this.Close();
             }
         }
@@ -40,6 +35,7 @@ namespace PocketMoney.App
             CleanTaskForm clean = new CleanTaskForm();
             if (clean.ShowDialog() == System.Windows.Forms.DialogResult.OK)
             {
+                this.DialogResult = System.Windows.Forms.DialogResult.OK;
                 this.Close();
             }
         }
@@ -49,6 +45,7 @@ namespace PocketMoney.App
             RepeatTaskForm workout = new RepeatTaskForm();
             if (workout.ShowDialog() == System.Windows.Forms.DialogResult.OK)
             {
+                this.DialogResult = System.Windows.Forms.DialogResult.OK;
                 this.Close();
             }
         }
@@ -58,6 +55,7 @@ namespace PocketMoney.App
             ShoppingTaskForm shopping = new ShoppingTaskForm();
             if (shopping.ShowDialog() == System.Windows.Forms.DialogResult.OK)
             {
+                this.DialogResult = System.Windows.Forms.DialogResult.OK;
                 this.Close();
             }
         }

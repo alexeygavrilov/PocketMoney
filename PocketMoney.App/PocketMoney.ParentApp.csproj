@@ -7,8 +7,8 @@
     <ProjectGuid>{EB382C12-9836-4309-AA3B-85EA29D0B51E}</ProjectGuid>
     <OutputType>WinExe</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>PocketMoney.App</RootNamespace>
-    <AssemblyName>PocketMoney.App</AssemblyName>
+    <RootNamespace>PocketMoney.ParentApp</RootNamespace>
+    <AssemblyName>PocketMoney.ParentApp</AssemblyName>
     <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
   </PropertyGroup>
@@ -108,6 +108,12 @@
     <Compile Include="CleanTaskForm.Designer.cs">
       <DependentUpon>CleanTaskForm.cs</DependentUpon>
     </Compile>
+    <Compile Include="GoalForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="GoalForm.Designer.cs">
+      <DependentUpon>GoalForm.cs</DependentUpon>
+    </Compile>
     <Compile Include="ShoppingTaskForm.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -153,17 +159,14 @@
     <Compile Include="RepeatTaskForm.Designer.cs">
       <DependentUpon>RepeatTaskForm.cs</DependentUpon>
     </Compile>
-    <Compile Include="TaskListForm.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="TaskListForm.Designer.cs">
-      <DependentUpon>TaskListForm.cs</DependentUpon>
-    </Compile>
     <EmbeddedResource Include="BaseForm.resx">
       <DependentUpon>BaseForm.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="CleanTaskForm.resx">
       <DependentUpon>CleanTaskForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="GoalForm.resx">
+      <DependentUpon>GoalForm.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="ShoppingTaskForm.resx">
       <DependentUpon>ShoppingTaskForm.cs</DependentUpon>
@@ -188,15 +191,13 @@
     <Compile Include="Properties\Resources.Designer.cs">
       <AutoGen>True</AutoGen>
       <DependentUpon>Resources.resx</DependentUpon>
+      <DesignTime>True</DesignTime>
     </Compile>
     <EmbeddedResource Include="SelectTaskTypeForm.resx">
       <DependentUpon>SelectTaskTypeForm.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="RepeatTaskForm.resx">
       <DependentUpon>RepeatTaskForm.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="TaskListForm.resx">
-      <DependentUpon>TaskListForm.cs</DependentUpon>
     </EmbeddedResource>
     <None Include="log4net.config">
       <LastGenOutput>log4net.Designer.cs</LastGenOutput>

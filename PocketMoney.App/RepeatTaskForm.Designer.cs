@@ -1,4 +1,4 @@
-﻿namespace PocketMoney.App
+﻿namespace PocketMoney.ParentApp
 {
     partial class RepeatTaskForm
     {
@@ -28,9 +28,6 @@
         /// </summary>
         private void InitializeComponent()
         {
-            this.label7 = new System.Windows.Forms.Label();
-            this.numericUpDown1 = new System.Windows.Forms.NumericUpDown();
-            this.label3 = new System.Windows.Forms.Label();
             this.label2 = new System.Windows.Forms.Label();
             this.label1 = new System.Windows.Forms.Label();
             this.textBox1 = new System.Windows.Forms.TextBox();
@@ -63,54 +60,25 @@
             this.checkBoxReminder = new System.Windows.Forms.CheckBox();
             this.textBox2 = new System.Windows.Forms.TextBox();
             this.label11 = new System.Windows.Forms.Label();
-            ((System.ComponentModel.ISupportInitialize)(this.numericUpDown1)).BeginInit();
+            this.groupBox2 = new System.Windows.Forms.GroupBox();
+            this.textBox3 = new System.Windows.Forms.TextBox();
+            this.radioButton5 = new System.Windows.Forms.RadioButton();
+            this.radioButton6 = new System.Windows.Forms.RadioButton();
+            this.numericUpDown1 = new System.Windows.Forms.NumericUpDown();
             this.groupBox1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.numericUpDown2)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.numericUpDown3)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.numericUpDown4)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.numericUpDown5)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.numericUpDown6)).BeginInit();
+            this.groupBox2.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.numericUpDown1)).BeginInit();
             this.SuspendLayout();
-            // 
-            // label7
-            // 
-            this.label7.AutoSize = true;
-            this.label7.Location = new System.Drawing.Point(159, 225);
-            this.label7.Name = "label7";
-            this.label7.Size = new System.Drawing.Size(35, 13);
-            this.label7.TabIndex = 30;
-            this.label7.Text = "points";
-            // 
-            // numericUpDown1
-            // 
-            this.numericUpDown1.Location = new System.Drawing.Point(33, 223);
-            this.numericUpDown1.Minimum = new decimal(new int[] {
-            1,
-            0,
-            0,
-            0});
-            this.numericUpDown1.Name = "numericUpDown1";
-            this.numericUpDown1.Size = new System.Drawing.Size(120, 20);
-            this.numericUpDown1.TabIndex = 29;
-            this.numericUpDown1.Value = new decimal(new int[] {
-            10,
-            0,
-            0,
-            0});
-            // 
-            // label3
-            // 
-            this.label3.AutoSize = true;
-            this.label3.Location = new System.Drawing.Point(39, 206);
-            this.label3.Name = "label3";
-            this.label3.Size = new System.Drawing.Size(44, 13);
-            this.label3.TabIndex = 28;
-            this.label3.Text = "Reward";
             // 
             // label2
             // 
             this.label2.AutoSize = true;
-            this.label2.Location = new System.Drawing.Point(36, 113);
+            this.label2.Location = new System.Drawing.Point(378, 90);
             this.label2.Name = "label2";
             this.label2.Size = new System.Drawing.Size(65, 13);
             this.label2.TabIndex = 27;
@@ -119,7 +87,7 @@
             // label1
             // 
             this.label1.AutoSize = true;
-            this.label1.Location = new System.Drawing.Point(33, 36);
+            this.label1.Location = new System.Drawing.Point(375, 13);
             this.label1.Name = "label1";
             this.label1.Size = new System.Drawing.Size(60, 13);
             this.label1.TabIndex = 26;
@@ -127,7 +95,7 @@
             // 
             // textBox1
             // 
-            this.textBox1.Location = new System.Drawing.Point(33, 55);
+            this.textBox1.Location = new System.Drawing.Point(375, 32);
             this.textBox1.Multiline = true;
             this.textBox1.Name = "textBox1";
             this.textBox1.Size = new System.Drawing.Size(294, 51);
@@ -136,7 +104,7 @@
             // checkedListBox1
             // 
             this.checkedListBox1.FormattingEnabled = true;
-            this.checkedListBox1.Location = new System.Drawing.Point(33, 133);
+            this.checkedListBox1.Location = new System.Drawing.Point(375, 110);
             this.checkedListBox1.Name = "checkedListBox1";
             this.checkedListBox1.Size = new System.Drawing.Size(294, 64);
             this.checkedListBox1.TabIndex = 24;
@@ -144,7 +112,7 @@
             // button1
             // 
             this.button1.DialogResult = System.Windows.Forms.DialogResult.OK;
-            this.button1.Location = new System.Drawing.Point(103, 582);
+            this.button1.Location = new System.Drawing.Point(264, 364);
             this.button1.Name = "button1";
             this.button1.Size = new System.Drawing.Size(148, 37);
             this.button1.TabIndex = 31;
@@ -156,7 +124,7 @@
             // 
             this.radioButton1.AutoSize = true;
             this.radioButton1.Checked = true;
-            this.radioButton1.Location = new System.Drawing.Point(33, 261);
+            this.radioButton1.Location = new System.Drawing.Point(30, 46);
             this.radioButton1.Name = "radioButton1";
             this.radioButton1.Size = new System.Drawing.Size(52, 17);
             this.radioButton1.TabIndex = 32;
@@ -173,7 +141,7 @@
             this.groupBox1.Controls.Add(this.label5);
             this.groupBox1.Controls.Add(this.dateTimePicker2);
             this.groupBox1.Controls.Add(this.dateTimePicker1);
-            this.groupBox1.Location = new System.Drawing.Point(33, 464);
+            this.groupBox1.Location = new System.Drawing.Point(30, 249);
             this.groupBox1.Name = "groupBox1";
             this.groupBox1.Size = new System.Drawing.Size(294, 100);
             this.groupBox1.TabIndex = 33;
@@ -253,7 +221,7 @@
             // 
             // numericUpDown3
             // 
-            this.numericUpDown3.Location = new System.Drawing.Point(90, 261);
+            this.numericUpDown3.Location = new System.Drawing.Point(87, 46);
             this.numericUpDown3.Minimum = new decimal(new int[] {
             1,
             0,
@@ -271,7 +239,7 @@
             // label6
             // 
             this.label6.AutoSize = true;
-            this.label6.Location = new System.Drawing.Point(143, 265);
+            this.label6.Location = new System.Drawing.Point(140, 50);
             this.label6.Name = "label6";
             this.label6.Size = new System.Drawing.Size(35, 13);
             this.label6.TabIndex = 35;
@@ -280,7 +248,7 @@
             // radioButton2
             // 
             this.radioButton2.AutoSize = true;
-            this.radioButton2.Location = new System.Drawing.Point(33, 294);
+            this.radioButton2.Location = new System.Drawing.Point(30, 79);
             this.radioButton2.Name = "radioButton2";
             this.radioButton2.Size = new System.Drawing.Size(98, 17);
             this.radioButton2.TabIndex = 36;
@@ -290,7 +258,7 @@
             // radioButton3
             // 
             this.radioButton3.AutoSize = true;
-            this.radioButton3.Location = new System.Drawing.Point(33, 327);
+            this.radioButton3.Location = new System.Drawing.Point(30, 112);
             this.radioButton3.Name = "radioButton3";
             this.radioButton3.Size = new System.Drawing.Size(52, 17);
             this.radioButton3.TabIndex = 37;
@@ -299,7 +267,7 @@
             // 
             // numericUpDown4
             // 
-            this.numericUpDown4.Location = new System.Drawing.Point(90, 327);
+            this.numericUpDown4.Location = new System.Drawing.Point(87, 112);
             this.numericUpDown4.Minimum = new decimal(new int[] {
             1,
             0,
@@ -317,7 +285,7 @@
             // label8
             // 
             this.label8.AutoSize = true;
-            this.label8.Location = new System.Drawing.Point(143, 329);
+            this.label8.Location = new System.Drawing.Point(140, 114);
             this.label8.Name = "label8";
             this.label8.Size = new System.Drawing.Size(62, 13);
             this.label8.TabIndex = 39;
@@ -326,7 +294,7 @@
             // checkedListBox2
             // 
             this.checkedListBox2.FormattingEnabled = true;
-            this.checkedListBox2.Location = new System.Drawing.Point(147, 345);
+            this.checkedListBox2.Location = new System.Drawing.Point(144, 130);
             this.checkedListBox2.Name = "checkedListBox2";
             this.checkedListBox2.Size = new System.Drawing.Size(199, 64);
             this.checkedListBox2.TabIndex = 40;
@@ -334,7 +302,7 @@
             // radioButton4
             // 
             this.radioButton4.AutoSize = true;
-            this.radioButton4.Location = new System.Drawing.Point(39, 422);
+            this.radioButton4.Location = new System.Drawing.Point(36, 207);
             this.radioButton4.Name = "radioButton4";
             this.radioButton4.Size = new System.Drawing.Size(47, 17);
             this.radioButton4.TabIndex = 41;
@@ -343,7 +311,7 @@
             // 
             // numericUpDown5
             // 
-            this.numericUpDown5.Location = new System.Drawing.Point(90, 422);
+            this.numericUpDown5.Location = new System.Drawing.Point(87, 207);
             this.numericUpDown5.Maximum = new decimal(new int[] {
             30,
             0,
@@ -366,7 +334,7 @@
             // label9
             // 
             this.label9.AutoSize = true;
-            this.label9.Location = new System.Drawing.Point(144, 424);
+            this.label9.Location = new System.Drawing.Point(141, 209);
             this.label9.Name = "label9";
             this.label9.Size = new System.Drawing.Size(45, 13);
             this.label9.TabIndex = 43;
@@ -374,7 +342,7 @@
             // 
             // numericUpDown6
             // 
-            this.numericUpDown6.Location = new System.Drawing.Point(188, 422);
+            this.numericUpDown6.Location = new System.Drawing.Point(185, 207);
             this.numericUpDown6.Maximum = new decimal(new int[] {
             12,
             0,
@@ -397,7 +365,7 @@
             // label10
             // 
             this.label10.AutoSize = true;
-            this.label10.Location = new System.Drawing.Point(245, 424);
+            this.label10.Location = new System.Drawing.Point(242, 209);
             this.label10.Name = "label10";
             this.label10.Size = new System.Drawing.Size(47, 13);
             this.label10.TabIndex = 45;
@@ -411,7 +379,7 @@
             this.comboBoxReminderPM.Items.AddRange(new object[] {
             "AM",
             "PM"});
-            this.comboBoxReminderPM.Location = new System.Drawing.Point(298, 225);
+            this.comboBoxReminderPM.Location = new System.Drawing.Point(550, 291);
             this.comboBoxReminderPM.Name = "comboBoxReminderPM";
             this.comboBoxReminderPM.Size = new System.Drawing.Size(42, 21);
             this.comboBoxReminderPM.TabIndex = 49;
@@ -434,7 +402,7 @@
             "45",
             "50",
             "55"});
-            this.comboBoxReminderMinutes.Location = new System.Drawing.Point(250, 225);
+            this.comboBoxReminderMinutes.Location = new System.Drawing.Point(502, 291);
             this.comboBoxReminderMinutes.Name = "comboBoxReminderMinutes";
             this.comboBoxReminderMinutes.Size = new System.Drawing.Size(42, 21);
             this.comboBoxReminderMinutes.TabIndex = 48;
@@ -457,7 +425,7 @@
             "10",
             "11",
             "12"});
-            this.comboBoxReminderHour.Location = new System.Drawing.Point(202, 224);
+            this.comboBoxReminderHour.Location = new System.Drawing.Point(455, 291);
             this.comboBoxReminderHour.Name = "comboBoxReminderHour";
             this.comboBoxReminderHour.Size = new System.Drawing.Size(42, 21);
             this.comboBoxReminderHour.TabIndex = 47;
@@ -465,7 +433,7 @@
             // checkBoxReminder
             // 
             this.checkBoxReminder.AutoSize = true;
-            this.checkBoxReminder.Location = new System.Drawing.Point(202, 208);
+            this.checkBoxReminder.Location = new System.Drawing.Point(381, 293);
             this.checkBoxReminder.Name = "checkBoxReminder";
             this.checkBoxReminder.Size = new System.Drawing.Size(71, 17);
             this.checkBoxReminder.TabIndex = 46;
@@ -475,7 +443,7 @@
             // 
             // textBox2
             // 
-            this.textBox2.Location = new System.Drawing.Point(80, 12);
+            this.textBox2.Location = new System.Drawing.Point(74, 12);
             this.textBox2.Name = "textBox2";
             this.textBox2.Size = new System.Drawing.Size(247, 20);
             this.textBox2.TabIndex = 51;
@@ -483,18 +451,71 @@
             // label11
             // 
             this.label11.AutoSize = true;
-            this.label11.Location = new System.Drawing.Point(36, 15);
+            this.label11.Location = new System.Drawing.Point(30, 15);
             this.label11.Name = "label11";
             this.label11.Size = new System.Drawing.Size(35, 13);
             this.label11.TabIndex = 50;
             this.label11.Text = "Name";
+            // 
+            // groupBox2
+            // 
+            this.groupBox2.Controls.Add(this.textBox3);
+            this.groupBox2.Controls.Add(this.radioButton5);
+            this.groupBox2.Controls.Add(this.radioButton6);
+            this.groupBox2.Controls.Add(this.numericUpDown1);
+            this.groupBox2.Location = new System.Drawing.Point(375, 189);
+            this.groupBox2.Name = "groupBox2";
+            this.groupBox2.Size = new System.Drawing.Size(307, 100);
+            this.groupBox2.TabIndex = 52;
+            this.groupBox2.TabStop = false;
+            this.groupBox2.Text = "Reward";
+            // 
+            // textBox3
+            // 
+            this.textBox3.Location = new System.Drawing.Point(73, 52);
+            this.textBox3.Multiline = true;
+            this.textBox3.Name = "textBox3";
+            this.textBox3.Size = new System.Drawing.Size(228, 37);
+            this.textBox3.TabIndex = 32;
+            // 
+            // radioButton5
+            // 
+            this.radioButton5.AutoSize = true;
+            this.radioButton5.Checked = true;
+            this.radioButton5.Location = new System.Drawing.Point(13, 19);
+            this.radioButton5.Name = "radioButton5";
+            this.radioButton5.Size = new System.Drawing.Size(54, 17);
+            this.radioButton5.TabIndex = 26;
+            this.radioButton5.TabStop = true;
+            this.radioButton5.Text = "Points";
+            this.radioButton5.UseVisualStyleBackColor = true;
+            this.radioButton5.CheckedChanged += new System.EventHandler(this.Reward_CheckedChanged);
+            // 
+            // radioButton6
+            // 
+            this.radioButton6.AutoSize = true;
+            this.radioButton6.Location = new System.Drawing.Point(13, 52);
+            this.radioButton6.Name = "radioButton6";
+            this.radioButton6.Size = new System.Drawing.Size(41, 17);
+            this.radioButton6.TabIndex = 27;
+            this.radioButton6.Text = "Gift";
+            this.radioButton6.UseVisualStyleBackColor = true;
+            this.radioButton6.CheckedChanged += new System.EventHandler(this.Reward_CheckedChanged);
+            // 
+            // numericUpDown1
+            // 
+            this.numericUpDown1.Location = new System.Drawing.Point(73, 19);
+            this.numericUpDown1.Name = "numericUpDown1";
+            this.numericUpDown1.Size = new System.Drawing.Size(120, 20);
+            this.numericUpDown1.TabIndex = 31;
             // 
             // RepeatTaskForm
             // 
             this.AcceptButton = this.button1;
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(358, 631);
+            this.ClientSize = new System.Drawing.Size(684, 408);
+            this.Controls.Add(this.groupBox2);
             this.Controls.Add(this.textBox2);
             this.Controls.Add(this.label11);
             this.Controls.Add(this.comboBoxReminderPM);
@@ -516,9 +537,6 @@
             this.Controls.Add(this.groupBox1);
             this.Controls.Add(this.radioButton1);
             this.Controls.Add(this.button1);
-            this.Controls.Add(this.label7);
-            this.Controls.Add(this.numericUpDown1);
-            this.Controls.Add(this.label3);
             this.Controls.Add(this.label2);
             this.Controls.Add(this.label1);
             this.Controls.Add(this.textBox1);
@@ -526,7 +544,6 @@
             this.Name = "RepeatTaskForm";
             this.Text = "Repeat Task";
             this.Load += new System.EventHandler(this.RepeatTaskForm_Load);
-            ((System.ComponentModel.ISupportInitialize)(this.numericUpDown1)).EndInit();
             this.groupBox1.ResumeLayout(false);
             this.groupBox1.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.numericUpDown2)).EndInit();
@@ -534,6 +551,9 @@
             ((System.ComponentModel.ISupportInitialize)(this.numericUpDown4)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.numericUpDown5)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.numericUpDown6)).EndInit();
+            this.groupBox2.ResumeLayout(false);
+            this.groupBox2.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.numericUpDown1)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -541,9 +561,6 @@
 
         #endregion
 
-        private System.Windows.Forms.Label label7;
-        private System.Windows.Forms.NumericUpDown numericUpDown1;
-        private System.Windows.Forms.Label label3;
         private System.Windows.Forms.Label label2;
         private System.Windows.Forms.Label label1;
         private System.Windows.Forms.TextBox textBox1;
@@ -576,5 +593,10 @@
         private System.Windows.Forms.CheckBox checkBoxReminder;
         private System.Windows.Forms.TextBox textBox2;
         private System.Windows.Forms.Label label11;
+        private System.Windows.Forms.GroupBox groupBox2;
+        private System.Windows.Forms.TextBox textBox3;
+        private System.Windows.Forms.RadioButton radioButton5;
+        private System.Windows.Forms.RadioButton radioButton6;
+        private System.Windows.Forms.NumericUpDown numericUpDown1;
     }
 }

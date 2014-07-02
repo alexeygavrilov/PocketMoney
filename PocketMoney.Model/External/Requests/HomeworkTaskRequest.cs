@@ -9,6 +9,12 @@ namespace PocketMoney.Model.External.Requests
     [DataContract]
     public class AddHomeworkTaskRequest : BaseTaskRequest
     {
+        [DataMember]
+        [DataType(DataType.Text)]
+        [Display(Name = "Lesson")]
+        [Details]
+        public string Lesson { get; set; }
+
         [DataMember, Details]
         public HomeworkForm Form { get; set; }
 

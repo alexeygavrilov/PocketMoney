@@ -98,7 +98,7 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PocketMoney.Test.Api", "Poc
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "PocketMoney.Test", "PocketMoney.Test", "{4ECC8F30-A6F1-4F58-BC7D-4C3775D887F9}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PocketMoney.App", "PocketMoney.App\PocketMoney.App.csproj", "{EB382C12-9836-4309-AA3B-85EA29D0B51E}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PocketMoney.ParentApp", "PocketMoney.App\PocketMoney.ParentApp.csproj", "{EB382C12-9836-4309-AA3B-85EA29D0B51E}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

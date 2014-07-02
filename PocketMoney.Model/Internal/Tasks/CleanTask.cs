@@ -6,8 +6,8 @@ namespace PocketMoney.Model.Internal
     {
         protected CleanTask() : base() { }
 
-        public CleanTask(string roomName, string details, int points, User creator, eDaysOfWeek daysOfWeek)
-            : base(TaskType.CleanTask, details, points, creator)
+        public CleanTask(string roomName, string details, Reward reward, User creator, eDaysOfWeek daysOfWeek)
+            : base(TaskType.CleanTask, details, reward, creator)
         {
             this.RoomName = roomName;
             this.DaysOfWeek = daysOfWeek;

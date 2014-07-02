@@ -1,4 +1,4 @@
-﻿namespace PocketMoney.App
+﻿namespace PocketMoney.ParentApp
 {
     partial class LoginForm
     {

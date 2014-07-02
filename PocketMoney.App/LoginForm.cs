@@ -5,7 +5,7 @@ using PocketMoney.Service.Interfaces;
 using System;
 using System.Windows.Forms;
 
-namespace PocketMoney.App
+namespace PocketMoney.ParentApp
 {
     public partial class LoginForm : Form
     {

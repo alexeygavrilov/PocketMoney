@@ -1,4 +1,5 @@
 ﻿using Microsoft.Practices.ServiceLocation;
+using PocketMoney.Data;
 using PocketMoney.Model.External;
 using PocketMoney.Model.External.Requests;
 using PocketMoney.Model.External.Results;
@@ -8,7 +9,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Windows.Forms;
 
-namespace PocketMoney.App
+namespace PocketMoney.ParentApp
 {
     public partial class HomeworkTaskForm : BaseForm
     {
@@ -26,14 +27,19 @@ namespace PocketMoney.App
         private void HomeworkTaskForm_Load(object sender, EventArgs e)
         {
             var familyService = ServiceLocator.Current.GetInstance<IFamilyService>();
-            var result = familyService.GetUsers(new FamilyRequest { Data = _currentUser.Family });
-            if (result.Success)
+            var usersResult = familyService.GetUsers(new FamilyRequest { Data = _currentUser.Family });
+            if (usersResult.Success)
             {
                 checkedListBox1.Items.Clear();
-                foreach (var ui in result.List.Where(x => x.UserId != _currentUser.Id))
+                foreach (var ui in usersResult.List.Where(x => x.UserId != _currentUser.Id))
                 {
                     checkedListBox1.Items.Add(ui);
                 }
+            }
+            else
+            {
+                MessageBox.Show(usersResult.Message, "Invalid", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                return;
             }
             comboBox1.SelectedIndex = 0;
             checkedListBox2.Items.Clear();
@@ -48,6 +54,19 @@ namespace PocketMoney.App
             comboBoxReminderMinutes.SelectedIndex = 0;
             comboBoxReminderPM.SelectedIndex = 1;
 
+            var lessonsResult = _settigsService.GetLessons(Request.Empty);
+
+            if (lessonsResult.Success)
+            {
+                var lessons = new AutoCompleteStringCollection();
+                lessonsResult.List.Select(s => lessons.Add(s));
+                comboBox2.AutoCompleteCustomSource = lessons;
+            }
+            else
+            {
+                MessageBox.Show(lessonsResult.Message, "Invalid", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                return;
+            }
 
             this.FillData<HomeworkTaskView>(
                 x => _taskService.GetHomeworkTask(x),
@@ -64,6 +83,8 @@ namespace PocketMoney.App
                     comboBox1.SelectedIndex = task.Form.DateRangeIndex;
                     dateTimePicker1.Value = task.Form.DateRangeFrom;
                     dateTimePicker2.Value = task.Form.DateRangeTo;
+                    comboBox2.Text = task.Lesson ?? string.Empty;
+                    checkBox2.Checked = comboBox2.Enabled = !string.IsNullOrEmpty(task.Lesson);
                 });
         }
 
@@ -91,7 +112,6 @@ namespace PocketMoney.App
 
         private void button1_Click(object sender, EventArgs e)
         {
-            var taskService = ServiceLocator.Current.GetInstance<ITaskService>();
             IList<Guid> assignedTo = new List<Guid>();
             foreach (var checkedItem in checkedListBox1.CheckedItems)
             {
@@ -106,10 +126,12 @@ namespace PocketMoney.App
             Data.Result result = null;
             if (_currentTaskId == Guid.Empty)
             {
-                result = taskService.AddHomeworkTask(new AddHomeworkTaskRequest
+                result = _taskService.AddHomeworkTask(new AddHomeworkTaskRequest
                 {
+                    Lesson = checkBox2.Checked ? comboBox2.Text : null,
                     AssignedTo = assignedTo.ToArray(),
-                    Points = Convert.ToInt32(numericUpDown1.Value),
+                    Points = radioButton5.Checked ? Convert.ToInt32(numericUpDown1.Value) : 0,
+                    Gift = radioButton6.Checked ? textBox3.Text : null,
                     Text = textBox1.Text,
                     ReminderTime = this.GetReminderTime(),
                     Form = new HomeworkForm
@@ -127,8 +149,10 @@ namespace PocketMoney.App
                 result = _taskService.UpdateHomeworkTask(new UpdateHomeworkTaskRequest
                 {
                     Id = _currentTaskId,
+                    Lesson = checkBox2.Checked ? comboBox2.Text : null,
                     AssignedTo = assignedTo.ToArray(),
-                    Points = Convert.ToInt32(numericUpDown1.Value),
+                    Points = radioButton5.Checked ? Convert.ToInt32(numericUpDown1.Value) : 0,
+                    Gift = radioButton6.Checked ? textBox3.Text : null,
                     Text = textBox1.Text,
                     ReminderTime = this.GetReminderTime(),
                     Form = new HomeworkForm
@@ -151,6 +175,17 @@ namespace PocketMoney.App
         private void checkBoxReminder_CheckedChanged(object sender, EventArgs e)
         {
             comboBoxReminderHour.Enabled = comboBoxReminderMinutes.Enabled = comboBoxReminderPM.Enabled = checkBoxReminder.Checked;
+        }
+
+        private void checkBox2_CheckedChanged(object sender, EventArgs e)
+        {
+            comboBox2.Enabled = checkBox2.Checked;
+        }
+
+        private void Reward_CheckedChanged(object sender, EventArgs e)
+        {
+            numericUpDown1.Enabled = radioButton5.Checked;
+            textBox3.Enabled = radioButton6.Checked;
         }
 
     }

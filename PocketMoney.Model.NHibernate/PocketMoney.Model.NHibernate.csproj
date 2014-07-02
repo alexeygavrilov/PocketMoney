@@ -61,9 +61,11 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="AttainmentMap.cs" />
     <Compile Include="CleanTaskMap.cs" />
     <Compile Include="CountryMap.cs" />
     <Compile Include="DayOfOneMap.cs" />
+    <Compile Include="GoalMap.cs" />
     <Compile Include="HomeworkTaskMap.cs" />
     <Compile Include="RepeatTaskMap.cs" />
     <Compile Include="ShopItemMap.cs" />
@@ -76,7 +78,7 @@
     <Compile Include="OneTimeTaskMap.cs" />
     <Compile Include="PerformerMap.cs" />
     <Compile Include="PhoneMap.cs" />
-    <Compile Include="PointMap.cs" />
+    <Compile Include="RewardMap.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="QueueOperationMap.cs" />
     <Compile Include="TaskActionMap.cs" />

@@ -77,6 +77,7 @@
     <Compile Include="Installers\ServicesInstaller.cs" />
     <Compile Include="Interfaces\IConnector.cs" />
     <Compile Include="Interfaces\IFamilyService.cs" />
+    <Compile Include="Interfaces\IGoalService.cs" />
     <Compile Include="Interfaces\IMessageService.cs" />
     <Compile Include="Interfaces\ISettingService.cs" />
     <Compile Include="Interfaces\ITaskService.cs" />
@@ -90,6 +91,7 @@
     <Compile Include="Installers\DataBuilder.cs" />
     <Compile Include="Services\Connector.cs" />
     <Compile Include="Services\FamilyService.cs" />
+    <Compile Include="Services\GoalService.cs" />
     <Compile Include="Services\MessageService.cs" />
     <Compile Include="Services\SettingService.cs" />
     <Compile Include="Services\TaskService.cs" />

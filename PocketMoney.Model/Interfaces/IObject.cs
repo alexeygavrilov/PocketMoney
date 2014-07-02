@@ -16,6 +16,7 @@ namespace PocketMoney.Model
     {
         User,
         Family,
-        Task
+        Task,
+        Attainment
     }
 }

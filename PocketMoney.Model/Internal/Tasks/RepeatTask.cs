@@ -9,8 +9,8 @@ namespace PocketMoney.Model.Internal
             this.Dates = new List<TaskDate>();
         }
 
-        public RepeatTask(string name, string details, int points, User creator, string form)
-            : base(TaskType.RepeatTask, details, points, creator)
+        public RepeatTask(string name, string details, Reward reward, User creator, string form)
+            : base(TaskType.RepeatTask, details, reward, creator)
         {
             this.RepeatName = name;
             this.Form = form;

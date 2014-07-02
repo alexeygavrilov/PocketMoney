@@ -31,4 +31,13 @@ namespace PocketMoney.Model.External.Results
 
         public IntResult(int id) : base(id) { }
     }
+
+    [DataContract]
+    public class StringListResult : ResultList<string>
+    {
+        public StringListResult() { }
+
+        public StringListResult(string[] list, int count) : base(list, count) { }
+    }
+
 }

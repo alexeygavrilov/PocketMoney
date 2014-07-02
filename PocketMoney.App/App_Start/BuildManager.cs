@@ -14,7 +14,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
 
-namespace PocketMoney.App
+namespace PocketMoney.ParentApp
 {
     public class BuildManager : IBuildManager
     {

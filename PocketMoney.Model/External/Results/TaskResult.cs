@@ -25,14 +25,14 @@ namespace PocketMoney.Model.External.Results
     [DataContract]
     public sealed class CleanTaskView : TaskView
     {
-        public CleanTaskView(string roomName, bool everyDay, int[] daysOfWeek, Guid taskId, TaskType type, string text, Point points, int? reminderTime, IDictionary<Guid, string> assignedTo)
-            : base(taskId, type, text, points, reminderTime, assignedTo)
+        public CleanTaskView(string roomName, bool everyDay, int[] daysOfWeek, Guid taskId, TaskType type, string text, Reward reward, int? reminderTime, IDictionary<Guid, string> assignedTo)
+            : base(taskId, type, text, reward, reminderTime, assignedTo)
         {
             this.RoomName = roomName;
             this.EveryDay = everyDay;
             this.DaysOfWeek = daysOfWeek;
         }
-        
+
         public CleanTaskView(CleanTask task)
             : base(task)
         {
@@ -77,24 +77,32 @@ namespace PocketMoney.Model.External.Results
     [DataContract]
     public sealed class HomeworkTaskView : TaskView
     {
-        public HomeworkTaskView(HomeworkForm form, Guid taskId, TaskType type, string text, Point points, int? reminderTime, IDictionary<Guid, string> assignedTo)
-            : base(taskId, type, text, points, reminderTime, assignedTo)
+        public HomeworkTaskView(string lesson, HomeworkForm form, Guid taskId, TaskType type, string text, Reward reward, int? reminderTime, IDictionary<Guid, string> assignedTo)
+            : base(taskId, type, text, reward, reminderTime, assignedTo)
         {
+            this.Lesson = lesson;
             this.Form = form;
         }
 
         public HomeworkTaskView(HomeworkTask task)
             : base(task)
         {
+            this.Lesson = task.Lesson;
             this.Form = (HomeworkForm)BinarySerializer.Deserialaize(Convert.FromBase64String(task.Form), typeof(HomeworkForm));
         }
+
+        [DataMember, Details]
+        public string Lesson { get; set; }
 
         [DataMember, Details]
         public HomeworkForm Form { get; set; }
 
         public override string GetTitle()
         {
-            return "Homework";
+            if (!string.IsNullOrEmpty(this.Lesson))
+                return string.Format("Homework ({0})", this.Lesson);
+            else
+                return "Homework";
         }
     }
 
@@ -114,8 +122,8 @@ namespace PocketMoney.Model.External.Results
     [DataContract]
     public sealed class OneTimeTaskView : TaskView
     {
-        public OneTimeTaskView(string name, DateTime? deadline, Guid taskId, TaskType type, string text, Point points, int? reminderTime, IDictionary<Guid, string> assignedTo)
-            : base(taskId, type, text, points, reminderTime, assignedTo)
+        public OneTimeTaskView(string name, DateTime? deadline, Guid taskId, TaskType type, string text, Reward reward, int? reminderTime, IDictionary<Guid, string> assignedTo)
+            : base(taskId, type, text, reward, reminderTime, assignedTo)
         {
             this.Name = name;
             this.DeadlineDate = deadline;
@@ -156,8 +164,8 @@ namespace PocketMoney.Model.External.Results
     [DataContract]
     public sealed class RepeatTaskView : TaskView
     {
-        public RepeatTaskView(string name, RepeatForm form, Guid taskId, TaskType type, string text, Point points, int? reminderTime, IDictionary<Guid, string> assignedTo)
-            : base(taskId, type, text, points, reminderTime, assignedTo)
+        public RepeatTaskView(string name, RepeatForm form, Guid taskId, TaskType type, string text, Reward reward, int? reminderTime, IDictionary<Guid, string> assignedTo)
+            : base(taskId, type, text, reward, reminderTime, assignedTo)
         {
             this.Name = name;
             this.Form = form;
@@ -198,8 +206,8 @@ namespace PocketMoney.Model.External.Results
     [DataContract]
     public sealed class ShoppingTaskView : TaskView
     {
-        public ShoppingTaskView(string shopName, DateTime? deadline, ShopItem[] shoppingList, Guid taskId, TaskType type, string text, Point points, int? reminderTime, IDictionary<Guid, string> assignedTo)
-            : base(taskId, type, text, points, reminderTime, assignedTo)
+        public ShoppingTaskView(string shopName, DateTime? deadline, ShopItem[] shoppingList, Guid taskId, TaskType type, string text, Reward reward, int? reminderTime, IDictionary<Guid, string> assignedTo)
+            : base(taskId, type, text, reward, reminderTime, assignedTo)
         {
             this.ShopName = shopName;
             this.DeadlineDate = deadline;

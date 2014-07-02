@@ -8,7 +8,7 @@ using System.Globalization;
 using PocketMoney.Model.External.Results;
 using PocketMoney.Model.External.Requests;
 
-namespace PocketMoney.App
+namespace PocketMoney.ParentApp
 {
     public class BaseForm : Form
     {
@@ -16,6 +16,7 @@ namespace PocketMoney.App
         protected IUser _currentUser = null;
         protected Guid _currentTaskId = Guid.Empty;
         protected ITaskService _taskService = null;
+        protected ISettingService _settigsService = null;
 
         protected BaseForm()
         {
@@ -25,6 +26,7 @@ namespace PocketMoney.App
                 _currentDataProvider = ServiceLocator.Current.GetInstance<ICurrentUserProvider>();
                 _currentUser = _currentDataProvider.GetCurrentUser();
                 _taskService = ServiceLocator.Current.GetInstance<ITaskService>();
+                _settigsService = ServiceLocator.Current.GetInstance<ISettingService>();
             }
         }
 
@@ -38,7 +40,7 @@ namespace PocketMoney.App
         {
             if (_currentTaskId != Guid.Empty)
             {
-                var taskResult = get(new GuidRequest { Data = _currentTaskId });
+                var taskResult = get(new GuidRequest(_currentTaskId));
                 if (!taskResult.Success)
                 {
                     MessageBox.Show(taskResult.Message, "Invalid", MessageBoxButtons.OK, MessageBoxIcon.Warning);
@@ -49,7 +51,18 @@ namespace PocketMoney.App
 
                 this.SetReminderTime(task.ReminderTime);
 
-                ((NumericUpDown)this.Controls["numericUpDown1"]).Value = (decimal)task.Points;
+                if (string.IsNullOrEmpty(task.Gift))
+                {
+                    ((TextBox)this.Controls["groupbox2"].Controls["textBox3"]).Text = string.Empty;
+                    ((NumericUpDown)this.Controls["groupbox2"].Controls["numericUpDown1"]).Value = (decimal)task.Points;
+                    ((RadioButton)this.Controls["groupbox2"].Controls["radioButton5"]).Checked = true;
+                }
+                else
+                {
+                    ((TextBox)this.Controls["groupbox2"].Controls["textBox3"]).Text = task.Gift;
+                    ((NumericUpDown)this.Controls["groupbox2"].Controls["numericUpDown1"]).Value = decimal.Zero;
+                    ((RadioButton)this.Controls["groupbox2"].Controls["radioButton6"]).Checked = true;
+                }
 
                 var __checkedListBox1 = (CheckedListBox)this.Controls["checkedListBox1"];
                 for (int i = 0; i < __checkedListBox1.Items.Count; i++)

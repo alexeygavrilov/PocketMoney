@@ -1,4 +1,4 @@
-﻿using PocketMoney.App.Properties;
+﻿using PocketMoney.ParentApp.Properties;
 using PocketMoney.Data;
 using PocketMoney.Data.Wrappers;
 using System;
@@ -7,7 +7,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace PocketMoney.App
+namespace PocketMoney.ParentApp
 {
     public class CurrentUserProvider : ICurrentUserProvider
     {

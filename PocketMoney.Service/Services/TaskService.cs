@@ -21,6 +21,7 @@ using PocketMoney.Data.NHibernate;
 using NHibernate.SqlCommand;
 using NHibernate.Criterion;
 using NHibernate.Transform;
+using PocketMoney.Model.External;
 
 namespace PocketMoney.Service
 {
@@ -99,7 +100,7 @@ namespace PocketMoney.Service
 
             task.Active = true;
             task.Details = model.Text;
-            task.Points = new Point(task, model.Points);
+            task.Reward = new Reward(task, model.Points, model.Gift);
 
             if (model.ReminderTime.HasValue)
             {
@@ -186,7 +187,7 @@ namespace PocketMoney.Service
                 currentUser => new OneTimeTask(
                                 model.Name,
                                 model.Text,
-                                model.Points,
+                                new Reward(model.Points, model.Gift),
                                 model.DeadlineDate,
                                 currentUser.To()));
         }
@@ -199,8 +200,9 @@ namespace PocketMoney.Service
             return this.AddTask<AddHomeworkTaskRequest, HomeworkTask>(model,
                 currentUser => new HomeworkTask(
                                 model.Text,
-                                model.Points,
+                                new Reward(model.Points, model.Gift),
                                 currentUser.To(),
+                                model.Lesson,
                                 Convert.ToBase64String(BinarySerializer.Serialaize(model.Form))),
                 task =>
                 {
@@ -221,7 +223,7 @@ namespace PocketMoney.Service
                 currentUser => new CleanTask(
                                 model.RoomName,
                                 model.Text,
-                                model.Points,
+                                new Reward(model.Points, model.Gift),
                                 currentUser.To(),
                                 model.GetDaysOfWeek()));
         }
@@ -233,11 +235,11 @@ namespace PocketMoney.Service
         {
             return this.AddTask<AddRepeatTaskRequest, RepeatTask>(model,
                 currentUser => new RepeatTask(
-                    model.Name,
-                    model.Text,
-                    model.Points,
-                    currentUser.To(),
-                    Convert.ToBase64String(BinarySerializer.Serialaize(model.Form))),
+                            model.Name,
+                            model.Text,
+                            new Reward(model.Points, model.Gift),
+                            currentUser.To(),
+                            Convert.ToBase64String(BinarySerializer.Serialaize(model.Form))),
                 task =>
                 {
                     foreach (var dateOfOne in model.Form.CalculateDates())
@@ -256,16 +258,16 @@ namespace PocketMoney.Service
         {
             return this.AddTask<AddShoppingTaskRequest, ShopTask>(model,
                 currentUser => new ShopTask(model.ShopName,
-                    model.Text,
-                    model.Points,
-                    model.DeadlineDate,
-                    currentUser.To()),
+                                model.Text,
+                                new Reward(model.Points, model.Gift),
+                                model.DeadlineDate,
+                                currentUser.To()),
                 task =>
                 {
                     var shopItemRepository = ServiceLocator.Current.GetInstance<IRepository<I.ShopItem, I.ShopItemId, Guid>>();
                     foreach (var item in model.ShoppingList)
                     {
-                        shopItemRepository.Add(new ShopItem(task, item.ItemName, item.Qty, item.OrderNumber));
+                        shopItemRepository.Add(new I.ShopItem(task, item.ItemName, item.Qty, item.OrderNumber));
                     }
                 });
         }
@@ -360,7 +362,7 @@ namespace PocketMoney.Service
                     }
                     else
                     {
-                        shopItem = new ShopItem(task, item.ItemName, item.Qty, item.OrderNumber);
+                        shopItem = new I.ShopItem(task, item.ItemName, item.Qty, item.OrderNumber);
                         shopItemRepository.Add(shopItem);
                         taskList.Add(shopItem);
                     }
@@ -410,33 +412,34 @@ namespace PocketMoney.Service
 
             Performer performer = null;
             User user = null;
-            TaskViewFactoryEx task = null;
+            TaskViewInQuery task = null;
 
             var list = _taskRepository.QueryOver<Task, TaskId, Guid>()
                 .JoinAlias(x => x.AssignedTo, () => performer, JoinType.LeftOuterJoin)
                 .JoinAlias(() => performer.User, () => user, JoinType.LeftOuterJoin)
-                .Where(x => x.Family.Id == currentUser.Family.Id && x.Active)
+                .Where(x => x.Family.Id == currentUser.Family.Id && x.Active && x.Type.Id != TaskType.Goal.Id)
                 .Select(
-                    Projections.Property<Task>(x => x.Id).WithAlias(() => task.TaskId),
+                    Projections.Property<Task>(x => x.Id).WithAlias(() => task.Id),
                     Projections.Property<Task>(x => x.Type).WithAlias(() => task.TaskType),
                     Projections.Property<Task>(x => x.Details).WithAlias(() => task.Details),
-                    Projections.Property<Task>(x => x.Points).WithAlias(() => task.Points),
+                    Projections.Property<Task>(x => x.Reward).WithAlias(() => task.Reward),
                     Projections.Property<Task>(x => x.Reminder).WithAlias(() => task.Reminder),
                     Projections.Property<CleanTask>(c => c.RoomName).WithAlias(() => task.RoomName),
                     Projections.Property<ShopTask>(s => s.ShopName).WithAlias(() => task.ShopName),
                     Projections.Property<RepeatTask>(r => r.RepeatName).WithAlias(() => task.RepeatName),
                     Projections.Property<OneTimeTask>(o => o.OneTimeName).WithAlias(() => task.OneTimeName),
+                    Projections.Property<HomeworkTask>(o => o.Lesson).WithAlias(() => task.LessonName),
                     Projections.Property(() => user.Id).WithAlias(() => task.UserId),
                     Projections.Property(() => user.UserName).WithAlias(() => task.UserName),
                     Projections.Property(() => user.AdditionalName).WithAlias(() => task.AdditionalName)
                     )
                 .OrderBy(x => x.DateCreated).Asc
-                .TransformUsing(Transformers.AliasToBean<TaskViewFactoryEx>())
-                .List<TaskViewFactoryEx>();
+                .TransformUsing(Transformers.AliasToBean<TaskViewInQuery>())
+                .List<TaskViewInQuery>();
 
             var result = list
-                .GroupBy(g => g.TaskId)
-                .Select(x => x.First().Create(x.ToDictionary(k => k.UserId, u => User.FullName(u.UserName, u.AdditionalName), EqualityComparer<Guid>.Default)))
+                .GroupBy(g => g.Id)
+                .Select(x => x.First().Create(x.ToList<UserViewInQuery>()))
                 .ToArray();
 
             return new TaskListResult(result, result.Length);
