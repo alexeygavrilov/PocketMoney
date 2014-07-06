@@ -2,12 +2,15 @@
 using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
+using System.Linq;
 using System.Runtime.Serialization;
+using System.Text;
+using System.Threading.Tasks;
 
 namespace PocketMoney.Model.External.Requests
 {
     [DataContract]
-    public class RewardRequest : Request
+    public class WithdrawRequest  : Request
     {
         [DataMember]
         [DataType(DataType.Currency)]
@@ -15,16 +18,13 @@ namespace PocketMoney.Model.External.Requests
         [Details]
         public int Points { get; set; }
 
-        [DataMember]
-        [DataType(DataType.MultilineText)]
-        [Display(Name = "Gift")]
-        [Details]
-        public string Gift { get; set; }
+        [DataMember, Details]
+        public Guid UserId { get; set; }
 
         public override IEnumerable<ValidationResult> Validate(ValidationContext validationContext)
         {
-            if (string.IsNullOrWhiteSpace(this.Gift) && this.Points <= 0)
-                yield return new ValidationResult("Reward should contais points or gift");
+            if (this.Points <= 0)
+                yield return new ValidationResult("Points number should be positive");
         }
 
     }

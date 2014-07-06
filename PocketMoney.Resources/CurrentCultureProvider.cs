@@ -15,9 +15,10 @@ namespace PocketMoney.Resources
         {
             get
             {
-                if (_culture == null)
-                    _culture = ServiceLocator.Current.GetInstance<ICurrentCulture>();
-                return _culture.GetCurrentUICulture();
+                return new CultureInfo("en-US");
+                //if (_culture == null)
+                //    _culture = ServiceLocator.Current.GetInstance<ICurrentCulture>();
+                //return _culture.GetCurrentUICulture();
             }
         }
     }

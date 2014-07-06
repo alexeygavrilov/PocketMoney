@@ -15,6 +15,11 @@ namespace PocketMoney.Model.Internal
             : base(TaskType.Goal, text, reward, creator)
         {
         }
+
+        public override string Name
+        {
+            get { return this.Details; }
+        }
     }
 
     public class GoalId : GuidIdentity

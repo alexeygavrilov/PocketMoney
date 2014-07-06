@@ -96,6 +96,12 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="AppointRewardForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="AppointRewardForm.Designer.cs">
+      <DependentUpon>AppointRewardForm.cs</DependentUpon>
+    </Compile>
     <Compile Include="App_Start\BuildManager.cs" />
     <Compile Include="App_Start\CurrentUserProvider.cs" />
     <Compile Include="App_Start\FluentNHibernateConfigurationBuilder.cs" />
@@ -113,6 +119,12 @@
     </Compile>
     <Compile Include="GoalForm.Designer.cs">
       <DependentUpon>GoalForm.cs</DependentUpon>
+    </Compile>
+    <Compile Include="NewUserForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="NewUserForm.Designer.cs">
+      <DependentUpon>NewUserForm.cs</DependentUpon>
     </Compile>
     <Compile Include="ShoppingTaskForm.cs">
       <SubType>Form</SubType>
@@ -159,6 +171,21 @@
     <Compile Include="RepeatTaskForm.Designer.cs">
       <DependentUpon>RepeatTaskForm.cs</DependentUpon>
     </Compile>
+    <Compile Include="UserForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="UserForm.Designer.cs">
+      <DependentUpon>UserForm.cs</DependentUpon>
+    </Compile>
+    <Compile Include="WithdrawForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="WithdrawForm.Designer.cs">
+      <DependentUpon>WithdrawForm.cs</DependentUpon>
+    </Compile>
+    <EmbeddedResource Include="AppointRewardForm.resx">
+      <DependentUpon>AppointRewardForm.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="BaseForm.resx">
       <DependentUpon>BaseForm.cs</DependentUpon>
     </EmbeddedResource>
@@ -167,6 +194,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="GoalForm.resx">
       <DependentUpon>GoalForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="NewUserForm.resx">
+      <DependentUpon>NewUserForm.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="ShoppingTaskForm.resx">
       <DependentUpon>ShoppingTaskForm.cs</DependentUpon>
@@ -198,6 +228,12 @@
     </EmbeddedResource>
     <EmbeddedResource Include="RepeatTaskForm.resx">
       <DependentUpon>RepeatTaskForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="UserForm.resx">
+      <DependentUpon>UserForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="WithdrawForm.resx">
+      <DependentUpon>WithdrawForm.cs</DependentUpon>
     </EmbeddedResource>
     <None Include="log4net.config">
       <LastGenOutput>log4net.Designer.cs</LastGenOutput>

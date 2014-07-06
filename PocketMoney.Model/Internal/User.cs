@@ -12,7 +12,7 @@ namespace PocketMoney.Model.Internal
         #region Members
 
         public const int CONFIRM_CODE_LENGTH = 4;
-        public const int MIN_REQUIRED_PASSWORD_LENGTH = 5;
+        public const int MIN_REQUIRED_PASSWORD_LENGTH = 4;
         public const int TOKEN_KEY_LENGTH = 17;
         protected byte _roles;
         protected string _password;
@@ -30,8 +30,8 @@ namespace PocketMoney.Model.Internal
             this.Active = false;
             this.Connections = new List<UserConnection>();
             this.AssignedTasks = new List<Performer>();
-            this.TaskCount = new TaskCount(this, 0, 0);
-            this.Points = new Point(this, 0);
+            this.Counts = new ActionCount(this);
+            this.Points = new Point(this);
         }
 
         public User(Family family, string userName)
@@ -71,7 +71,7 @@ namespace PocketMoney.Model.Internal
         public virtual Point Points { get; set; }
 
         [Details]
-        public virtual TaskCount TaskCount { get; set; }
+        public virtual ActionCount Counts { get; set; }
 
         public virtual string ConfirmCode { get; set; }
 
@@ -127,8 +127,14 @@ namespace PocketMoney.Model.Internal
 
         public virtual eObjectType ObjectType
         {
-            get { throw new NotImplementedException(); }
+            get { return eObjectType.User; }
         }
+
+        public virtual string Name
+        {
+            get { return this.UserName; }
+        }
+
         #endregion
 
         #region Methods

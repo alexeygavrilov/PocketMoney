@@ -21,6 +21,8 @@ namespace PocketMoney.Model.External.Results
     {
         public GuidResult() { }
 
+        public GuidResult(string errorMessage) : base(errorMessage) { }
+
         public GuidResult(Guid id) : base(id) { }
     }
 

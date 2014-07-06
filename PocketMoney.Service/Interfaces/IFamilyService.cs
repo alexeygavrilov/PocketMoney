@@ -12,22 +12,30 @@ namespace PocketMoney.Service.Interfaces
     [ServiceKnownType(typeof(WrapperFamily))]
     [ServiceKnownType(typeof(WrapperFile))]
     [ServiceKnownType(typeof(Role))]
-    public interface IFamilyService
+    public interface IFamilyService : IBaseService
     {
         [Process, OperationContract]
-        UserResult RegisterUser(RegisterUserRequest model);
+        AuthResult RegisterUser(RegisterUserRequest model);
 
         [Process, OperationContract]
-        UserResult ConfirmUser(ConfirmUserRequest model);
+        AuthResult ConfirmUser(ConfirmUserRequest model);
 
         [Process, OperationContract]
-        UserResult AddUser(AddUserRequest model);
+        GuidResult AddUser(AddUserRequest model);
 
         [Process, OperationContract]
-        UserResult Login(LoginRequest model);
+        Result UpdateUser(UpdateUserRequest model);
+
+        [Process, OperationContract]
+        AuthResult Login(LoginRequest model);
 
         [Process, OperationContract]
         UserListResult GetUsers(FamilyRequest model);
 
+        [Process, OperationContract]
+        UserResult GetUser(GuidRequest userId);
+
+        [Process, OperationContract]
+        Result Withdraw(WithdrawRequest model);
     }
 }

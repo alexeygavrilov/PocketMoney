@@ -28,5 +28,19 @@ namespace PocketMoney.Model.Internal
         [Details]
         public virtual string Form { get; set; }
 
+        [Details]
+        public override string Name
+        {
+            get { return FormatTitle(this.Lesson); }
+        }
+
+        public static string FormatTitle(string lesson)
+        {
+            if (!string.IsNullOrEmpty(lesson))
+                return string.Format("Homework ({0})", lesson);
+            else
+                return "Homework";
+        }
+
     }
 }

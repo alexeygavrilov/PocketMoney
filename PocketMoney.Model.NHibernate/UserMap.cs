@@ -23,13 +23,15 @@ namespace PocketMoney.Model.NHibernate
             Map(Reveal.Member<User>("_roles")).Column("Role").Not.Nullable();
 
             Component(x => x.Points);
-            Component<TaskCount>(x => x.TaskCount,
+            Component<ActionCount>(x => x.Counts,
                 m =>
                 {
-                    m.Map(x => x.Completed).Column("CompletedTaskCount").Not.Nullable();
-                    m.Map(x => x.Grabbed).Column("GrabbedTaskCount").Not.Nullable();
+                    m.Map(x => x.CompletedTasks).Column("CompletedTasksCount").Not.Nullable();
+                    m.Map(x => x.GrabbedTasks).Column("GrabbedTasksCount").Not.Nullable();
+                    m.Map(x => x.CompletedGoals).Column("CompletedGoalsCount").Not.Nullable();
+                    m.Map(x => x.GoodWorks).Column("GoodWorksCount").Not.Nullable();
                     m.ParentReference(x => x.Parent);
-                    m.HasMany<int>(Reveal.Member<TaskCount>("_taskTypeCounts"))
+                    m.HasMany<int>(Reveal.Member<ActionCount>("_taskTypeCounts"))
                         .Table("TaskCountsUser")
                         .Element("TaskTypeCount")
                         .KeyColumn("UserId")

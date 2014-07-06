@@ -21,10 +21,10 @@ namespace PocketMoney.Model.NHibernate
             Component(x => x.TaskCount,
                 m =>
                 {
-                    m.Map(x => x.Completed).Column("CompletedTaskCount").Not.Nullable();
-                    m.Map(x => x.Grabbed).Column("GrabbedTaskCount").Not.Nullable();
+                    m.Map(x => x.CompletedTasks).Column("CompletedTaskCount").Not.Nullable();
+                    m.Map(x => x.GrabbedTasks).Column("GrabbedTaskCount").Not.Nullable();
                     m.ParentReference(x => x.Parent);
-                    m.HasMany<int>(Reveal.Member<TaskCount>("_taskTypeCounts"))
+                    m.HasMany<int>(Reveal.Member<ActionCount>("_taskTypeCounts"))
                         .Table("TaskCountsFamily")
                         .Element("TaskTypeCount")
                         .KeyColumn("FamilyId")

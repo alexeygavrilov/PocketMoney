@@ -16,8 +16,8 @@ namespace PocketMoney.Model.Internal
         {
             this.Description = string.Empty;
             this.Members = new List<User>();
-            this.TaskCount = new TaskCount(this, 0, 0);
-            this.Points = new Point(this, 0);
+            this.TaskCount = new ActionCount(this);
+            this.Points = new Point(this);
         }
 
         public Family(string name, Country country)
@@ -45,7 +45,7 @@ namespace PocketMoney.Model.Internal
         public virtual string TokenKey { get; set; }
 
         [Details]
-        public virtual TaskCount TaskCount { get; set; }
+        public virtual ActionCount TaskCount { get; set; }
 
         [Details]
         public virtual Point Points { get; set; }

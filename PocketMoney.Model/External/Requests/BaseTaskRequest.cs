@@ -20,6 +20,10 @@ namespace PocketMoney.Model.External.Requests
         [Display(Name = "Reminder")]
         [Details]
         public TimeSpan? ReminderTime { get; set; }
+
+        [DataMember, Details]
+        [Display(Name = "Assigned To")]
+        public Guid[] AssignedTo { get; set; }
     }
 
 }

@@ -11,7 +11,7 @@ namespace PocketMoney.Service.Interfaces
     [ServiceKnownType(typeof(WrapperFamily))]
     [ServiceKnownType(typeof(WrapperFile))]
     [ServiceKnownType(typeof(Role))]
-    public interface IMessageService
+    public interface IMessageService : IBaseService
     {
         [OperationContract]
         Result SendEmail(EmailMessageRequest model);

@@ -10,6 +10,8 @@ namespace PocketMoney.Model
     public interface IObject : IIdentity
     {
         eObjectType ObjectType { get; }
+
+        string Name { get; }
     }
 
     public enum eObjectType

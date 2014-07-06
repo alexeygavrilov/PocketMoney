@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Runtime.CompilerServices;
 using System.Text;
-using System.Threading.Tasks;
 using Castle.Services.Transaction;
 using PocketMoney.Data;
 using PocketMoney.FileSystem;
@@ -13,32 +12,60 @@ using PocketMoney.Service.Interfaces;
 using PocketMoney.Util.Bootstrapping;
 using PocketMoney.Util.ExtensionMethods;
 using PocketMoney.Model;
+using Moq;
+using PocketMoney.Data.Wrappers;
 
 namespace PocketMoney.Service.Installers
 {
     public class DataBuilder : BootstrappingTask
     {
-        private readonly IFamilyService _familyService;
+        private IFamilyService _familyService;
         private readonly IFileService _fileService;
         private readonly ISettingService _settingService;
+        private readonly IMessageService _messageService;
         private readonly IRepository<User, UserId, Guid> _userRepository;
         private readonly IRepository<Holiday, HolidayId, Guid> _holidayRepository;
         private readonly IRepository<Country, CountryId, int> _countryRepository;
+        private readonly IRepository<Performer, PerformerId, Guid> _performerRepository;
+        private readonly IRepository<Attainment, AttainmentId, Guid> _attainmentRepository;
+        private readonly IRepository<Task, TaskId, Guid> _taskRepository;
+        private readonly IRepository<Family, FamilyId, Guid> _familyRepository;
+        private readonly IRepository<ActionLog, ActionLogId, Guid> _auditLogRepository;
+        private readonly IRepository<Email, EmailId, Guid> _emailRepository;
+        private readonly IRepository<PhoneNumber, PhoneNumberId, Guid> _phoneRepository;
+        private readonly Mock<ICurrentUserProvider> _currentUserProvider;
 
         public DataBuilder(
             IFamilyService familyService,
             IFileService fileService,
+            IMessageService messageService,
             ISettingService settingService,
             IRepository<User, UserId, Guid> userRepository,
+            IRepository<Performer, PerformerId, Guid> performerRepository,
+            IRepository<Attainment, AttainmentId, Guid> attainmentRepository,
+            IRepository<Task, TaskId, Guid> taskRepository,
+            IRepository<Family, FamilyId, Guid> familyRepository,
             IRepository<Country, CountryId, int> countryRepository,
-            IRepository<Holiday, HolidayId, Guid> holidayRepository)
+            IRepository<Holiday, HolidayId, Guid> holidayRepository,
+            IRepository<Email, EmailId, Guid> emailRepository,
+            IRepository<PhoneNumber, PhoneNumberId, Guid> phoneRepository,
+            IRepository<ActionLog, ActionLogId, Guid> auditLogRepository)
         {
             _familyService = familyService;
             _fileService = fileService;
             _settingService = settingService;
+            _messageService = messageService;
             _userRepository = userRepository;
             _holidayRepository = holidayRepository;
+            _taskRepository = taskRepository;
+            _attainmentRepository = attainmentRepository;
+            _performerRepository = performerRepository;
             _countryRepository = countryRepository;
+            _familyRepository = familyRepository;
+            _auditLogRepository = auditLogRepository;
+            _emailRepository = emailRepository;
+            _phoneRepository = phoneRepository;
+            _currentUserProvider = new Mock<ICurrentUserProvider>();
         }
 
 
@@ -65,6 +92,25 @@ namespace PocketMoney.Service.Installers
             _holidayRepository.Add(new Holiday(usa, "Veterans Day", new DayOfOne(14, 11, 11)));
             _holidayRepository.Add(new Holiday(usa, "Thanksgiving Day", new DayOfOne(14, 11, 27)));
             _holidayRepository.Add(new Holiday(usa, "Christmas Day", new DayOfOne(14, 12, 25)));
+        }
+
+
+        private void AddAttainment(IUser user, string text)
+        {
+            _currentUserProvider.Setup(x => x.GetCurrentUser()).Returns(user);
+
+            IGoalService goalService = new GoalService(
+                _performerRepository,
+                _attainmentRepository,
+                _taskRepository,
+                _userRepository,
+                _familyRepository,
+                _auditLogRepository,
+                _currentUserProvider.Object);
+
+            var result = goalService.PostNewAttainment(new AddAttainmentRequest { Text = text });
+            if (!result.Success) throw new ArgumentException(result.Message);
+
         }
 
         [MethodImpl(MethodImplOptions.Synchronized)]
@@ -98,45 +144,65 @@ namespace PocketMoney.Service.Installers
 
             if (!result.Success) throw new ArgumentException(result.Message);
 
-            result = _familyService.AddUser(new AddUserRequest
+            _currentUserProvider.Setup(x => x.GetCurrentUser()).Returns(user);
+
+            _familyService.CurrentUserProvider = _currentUserProvider.Object;
+
+            var resultGuid = _familyService.AddUser(new AddUserRequest
             {
-                Family = family,
                 UserName = "Mom",
+                Password = "12345",
+                ConfirmPassword = "12345",
+                RoleId = Roles.Parent.Id,
                 Email = "mom@localhost.com",
                 SendNotification = false
             });
 
-            if (!result.Success) throw new ArgumentException(result.Message);
+            if (!resultGuid.Success) throw new ArgumentException(resultGuid.Message);
 
-            result = _familyService.AddUser(new AddUserRequest
+            resultGuid = _familyService.AddUser(new AddUserRequest
             {
-                Family = family,
                 UserName = "Konstantin",
                 Email = "user1@localhost.com",
+                Password = "12345",
+                ConfirmPassword = "12345",
+                RoleId = Roles.Children.Id,
                 SendNotification = false
             });
 
-            if (!result.Success) throw new ArgumentException(result.Message);
+            if (!resultGuid.Success) throw new ArgumentException(resultGuid.Message);
 
-            result = _familyService.AddUser(new AddUserRequest
+            AddAttainment(new WrapperUser("Konstantin", resultGuid.Data, family.Id), "I repaired Mom's computer");
+
+            resultGuid = _familyService.AddUser(new AddUserRequest
             {
-                Family = family,
                 UserName = "Alexander",
                 Email = "user2@localhost.com",
+                Password = "12345",
+                ConfirmPassword = "12345",
+                RoleId = Roles.Children.Id,
                 SendNotification = false
             });
 
-            if (!result.Success) throw new ArgumentException(result.Message);
+            if (!resultGuid.Success) throw new ArgumentException(resultGuid.Message);
+            
+            var alex = new WrapperUser("Alexander", resultGuid.Data, family.Id);
+            AddAttainment(alex, "Helped old lady at shop");
+            AddAttainment(alex, "I weed the flowers in garden for Mom");
 
-            result = _familyService.AddUser(new AddUserRequest
+            resultGuid = _familyService.AddUser(new AddUserRequest
             {
-                Family = family,
                 UserName = "Xeniya",
                 Email = "user3@localhost.com",
+                Password = "12345",
+                ConfirmPassword = "12345",
+                RoleId = Roles.Children.Id,
                 SendNotification = false
             });
 
-            if (!result.Success) throw new ArgumentException(result.Message);
+            if (!resultGuid.Success) throw new ArgumentException(resultGuid.Message);
+
+
         }
     }
 }

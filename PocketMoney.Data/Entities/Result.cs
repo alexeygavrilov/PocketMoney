@@ -69,6 +69,7 @@ namespace PocketMoney.Data
         {
             this.Data = default(TData);
         }
+
     }
 
     [DataContract]

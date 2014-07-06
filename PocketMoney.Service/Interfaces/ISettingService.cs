@@ -12,7 +12,7 @@ namespace PocketMoney.Service.Interfaces
     [ServiceKnownType(typeof(WrapperFamily))]
     [ServiceKnownType(typeof(WrapperFile))]
     [ServiceKnownType(typeof(Role))]
-    public interface ISettingService
+    public interface ISettingService : IBaseService
     {
         [Process, OperationContract]
         IntResult AddCountry(AddCountryRequest model);

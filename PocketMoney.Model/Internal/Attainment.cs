@@ -47,6 +47,11 @@ namespace PocketMoney.Model.Internal
         {
             get { return eObjectType.Attainment; }
         }
+
+        public virtual string Name
+        {
+            get { return this.Text; }
+        }
     }
 
     public class AttainmentId : GuidIdentity

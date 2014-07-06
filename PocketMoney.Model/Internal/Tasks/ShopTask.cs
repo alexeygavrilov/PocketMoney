@@ -28,6 +28,20 @@ namespace PocketMoney.Model.Internal
 
         [Details]
         public virtual IList<ShopItem> ShoppingList { get; set; }
+        
+        [Details]
+        public override string Name
+        {
+            get { return FormatTitle(this.ShopName); }
+        }
 
+        public static string FormatTitle(string shopName)
+        {
+            if (string.IsNullOrEmpty(shopName))
+                return "Shopping";
+            else
+                return "Shopping at " + shopName;
+
+        }
     }
 }

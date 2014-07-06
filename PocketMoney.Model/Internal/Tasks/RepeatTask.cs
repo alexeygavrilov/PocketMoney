@@ -5,7 +5,9 @@ namespace PocketMoney.Model.Internal
 {
     public class RepeatTask : Task
     {
-        protected RepeatTask() : base() {
+        protected RepeatTask()
+            : base()
+        {
             this.Dates = new List<TaskDate>();
         }
 
@@ -25,6 +27,17 @@ namespace PocketMoney.Model.Internal
 
         [Details]
         public virtual string Form { get; set; }
+
+        [Details]
+        public override string Name
+        {
+            get { return FormatTitle(this.RepeatName); }
+        }
+
+        public static string FormatTitle(string name)
+        {
+            return string.Format(TITLE_FORMAT, name);
+        }
 
     }
 }

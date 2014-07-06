@@ -27,6 +27,7 @@ namespace PocketMoney.Service
         private IRepository<Task, TaskId, Guid> _taskRepository;
         private IRepository<Attainment, AttainmentId, Guid> _attainmentRepository;
         private IRepository<Performer, PerformerId, Guid> _performerRepository;
+        private IRepository<ActionLog, ActionLogId, Guid> _auditLogRepository;
         #endregion
 
         #region Ctor
@@ -36,12 +37,14 @@ namespace PocketMoney.Service
             IRepository<Task, TaskId, Guid> taskRepository,
             IRepository<User, UserId, Guid> userRepository,
             IRepository<Family, FamilyId, Guid> familyRepository,
+            IRepository<ActionLog, ActionLogId, Guid> auditLogRepository,
             ICurrentUserProvider currentUserProvider)
             : base(userRepository, familyRepository, currentUserProvider)
         {
             _taskRepository = taskRepository;
             _attainmentRepository = attainmentRepository;
             _performerRepository = performerRepository;
+            _auditLogRepository = auditLogRepository;
         }
         #endregion
 
@@ -80,7 +83,7 @@ namespace PocketMoney.Service
 
             if (goal == null)
             {
-                return Result.Unsuccessfully(string.Format("Goal with identifier {0} has not been found.", model.Id));
+                throw new InvalidDataException("Goal with identifier {0} has not been found.", model.Id);
             }
 
             goal.Active = true;
@@ -107,6 +110,50 @@ namespace PocketMoney.Service
             return Result.Successfully();
 
         }
+
+        [Transaction(TransactionMode.Requires)]
+        [MethodImpl(MethodImplOptions.Synchronized)]
+        [OperationBehavior(TransactionScopeRequired = true)]
+        public GuidResult PostNewAttainment(AddAttainmentRequest model)
+        {
+            var currentUser = _currentUserProvider.GetCurrentUser().To();
+
+            Attainment attainment = new Attainment(model.Text, currentUser);
+
+            _attainmentRepository.Add(attainment);
+
+            currentUser.Counts.GoodDeed(x => _auditLogRepository.Add(new ActionLog(attainment, x, ActionValueType.GoodDeed)));
+
+            _userRepository.Update(currentUser);
+
+            return new GuidResult(attainment.Id);
+        }
+
+        [Transaction(TransactionMode.Requires)]
+        [MethodImpl(MethodImplOptions.Synchronized)]
+        [OperationBehavior(TransactionScopeRequired = true)]
+        public Result AppointReward(AppointRewardRequest model)
+        {
+            Attainment attainment = _attainmentRepository.One(new AttainmentId(model.Id));
+
+            if (attainment == null)
+            {
+                throw new InvalidDataException("Attainment with identifier {0} has not been found.", model.Id);
+            }
+
+            var reward = new Reward(attainment, model.Points, model.Gift);
+
+            attainment.Process(reward);
+
+            var user = attainment.Creator;
+
+            user.Points.Deposit(reward, (p, v) => _auditLogRepository.Add(new ActionLog(attainment, p, v)));
+
+            _userRepository.Update(user);
+
+            return Result.Successfully();
+        }
+
         #endregion
 
         #region Get Methods
@@ -121,7 +168,7 @@ namespace PocketMoney.Service
             }
             else
             {
-                return new GoalResult("Cannot found task.");
+                throw new InvalidDataException("Cannot found task.");
             }
         }
 
@@ -157,6 +204,37 @@ namespace PocketMoney.Service
 
             return new GoalListResult(result, result.Length);
         }
+
+        [OperationBehavior, MethodImpl(MethodImplOptions.Synchronized)]
+        public AttainmentResult GetAttainment(GuidRequest attainmentId)
+        {
+            Attainment attainment = _attainmentRepository.One(new AttainmentId(attainmentId.Data));
+            if (attainment != null)
+            {
+                return new AttainmentResult(new AttainmentView(attainment));
+            }
+            else
+            {
+                throw new InvalidDataException("Cannot found attainment.");
+            }
+        }
+
+        [OperationBehavior, MethodImpl(MethodImplOptions.Synchronized)]
+        public AttainmentListResult AllAttainments(Request model)
+        {
+            var currentUser = _currentUserProvider.GetCurrentUser();
+
+            var list = _attainmentRepository
+                .FindAll(x => x.Family.Id == currentUser.Family.Id)
+                .OrderBy(x => x.Processed)
+                .OrderByDescending(x => x.DateCreated)
+                .AsEnumerable()
+                .Select(x => new AttainmentView(x))
+                .ToArray();
+
+            return new AttainmentListResult(list, list.Length);
+        }
         #endregion
+
     }
 }

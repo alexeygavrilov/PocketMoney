@@ -51,15 +51,20 @@
     <Compile Include="Common\DayOfOne.cs" />
     <Compile Include="External\HomeworkForm.cs" />
     <Compile Include="External\RepeatForm.cs" />
+    <Compile Include="External\Requests\AttainmentRequest.cs" />
     <Compile Include="External\Requests\GoalRequest.cs" />
     <Compile Include="External\Requests\RewardRequest.cs" />
+    <Compile Include="External\Requests\WithdrawRequest.cs" />
+    <Compile Include="External\Results\AttainmentListResult.cs" />
     <Compile Include="External\Results\GoalResult.cs" />
     <Compile Include="External\Results\HolidayListResult.cs">
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="External\Results\RewardView.cs" />
     <Compile Include="External\Results\TaskListResult.cs" />
     <Compile Include="External\Results\TaskResult.cs" />
     <Compile Include="External\QueryModel.cs" />
+    <Compile Include="External\Results\UserResult.cs" />
     <Compile Include="External\ShopItem.cs" />
     <Compile Include="Enums\eClientType.cs" />
     <Compile Include="Enums\eDaysOfWeek.cs" />
@@ -74,8 +79,8 @@
     <Compile Include="External\Requests\HomeworkTaskRequest.cs" />
     <Compile Include="External\Requests\OneTimeTaskRequest.cs" />
     <Compile Include="External\Requests\RepeatTaskRequest.cs" />
-    <Compile Include="External\Requests\AddShoppingTaskRequest.cs" />
-    <Compile Include="External\Requests\AddUserRequest.cs" />
+    <Compile Include="External\Requests\ShoppingTaskRequest.cs" />
+    <Compile Include="External\Requests\UserRequest.cs" />
     <Compile Include="External\Requests\BaseTaskRequest.cs" />
     <Compile Include="External\Requests\ConfirmUserRequest.cs" />
     <Compile Include="External\Requests\ConnectionRequest.cs" />
@@ -88,7 +93,7 @@
     <Compile Include="External\Results\FamilyResult.cs" />
     <Compile Include="External\Results\GenericResult.cs" />
     <Compile Include="External\Results\UserListResult.cs" />
-    <Compile Include="External\Results\UserResult.cs" />
+    <Compile Include="External\Results\AuthResult.cs" />
     <Compile Include="Interfaces\IForm.cs" />
     <Compile Include="Interfaces\IObject.cs" />
     <Compile Include="Internal\Attainment.cs" />
@@ -109,11 +114,11 @@
     <Compile Include="Internal\Performer.cs" />
     <Compile Include="Internal\PhoneNumber.cs" />
     <Compile Include="Internal\Point.cs" />
-    <Compile Include="Internal\QueueOperation.cs" />
+    <Compile Include="Internal\ActionLog.cs" />
     <Compile Include="Internal\Roles.cs" />
     <Compile Include="Internal\Tasks\Task.cs" />
     <Compile Include="Internal\Tasks\TaskAction.cs" />
-    <Compile Include="Internal\Tasks\TaskCount.cs" />
+    <Compile Include="Internal\ActionCount.cs" />
     <Compile Include="Internal\Tasks\TaskType.cs" />
     <Compile Include="Internal\User.cs" />
     <Compile Include="Internal\UserConnection.cs" />

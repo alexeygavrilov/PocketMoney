@@ -13,20 +13,13 @@ namespace PocketMoney.Model.External.Results
     }
 
     [DataContract]
-    public class UserView : ObjectBase
+    public class UserResult : ResultData<UserFullView>
     {
-        [DataMember, Details]
-        public Guid UserId { get; set; }
+        public UserResult() { }
 
-        [DataMember, Details]
-        public string UserName { get; set; }
+        public UserResult(string errorMessage) : base(errorMessage) { }
 
-        [DataMember, Details]
-        public int Points { get; set; }
-
-        public override string ToString()
-        {
-            return this.UserName;
-        }
+        public UserResult(UserFullView data) : base(data) { }
     }
+
 }

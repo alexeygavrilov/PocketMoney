@@ -3,10 +3,11 @@ using Castle.Services.Transaction;
 using PocketMoney.Data;
 using PocketMoney.Data.Security;
 using PocketMoney.Model.Internal;
+using PocketMoney.Service.Interfaces;
 
 namespace PocketMoney.Service
 {
-    public abstract class BaseService
+    public abstract class BaseService : IBaseService
     {
 
         //[Transaction(TransactionMode.Requires)]
@@ -15,8 +16,8 @@ namespace PocketMoney.Service
         //        protected readonly IFileService _fileService;
         protected readonly IRepository<User, UserId, Guid> _userRepository;
         protected readonly IRepository<Family, FamilyId, Guid> _familyRepository;
-        protected readonly IAuthorization _authorization;
-        protected readonly ICurrentUserProvider _currentUserProvider;
+        protected IAuthorization _authorization;
+        protected ICurrentUserProvider _currentUserProvider;
 
         public BaseService(IRepository<User, UserId, Guid> userRepository,
             IRepository<Family, FamilyId, Guid> familyRepository,
@@ -27,6 +28,17 @@ namespace PocketMoney.Service
             _currentUserProvider = currentUserProvider;
         }
 
+        public IAuthorization Authorization
+        {
+            get { return _authorization; }
+            set { _authorization = value; }
+        }
+
+        public ICurrentUserProvider CurrentUserProvider
+        {
+            get { return _currentUserProvider; }
+            set { _currentUserProvider = value; }
+        }
 
         //protected TResult Process<TRequest, TResult>(
         //    ref TRequest request,

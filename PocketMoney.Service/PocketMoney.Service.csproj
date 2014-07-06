@@ -48,6 +48,9 @@
     <Reference Include="Microsoft.Practices.ServiceLocation">
       <HintPath>..\PocketMoney.Bin\Microsoft.Practices.ServiceLocation.dll</HintPath>
     </Reference>
+    <Reference Include="Moq">
+      <HintPath>..\PocketMoney.Bin\Moq.dll</HintPath>
+    </Reference>
     <Reference Include="Newtonsoft.Json">
       <HintPath>..\PocketMoney.Bin\Newtonsoft.Json.dll</HintPath>
     </Reference>
@@ -75,6 +78,7 @@
     <Compile Include="Behaviors\ProcessAttribute.cs" />
     <Compile Include="Behaviors\ProcessInterceptor.cs" />
     <Compile Include="Installers\ServicesInstaller.cs" />
+    <Compile Include="Interfaces\IBaseService.cs" />
     <Compile Include="Interfaces\IConnector.cs" />
     <Compile Include="Interfaces\IFamilyService.cs" />
     <Compile Include="Interfaces\IGoalService.cs" />

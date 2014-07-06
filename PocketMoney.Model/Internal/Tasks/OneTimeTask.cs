@@ -20,5 +20,16 @@ namespace PocketMoney.Model.Internal
         [Details]
         public virtual DateTime? DeadlineDate { get; set; }
 
+        [Details]
+        public override string Name
+        {
+            get { return FormatTitle(this.OneTimeName); }
+        }
+
+        public static string FormatTitle(string name)
+        {
+            return string.Format(TITLE_FORMAT, name);
+        }
+
     }
 }

@@ -18,5 +18,16 @@ namespace PocketMoney.Model.Internal
 
         [Details]
         public virtual eDaysOfWeek DaysOfWeek { get; set; }
+
+        [Details]
+        public override string Name
+        {
+            get { return FormatTitle(this.RoomName); }
+        }
+
+        public static string FormatTitle(string roomName)
+        {
+            return string.Format("Tidy up " + roomName);
+        }
     }
 }

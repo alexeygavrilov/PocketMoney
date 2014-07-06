@@ -1,16 +1,11 @@
-﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
-using System.Drawing;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Windows.Forms;
+﻿using Microsoft.Practices.ServiceLocation;
+using PocketMoney.Data;
+using PocketMoney.Model.External.Requests;
 using PocketMoney.ParentApp.Properties;
 using PocketMoney.Service.Interfaces;
-using Microsoft.Practices.ServiceLocation;
-using PocketMoney.Data;
+using System;
+using System.ComponentModel;
+using System.Windows.Forms;
 
 namespace PocketMoney.ParentApp
 {
@@ -18,13 +13,20 @@ namespace PocketMoney.ParentApp
     {
         private ITaskService _taskService;
         private IGoalService _goalService;
+        private IFamilyService _familyService;
+        private ICurrentUserProvider _currentUserProvider;
 
         public MainForm()
         {
             Program.Register();
             InitializeComponent();
-            _taskService = ServiceLocator.Current.GetInstance<ITaskService>();
-            _goalService = ServiceLocator.Current.GetInstance<IGoalService>();
+            if (LicenseManager.UsageMode == LicenseUsageMode.Runtime)
+            {
+                _currentUserProvider = ServiceLocator.Current.GetInstance<ICurrentUserProvider>();
+                _taskService = ServiceLocator.Current.GetInstance<ITaskService>();
+                _goalService = ServiceLocator.Current.GetInstance<IGoalService>();
+                _familyService = ServiceLocator.Current.GetInstance<IFamilyService>();
+            }
         }
 
         private void MainForm_Load(object sender, EventArgs e)
@@ -37,6 +39,9 @@ namespace PocketMoney.ParentApp
             if (Settings.Default.UserId != Guid.Empty)
             {
                 FillTaskList();
+                FillGoalList();
+                FillAtttainmentList();
+                FillUserList();
             }
             else
             {
@@ -164,5 +169,86 @@ namespace PocketMoney.ParentApp
         }
         #endregion
 
+        #region Attainment Handlers
+
+        private void listAttainments_MouseClick(object sender, MouseEventArgs e)
+        {
+            if (listAttainments.SelectedItems.Count > 0)
+            {
+                AppointRewardForm appointForm = new AppointRewardForm((Guid)listAttainments.SelectedItems[0].Tag);
+                if (appointForm.ShowDialog() == System.Windows.Forms.DialogResult.OK)
+                {
+                    FillAtttainmentList();
+                    FillUserList();
+                }
+            }
+        }
+
+        private void FillAtttainmentList()
+        {
+            var result = _goalService.AllAttainments(Request.Empty);
+            if (result.Success)
+            {
+                listAttainments.Items.Clear();
+                foreach (var item in result.List)
+                {
+                    var itemView = new ListViewItem { Tag = item.AttainmentId, Text = item.Text };
+                    var subitems = new ListViewItem.ListViewSubItemCollection(itemView);
+                    subitems.Add(new ListViewItem.ListViewSubItem { Text = item.UserName });
+                    subitems.Add(new ListViewItem.ListViewSubItem { Text = item.Reward });
+                    listAttainments.Items.Add(itemView);
+                }
+            }
+            else
+            {
+                MessageBox.Show(result.Message, "Invalid", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+            }
+        }
+        #endregion
+
+        #region Users Handlers
+
+        private void buttonAddUser_Click(object sender, EventArgs e)
+        {
+            NewUserForm form = new NewUserForm();
+            if (form.ShowDialog() == System.Windows.Forms.DialogResult.OK)
+            {
+                FillUserList();
+            }
+        }
+
+        private void listUsers_MouseClick(object sender, MouseEventArgs e)
+        {
+            if (listUsers.SelectedItems.Count > 0)
+            {
+                UserForm userForm = new UserForm((Guid)listUsers.SelectedItems[0].Tag);
+                if (userForm.ShowDialog() == System.Windows.Forms.DialogResult.OK)
+                {
+                    FillUserList();
+                }
+            }
+        }
+
+        private void FillUserList()
+        {
+            var result = _familyService.GetUsers(new FamilyRequest { Data = _currentUserProvider.GetCurrentUser().Family });
+            if (result.Success)
+            {
+                listUsers.Items.Clear();
+                foreach (var item in result.List)
+                {
+                    var itemView = new ListViewItem { Tag = item.UserId, Text = item.UserName };
+                    var subitems = new ListViewItem.ListViewSubItemCollection(itemView);
+                    subitems.Add(new ListViewItem.ListViewSubItem { Text = (item.CompletedTaskCount + item.GoalsCount + item.GoodDeedCount + item.GrabbedTaskCount).ToString() });
+                    subitems.Add(new ListViewItem.ListViewSubItem { Text = item.Points.ToString() });
+                    listUsers.Items.Add(itemView);
+                }
+            }
+            else
+            {
+                MessageBox.Show(result.Message, "Invalid", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+            }
+        }
+        #endregion
     }
 }

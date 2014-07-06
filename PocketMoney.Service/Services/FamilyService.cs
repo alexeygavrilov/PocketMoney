@@ -23,32 +23,32 @@ namespace PocketMoney.Service
     {
         private readonly IRepository<Email, EmailId, Guid> _emailRepository;
         private readonly IRepository<PhoneNumber, PhoneNumberId, Guid> _phoneRepository;
-        private readonly IRepository<UserConnection, UserConnectionId, Guid> _connectionRepository;
         private readonly IRepository<Country, CountryId, int> _countryRepository;
+        private readonly IRepository<ActionLog, ActionLogId, Guid> _actionLogRepository;
         private readonly IMessageService _messageService;
 
         public FamilyService(
             IMessageService messageService,
             IRepository<Email, EmailId, Guid> emailRepository,
-            IRepository<UserConnection, UserConnectionId, Guid> connectionRepository,
             IRepository<PhoneNumber, PhoneNumberId, Guid> phoneRepository,
             IRepository<Country, CountryId, int> countryRepository,
             IRepository<User, UserId, Guid> userRepository,
             IRepository<Family, FamilyId, Guid> familyRepository,
+            IRepository<ActionLog, ActionLogId, Guid> actionLogRepository,
             ICurrentUserProvider currentUserProvider)
             : base(userRepository, familyRepository, currentUserProvider)
         {
             _emailRepository = emailRepository;
             _phoneRepository = phoneRepository;
             _messageService = messageService;
-            _connectionRepository = connectionRepository;
             _countryRepository = countryRepository;
+            _actionLogRepository = actionLogRepository;
         }
 
         [Transaction(TransactionMode.Requires)]
         [MethodImpl(MethodImplOptions.Synchronized)]
         [OperationBehavior(TransactionScopeRequired = true)]
-        public virtual UserResult RegisterUser(RegisterUserRequest model)
+        public virtual AuthResult RegisterUser(RegisterUserRequest model)
         {
             if (_familyRepository.Exists(x => x.Name == model.FamilyName))
                 throw new InvalidDataException("Наименование семьи '{0}' уже существует в системе. Попробуйте другое имя", model.FamilyName);
@@ -80,7 +80,7 @@ namespace PocketMoney.Service
 
             _userRepository.Add(user);
 
-            UserResult result = new UserResult(user.From())
+            AuthResult result = new AuthResult(user.From())
             {
                 Password = model.Password,
                 Login = email.Address
@@ -94,7 +94,7 @@ namespace PocketMoney.Service
 
             if (!messResult.Success)
             {
-                result.SetErrorMessage<UserResult>(messResult.Message);
+                result.SetErrorMessage<AuthResult>(messResult.Message);
             }
             return result;
         }
@@ -102,14 +102,14 @@ namespace PocketMoney.Service
         [Transaction(TransactionMode.Requires)]
         [MethodImpl(MethodImplOptions.Synchronized)]
         [OperationBehavior(TransactionScopeRequired = true)]
-        public virtual UserResult ConfirmUser(ConfirmUserRequest model)
+        public virtual AuthResult ConfirmUser(ConfirmUserRequest model)
         {
             var user = _userRepository.FindOne(x => x.ConfirmCode == model.ConfirmCode && !x.Active);
             if (user != null)
             {
                 user.Active = true;
                 _userRepository.Update(user);
-                return new UserResult(user.From());
+                return new AuthResult(user.From());
             }
             else
                 throw new InvalidDataException("Некорректный код подтверждения");
@@ -119,15 +119,20 @@ namespace PocketMoney.Service
         [Transaction(TransactionMode.Requires)]
         [MethodImpl(MethodImplOptions.Synchronized)]
         [OperationBehavior(TransactionScopeRequired = true)]
-        public virtual UserResult AddUser(AddUserRequest model)
+        public virtual GuidResult AddUser(AddUserRequest model)
         {
-            if (_userRepository.Exists(x => x.Family.Id == model.Family.Id && x.UserName == model.UserName))
-                throw new InvalidDataException("Пользователь с именем '{0}' уже существует в вашей семье", model.UserName);
+            var currentUser = _currentUserProvider.GetCurrentUser();
+
+            if (_userRepository.Exists(x => x.Family.Id == currentUser.Family.Id && x.UserName == model.UserName))
+                throw new InvalidDataException("User with '{0}' name already exist in family. Please enter another name.", model.UserName);
 
             if (!string.IsNullOrEmpty(model.Email) && _emailRepository.Exists(x => x.Address == model.Email))
-                throw new InvalidDataException("Эл. почта '{0}' уже существует в системе.", model.Email);
+                throw new InvalidDataException("Email '{0}' already exist in system.", model.Email);
 
-            var family = model.Family.To();
+            if (!string.IsNullOrEmpty(model.Phone) && _phoneRepository.Exists(x => x.Number == model.Phone))
+                throw new InvalidDataException("Phone number '{0}' already exist in system.", model.Phone);
+
+            var family = currentUser.Family.To();
 
             User user = new User(family, model.UserName);
 
@@ -139,12 +144,18 @@ namespace PocketMoney.Service
 
                 user.Email = email;
             }
+            if (!string.IsNullOrEmpty(model.Phone))
+            {
+                var phone = new PhoneNumber(model.Phone);
 
-            user.AddRole(Roles.Children);
+                _phoneRepository.Add(phone);
+            }
+
+            user.AddRole(Roles.Define(model.RoleId));
 
             user.Active = true;
 
-            var password = user.GeneratePassword();
+            user.SetPassword(model.ConfirmPassword);
 
             user.GenerateConfirmCode();
 
@@ -152,40 +163,109 @@ namespace PocketMoney.Service
 
             _userRepository.Add(user);
 
-            UserResult result = new UserResult(user)
-            {
-                Login = user.Email != null ? user.Email.Address : user.UserName,
-                Password = password,
-                AuthToken = user.TokenKey
-            };
+            //if (model.SendNotification & !string.IsNullOrEmpty(model.Email))
+            //{
+            //    var messResult = _messageService.SendEmail(new EmailMessageRequest(
+            //        user,
+            //        model.Email,
+            //        "Регистрация в приложение 'Карманные деньги'.",
+            //        string.Format("Привет {0}, это {1}.\r\nЯ добавил тебя в приложение 'Карманные деньги', пожалуйста открой ссылку {2} и выполни установку.\r\nЛогин: {3}\r\nПароль: {4}\r\nСпасибо.",
+            //            user.FullName(),
+            //            _currentUserProvider.GetCurrentUser().FullName(),
+            //            string.Format(Properties.Settings.Default.VK_AppUrl, Properties.Settings.Default.VK_ApiId),
+            //            result.Login,
+            //            result.Password
+            //            )));
 
-            if (model.SendNotification & !string.IsNullOrEmpty(model.Email))
-            {
-                var messResult = _messageService.SendEmail(new EmailMessageRequest(
-                    user,
-                    model.Email,
-                    "Регистрация в приложение 'Карманные деньги'.",
-                    string.Format("Привет {0}, это {1}.\r\nЯ добавил тебя в приложение 'Карманные деньги', пожалуйста открой ссылку {2} и выполни установку.\r\nЛогин: {3}\r\nПароль: {4}\r\nСпасибо.",
-                        user.FullName(),
-                        _currentUserProvider.GetCurrentUser().FullName(),
-                        string.Format(Properties.Settings.Default.VK_AppUrl, Properties.Settings.Default.VK_ApiId),
-                        result.Login,
-                        result.Password
-                        )));
-
-                if (!messResult.Success)
-                {
-                    result.SetErrorMessage<UserResult>(messResult.Message);
-                }
-            }
-            return result;
+            //    if (!messResult.Success)
+            //    {
+            //        result.SetErrorMessage<AuthResult>(messResult.Message);
+            //    }
+            //}
+            return new GuidResult(user.Id);
         }
-
 
         [Transaction(TransactionMode.Requires)]
         [MethodImpl(MethodImplOptions.Synchronized)]
         [OperationBehavior(TransactionScopeRequired = true)]
-        public UserResult Login(LoginRequest model)
+        public virtual Result UpdateUser(UpdateUserRequest model)
+        {
+            var currentUser = _currentUserProvider.GetCurrentUser();
+
+            var user = _userRepository.One(new UserId(model.UserId));
+
+            if (user == null)
+            {
+                throw new InvalidDataException("Cannot found user");
+            }
+
+            if (_userRepository.Exists(x => x.Family.Id == currentUser.Family.Id && x.Id != user.Id && x.UserName == model.UserName))
+            {
+                throw new InvalidDataException("User with '{0}' name already exist in family. Please enter another name.", model.UserName);
+            }
+
+            user.UserName = model.UserName;
+            user.AdditionalName = model.AdditionalName;
+
+            // update email
+            Email email = user.Email;
+            if (!string.IsNullOrEmpty(model.Email))
+            {
+                if (email != null)
+                {
+                    if (email.Address != model.Email)
+                    {
+                        email.Address = model.Email;
+                        _emailRepository.Update(email);
+                    }
+                }
+                else
+                {
+                    email = new Email(model.Email, user, true);
+                    _emailRepository.Add(email);
+                    user.Email = email;
+                }
+            }
+            else if (email != null)
+            {
+                _emailRepository.Remove(email);
+                user.Email = null;
+            }
+
+            // update phone
+            PhoneNumber phone = user.Phone;
+            if (!string.IsNullOrEmpty(model.Phone))
+            {
+                if (phone != null)
+                {
+                    if (phone.Number != model.Phone)
+                    {
+                        phone.Number = model.Phone;
+                        _phoneRepository.Update(phone);
+                    }
+                }
+                else
+                {
+                    phone = new PhoneNumber(model.Phone);
+                    _phoneRepository.Add(phone);
+                    user.Phone = phone;
+                }
+            }
+            else if (phone != null)
+            {
+                _phoneRepository.Remove(phone);
+                user.Phone = null;
+            }
+
+            _userRepository.Update(user);
+
+            return Result.Successfully();
+        }
+
+        [Transaction(TransactionMode.Requires)]
+        [MethodImpl(MethodImplOptions.Synchronized)]
+        [OperationBehavior(TransactionScopeRequired = true)]
+        public AuthResult Login(LoginRequest model)
         {
             IList<User> users = new List<User>();
             if (model.UserName.Contains("@"))
@@ -212,11 +292,11 @@ namespace PocketMoney.Service
                 {
                     user.LastLoginDate = Clock.UtcNow();
                     _userRepository.Update(user);
-                    return new UserResult(user)
+                    return new AuthResult(user)
                     {
                         Login = model.UserName,
                         Password = model.Password,
-                        AuthToken = user.TokenKey
+                        Token = user.TokenKey
                     };
                 }
             }
@@ -230,15 +310,56 @@ namespace PocketMoney.Service
             var users = _userRepository
                 .FindAll(x => x.Family.Id == model.Data.Id)
                 .AsEnumerable()
-                .Select(x => new UserView
-                {
-                    UserId = x.Id,
-                    UserName = x.FullName(),
-                    Points = x.Points.Points
-                })
+                .Select(x => new UserView(x))
                 .ToList();
 
             return new UserListResult(users.ToArray(), users.Count);
         }
+
+        [MethodImpl(MethodImplOptions.Synchronized)]
+        [OperationBehavior]
+        public UserResult GetUser(GuidRequest userId)
+        {
+            User user = _userRepository.One(new UserId(userId.Data));
+            if (user != null)
+            {
+                return new UserResult(
+                    new UserFullView(
+                        user,
+                        () => string.Join(Environment.NewLine, _actionLogRepository
+                                .FindAll(x => x.ObjectId == user.Id)
+                                .OrderByDescending(x => x.ChangeDate)
+                                .AsEnumerable()
+                                .Select(x => x.GetText())
+                                .ToArray())));
+            }
+            else
+            {
+                return new UserResult("Cannot found user");
+            }
+        }
+
+
+        [Transaction(TransactionMode.Requires)]
+        [MethodImpl(MethodImplOptions.Synchronized)]
+        [OperationBehavior(TransactionScopeRequired = true)]
+        public Result Withdraw(WithdrawRequest model)
+        {
+            User user = _userRepository.One(new UserId(model.UserId));
+            if (user != null)
+            {
+                user.Points.Withdraw(new Point(model.Points),
+                    (p, v) => _actionLogRepository.Add(new ActionLog(p, -v)));
+                
+                _userRepository.Update(user);
+                
+                return Result.Successfully();
+            }
+            else
+            {
+                throw new InvalidDataException("Cannot found user");
+            }
+        }
+
     }
 }

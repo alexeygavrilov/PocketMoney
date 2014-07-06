@@ -12,7 +12,7 @@ namespace PocketMoney.Service.Interfaces
     [ServiceKnownType(typeof(WrapperFamily))]
     [ServiceKnownType(typeof(WrapperFile))]
     [ServiceKnownType(typeof(Role))]
-    public interface ITaskService
+    public interface ITaskService : IBaseService
     {
         [Process, OperationContract]
         GuidResult AddOneTimeTask(AddOneTimeTaskRequest model);

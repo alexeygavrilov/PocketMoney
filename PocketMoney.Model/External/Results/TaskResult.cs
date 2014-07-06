@@ -58,7 +58,7 @@ namespace PocketMoney.Model.External.Results
 
         public override string GetTitle()
         {
-            return string.Format("Tidy up " + this.RoomName);
+            return CleanTask.FormatTitle(this.RoomName);
         }
     }
 
@@ -99,10 +99,7 @@ namespace PocketMoney.Model.External.Results
 
         public override string GetTitle()
         {
-            if (!string.IsNullOrEmpty(this.Lesson))
-                return string.Format("Homework ({0})", this.Lesson);
-            else
-                return "Homework";
+            return HomeworkTask.FormatTitle(this.Lesson);
         }
     }
 
@@ -144,7 +141,7 @@ namespace PocketMoney.Model.External.Results
 
         public override string GetTitle()
         {
-            return string.Format(TITLE_FORMAT, this.Name);
+            return OneTimeTask.FormatTitle(this.Name);
         }
     }
 
@@ -186,7 +183,7 @@ namespace PocketMoney.Model.External.Results
 
         public override string GetTitle()
         {
-            return string.Format(TITLE_FORMAT, this.Name);
+            return RepeatTask.FormatTitle(this.Name);
         }
     }
 
@@ -233,10 +230,7 @@ namespace PocketMoney.Model.External.Results
 
         public override string GetTitle()
         {
-            if (string.IsNullOrEmpty(this.ShopName))
-                return "Shopping";
-            else
-                return "Shopping at " + this.ShopName;
+            return ShopTask.FormatTitle(this.ShopName);
         }
 
 

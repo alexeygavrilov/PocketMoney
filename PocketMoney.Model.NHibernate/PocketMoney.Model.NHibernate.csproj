@@ -80,9 +80,9 @@
     <Compile Include="PhoneMap.cs" />
     <Compile Include="RewardMap.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="QueueOperationMap.cs" />
+    <Compile Include="ActionLogMap.cs" />
     <Compile Include="TaskActionMap.cs" />
-    <Compile Include="TaskCountMap.cs" />
+    <Compile Include="ActionCountMap.cs" />
     <Compile Include="TaskMap.cs" />
     <Compile Include="TaskTypeMap.cs" />
     <Compile Include="UserConnectionMap.cs" />

@@ -93,7 +93,7 @@ namespace PocketMoney.Service
 
             if (task == null)
             {
-                return Result.Unsuccessfully(string.Format("Task with identifier {0} has not been found.", model.Id));
+                throw new InvalidDataException("Task with identifier {0} has not been found.", model.Id);
             }
 
             updateEntity(task);
