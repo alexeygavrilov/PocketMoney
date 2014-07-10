@@ -1,11 +1,4 @@
-﻿using System;
-using System.Collections;
-using System.Collections.Generic;
-using System.Linq;
-using System.Runtime.CompilerServices;
-using System.ServiceModel;
-using System.ServiceModel.Activation;
-using Castle.Services.Transaction;
+﻿using Castle.Services.Transaction;
 using PocketMoney.Data;
 using PocketMoney.Model;
 using PocketMoney.Model.External.Requests;
@@ -14,6 +7,13 @@ using PocketMoney.Model.Internal;
 using PocketMoney.Service.Interfaces;
 using PocketMoney.Util;
 using PocketMoney.Util.ExtensionMethods;
+using System;
+using System.Collections;
+using System.Collections.Generic;
+using System.Linq;
+using System.Runtime.CompilerServices;
+using System.ServiceModel;
+using System.ServiceModel.Activation;
 
 namespace PocketMoney.Service
 {
@@ -305,10 +305,12 @@ namespace PocketMoney.Service
 
         [MethodImpl(MethodImplOptions.Synchronized)]
         [OperationBehavior]
-        public UserListResult GetUsers(FamilyRequest model)
+        public UserListResult GetUsers(Request model)
         {
+            var currentUser = _currentUserProvider.GetCurrentUser();
+
             var users = _userRepository
-                .FindAll(x => x.Family.Id == model.Data.Id)
+                .FindAll(x => x.Family.Id == currentUser.Family.Id)
                 .AsEnumerable()
                 .Select(x => new UserView(x))
                 .ToList();
@@ -318,12 +320,12 @@ namespace PocketMoney.Service
 
         [MethodImpl(MethodImplOptions.Synchronized)]
         [OperationBehavior]
-        public UserResult GetUser(GuidRequest userId)
+        public UserFullResult GetUser(GuidRequest userId)
         {
             User user = _userRepository.One(new UserId(userId.Data));
             if (user != null)
             {
-                return new UserResult(
+                return new UserFullResult(
                     new UserFullView(
                         user,
                         () => string.Join(Environment.NewLine, _actionLogRepository
@@ -335,7 +337,7 @@ namespace PocketMoney.Service
             }
             else
             {
-                return new UserResult("Cannot found user");
+                throw new InvalidDataException("Cannot found user");
             }
         }
 

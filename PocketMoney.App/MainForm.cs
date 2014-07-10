@@ -231,7 +231,7 @@ namespace PocketMoney.ParentApp
 
         private void FillUserList()
         {
-            var result = _familyService.GetUsers(new FamilyRequest { Data = _currentUserProvider.GetCurrentUser().Family });
+            var result = _familyService.GetUsers(Request.Empty);
             if (result.Success)
             {
                 listUsers.Items.Clear();

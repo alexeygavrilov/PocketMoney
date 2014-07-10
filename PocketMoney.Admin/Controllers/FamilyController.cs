@@ -3,6 +3,7 @@ using System.Web.Mvc;
 using PocketMoney.Data;
 using PocketMoney.Data.Security;
 using PocketMoney.FileSystem;
+using PocketMoney.Model;
 using PocketMoney.Model.External.Requests;
 using PocketMoney.Model.Network;
 using PocketMoney.Service.Interfaces;
@@ -43,7 +44,7 @@ namespace PocketMoney.Admin.Controllers
         public JsonResult GetUsers()
         {
             return Json(
-                _familyService.GetUsers(new FamilyRequest { Data = _currentUserProvider.GetCurrentUser().Family }),
+                _familyService.GetUsers(PocketMoney.Data.Request.Empty),
                 JsonRequestBehavior.AllowGet);
         }
 

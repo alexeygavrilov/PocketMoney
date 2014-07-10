@@ -13,8 +13,8 @@ namespace PocketMoney.Model.NHibernate
             Id(m => m.Id).GeneratedBy.GuidComb();
 
             Map(x => x.Details).Not.Nullable().Length(4000);
-            Map(x => x.Active).Not.Nullable();
-            Map(x => x.EnableDateRange).Not.Nullable();
+            Map(x => x.Status).Not.Nullable();
+            Map(x => x.HasDates).Not.Nullable();
             Map(x => x.Reminder).Nullable();
 
             Component(x => x.Type);

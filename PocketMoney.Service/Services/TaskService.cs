@@ -98,7 +98,6 @@ namespace PocketMoney.Service
 
             updateEntity(task);
 
-            task.Active = true;
             task.Details = model.Text;
             task.Reward = new Reward(task, model.Points, model.Gift);
 
@@ -417,7 +416,7 @@ namespace PocketMoney.Service
             var list = _taskRepository.QueryOver<Task, TaskId, Guid>()
                 .JoinAlias(x => x.AssignedTo, () => performer, JoinType.LeftOuterJoin)
                 .JoinAlias(() => performer.User, () => user, JoinType.LeftOuterJoin)
-                .Where(x => x.Family.Id == currentUser.Family.Id && x.Active && x.Type.Id != TaskType.Goal.Id)
+                .Where(x => x.Family.Id == currentUser.Family.Id && x.Type.Id != TaskType.Goal.Id)
                 .Select(
                     Projections.Property<Task>(x => x.Id).WithAlias(() => task.Id),
                     Projections.Property<Task>(x => x.Type).WithAlias(() => task.TaskType),

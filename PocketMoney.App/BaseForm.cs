@@ -64,13 +64,20 @@ namespace PocketMoney.ParentApp
                     ((RadioButton)this.Controls["groupbox2"].Controls["radioButton6"]).Checked = true;
                 }
 
-                var __checkedListBox1 = (CheckedListBox)this.Controls["checkedListBox1"];
-                for (int i = 0; i < __checkedListBox1.Items.Count; i++)
+                if (task.AssignedTo.Count > 0)
                 {
-                    if (task.AssignedTo.ContainsKey(((UserView)__checkedListBox1.Items[i]).UserId))
+                    var __checkedListBox1 = (CheckedListBox)this.Controls["checkedListBox1"];
+                    for (int i = 0; i < __checkedListBox1.Items.Count; i++)
                     {
-                        __checkedListBox1.SetItemChecked(i, true);
+                        if (task.AssignedTo.ContainsKey(((UserView)__checkedListBox1.Items[i]).UserId))
+                        {
+                            __checkedListBox1.SetItemChecked(i, true);
+                        }
                     }
+                }
+                else
+                {
+                    ((CheckBox)this.Controls["checkFloating"]).Checked = true;
                 }
 
                 set(task);

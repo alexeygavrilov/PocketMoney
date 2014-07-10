@@ -27,7 +27,7 @@ namespace PocketMoney.ParentApp
         private void HomeworkTaskForm_Load(object sender, EventArgs e)
         {
             var familyService = ServiceLocator.Current.GetInstance<IFamilyService>();
-            var usersResult = familyService.GetUsers(new FamilyRequest { Data = _currentUser.Family });
+            var usersResult = familyService.GetUsers(Request.Empty);
             if (usersResult.Success)
             {
                 checkedListBox1.Items.Clear();
@@ -186,6 +186,18 @@ namespace PocketMoney.ParentApp
         {
             numericUpDown1.Enabled = radioButton5.Checked;
             textBox3.Enabled = radioButton6.Checked;
+        }
+
+        private void checkFloating_CheckedChanged(object sender, EventArgs e)
+        {
+            if (checkFloating.Checked)
+            {
+                for (int i = 0; i < checkedListBox1.Items.Count; i++)
+                {
+                    checkedListBox1.SetItemChecked(i, false);
+                }
+            }
+            checkedListBox1.Enabled = !checkFloating.Checked;
         }
 
     }

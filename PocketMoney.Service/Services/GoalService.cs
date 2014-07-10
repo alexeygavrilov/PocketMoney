@@ -86,7 +86,7 @@ namespace PocketMoney.Service
                 throw new InvalidDataException("Goal with identifier {0} has not been found.", model.Id);
             }
 
-            goal.Active = true;
+            //goal.Active = true;
             goal.Details = model.Text;
             goal.Reward = new Reward(goal, model.Points, model.Gift);
             _taskRepository.Update(goal);
@@ -184,7 +184,7 @@ namespace PocketMoney.Service
             var list = _taskRepository.QueryOverOf<Goal, Task, TaskId, Guid>()
                 .JoinAlias(x => x.AssignedTo, () => performer, JoinType.LeftOuterJoin)
                 .JoinAlias(() => performer.User, () => user, JoinType.LeftOuterJoin)
-                .Where(x => x.Family.Id == currentUser.Family.Id && x.Active && x.Type.Id == TaskType.Goal.Id)
+                .Where(x => x.Family.Id == currentUser.Family.Id && x.Status != eTaskStatus.Closed && x.Type.Id == TaskType.Goal.Id)
                 .Select(
                     Projections.Property<Goal>(x => x.Id).WithAlias(() => task.Id),
                     Projections.Property<Goal>(x => x.Details).WithAlias(() => task.Details),

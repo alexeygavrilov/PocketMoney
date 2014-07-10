@@ -13,9 +13,9 @@ namespace PocketMoney.Model.NHibernate
 
             Component(x => x.Date);
 
-            References<Task>(x => x.Task).Column("TaskId").Not.Nullable().ForeignKey("FK_Task_Date");
+            References<Task>(x => x.Task).Column("TaskId").Not.Nullable().Not.LazyLoad().ForeignKey("FK_Task_Date");
 
-            HasMany(x => x.Actions).LazyLoad().Cascade.Delete();
+            HasMany(x => x.Actions).Not.LazyLoad().Cascade.Delete();
 
         }
     }

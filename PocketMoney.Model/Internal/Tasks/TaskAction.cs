@@ -9,16 +9,16 @@ namespace PocketMoney.Model.Internal
         {
         }
 
-        public TaskAction(eTaskActionType actionType, TaskDate taskDate, Performer performer, string note)
+        public TaskAction(eTaskStatus newStatus, TaskDate taskDate, Performer performer, string note)
         {
-            this.ActionType = actionType;
+            this.NewStatus = newStatus;
             this.TaskDate = taskDate;
             this.Performer = performer;
             this.Note = note;
         }
 
         [Details]
-        public virtual eTaskActionType ActionType { get; set; }
+        public virtual eTaskStatus NewStatus { get; set; }
 
         [Details]
         public virtual TaskDate TaskDate { get; set; }
@@ -34,13 +34,7 @@ namespace PocketMoney.Model.Internal
 
     }
 
-    public enum eTaskActionType : int
-    {
-        None = 0,
-        Processed = 1,
-        Closed = 2
-        
-    }
+    
 
     public class TaskActionId : GuidIdentity
     {

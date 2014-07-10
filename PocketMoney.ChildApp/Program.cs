@@ -15,7 +15,7 @@ using System;
 using System.Reflection;
 using System.Windows.Forms;
 
-namespace PocketMoney.ParentApp
+namespace PocketMoney.ChildApp
 {
     static class Program
     {
@@ -68,6 +68,5 @@ namespace PocketMoney.ParentApp
                 container.Install(FromAssembly.Instance(assembly));
             }
         }
-
     }
 }

@@ -47,6 +47,7 @@
             this.comboBoxReminderMinutes = new System.Windows.Forms.ComboBox();
             this.comboBoxReminderHour = new System.Windows.Forms.ComboBox();
             this.checkBoxReminder = new System.Windows.Forms.CheckBox();
+            this.checkFloating = new System.Windows.Forms.CheckBox();
             this.groupBox2.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.numericUpDown1)).BeginInit();
             this.SuspendLayout();
@@ -196,6 +197,11 @@
             // numericUpDown1
             // 
             this.numericUpDown1.Location = new System.Drawing.Point(73, 19);
+            this.numericUpDown1.Maximum = new decimal(new int[] {
+            1000000,
+            0,
+            0,
+            0});
             this.numericUpDown1.Name = "numericUpDown1";
             this.numericUpDown1.Size = new System.Drawing.Size(120, 20);
             this.numericUpDown1.TabIndex = 31;
@@ -269,12 +275,24 @@
             this.checkBoxReminder.Text = "Reminder";
             this.checkBoxReminder.UseVisualStyleBackColor = true;
             // 
+            // checkFloating
+            // 
+            this.checkFloating.AutoSize = true;
+            this.checkFloating.Location = new System.Drawing.Point(582, 83);
+            this.checkFloating.Name = "checkFloating";
+            this.checkFloating.Size = new System.Drawing.Size(63, 17);
+            this.checkFloating.TabIndex = 58;
+            this.checkFloating.Text = "Floating";
+            this.checkFloating.UseVisualStyleBackColor = true;
+            this.checkFloating.CheckedChanged += new System.EventHandler(this.checkFloating_CheckedChanged);
+            // 
             // CleanTaskForm
             // 
             this.AcceptButton = this.button1;
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(684, 409);
+            this.Controls.Add(this.checkFloating);
             this.Controls.Add(this.groupBox2);
             this.Controls.Add(this.comboBoxReminderPM);
             this.Controls.Add(this.comboBoxReminderMinutes);
@@ -322,5 +340,6 @@
         private System.Windows.Forms.ComboBox comboBoxReminderMinutes;
         private System.Windows.Forms.ComboBox comboBoxReminderHour;
         private System.Windows.Forms.CheckBox checkBoxReminder;
+        private System.Windows.Forms.CheckBox checkFloating;
     }
 }

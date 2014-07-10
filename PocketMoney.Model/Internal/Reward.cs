@@ -42,7 +42,7 @@ namespace PocketMoney.Model.Internal
 
         public override string ToString()
         {
-            return IsPoint ? this.Points.ToString() : this.Gift;
+            return !IsPoint ? this.Gift : this.Points > 0 ? this.Points.ToString() + " points" : "Unassigned";
         }
 
     }

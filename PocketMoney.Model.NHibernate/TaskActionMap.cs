@@ -13,7 +13,7 @@ namespace PocketMoney.Model.NHibernate
 
             Id(x => x.Id).GeneratedBy.GuidComb();
 
-            Map(x => x.ActionType).Not.Nullable();
+            Map(x => x.NewStatus).Not.Nullable();
             Map(x => x.Note).Length(500);
             Map(x => x.Source).Length(1000);
 

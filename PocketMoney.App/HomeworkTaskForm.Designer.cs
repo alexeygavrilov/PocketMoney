@@ -53,6 +53,7 @@
             this.checkBoxReminder = new System.Windows.Forms.CheckBox();
             this.comboBox2 = new System.Windows.Forms.ComboBox();
             this.checkBox2 = new System.Windows.Forms.CheckBox();
+            this.checkFloating = new System.Windows.Forms.CheckBox();
             this.groupBox2.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.numericUpDown1)).BeginInit();
             this.SuspendLayout();
@@ -234,6 +235,11 @@
             // numericUpDown1
             // 
             this.numericUpDown1.Location = new System.Drawing.Point(73, 19);
+            this.numericUpDown1.Maximum = new decimal(new int[] {
+            1000000,
+            0,
+            0,
+            0});
             this.numericUpDown1.Name = "numericUpDown1";
             this.numericUpDown1.Size = new System.Drawing.Size(120, 20);
             this.numericUpDown1.TabIndex = 31;
@@ -329,12 +335,24 @@
             this.checkBox2.UseVisualStyleBackColor = true;
             this.checkBox2.CheckedChanged += new System.EventHandler(this.checkBox2_CheckedChanged);
             // 
+            // checkFloating
+            // 
+            this.checkFloating.AutoSize = true;
+            this.checkFloating.Location = new System.Drawing.Point(593, 90);
+            this.checkFloating.Name = "checkFloating";
+            this.checkFloating.Size = new System.Drawing.Size(63, 17);
+            this.checkFloating.TabIndex = 66;
+            this.checkFloating.Text = "Floating";
+            this.checkFloating.UseVisualStyleBackColor = true;
+            this.checkFloating.CheckedChanged += new System.EventHandler(this.checkFloating_CheckedChanged);
+            // 
             // HomeworkTaskForm
             // 
             this.AcceptButton = this.button1;
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(684, 420);
+            this.Controls.Add(this.checkFloating);
             this.Controls.Add(this.checkBox2);
             this.Controls.Add(this.comboBox2);
             this.Controls.Add(this.groupBox2);
@@ -394,5 +412,6 @@
         private System.Windows.Forms.CheckBox checkBoxReminder;
         private System.Windows.Forms.ComboBox comboBox2;
         private System.Windows.Forms.CheckBox checkBox2;
+        private System.Windows.Forms.CheckBox checkFloating;
     }
 }

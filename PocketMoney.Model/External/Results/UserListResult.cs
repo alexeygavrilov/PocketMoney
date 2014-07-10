@@ -13,13 +13,23 @@ namespace PocketMoney.Model.External.Results
     }
 
     [DataContract]
-    public class UserResult : ResultData<UserFullView>
+    public class UserResult : ResultData<UserView>
     {
         public UserResult() { }
 
         public UserResult(string errorMessage) : base(errorMessage) { }
 
-        public UserResult(UserFullView data) : base(data) { }
+        public UserResult(UserView data) : base(data) { }
+    }
+
+    [DataContract]
+    public class UserFullResult : ResultData<UserFullView>
+    {
+        public UserFullResult() { }
+
+        public UserFullResult(string errorMessage) : base(errorMessage) { }
+
+        public UserFullResult(UserFullView data) : base(data) { }
     }
 
 }

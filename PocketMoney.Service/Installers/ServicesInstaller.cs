@@ -51,6 +51,13 @@ namespace PocketMoney.Service.Installers
                     .Singleton);
 
             container.Register(
+                Component.For<IClientService>()
+                    .ImplementedBy<ClientService>()
+                    .Interceptors<ProcessInterceptor>()
+                    .LifeStyle
+                    .Singleton);
+
+            container.Register(
                 Component.For<IConnector>()
                     .ImplementedBy<Connector>()
                     .Interceptors<ProcessInterceptor>()

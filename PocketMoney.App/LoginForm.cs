@@ -32,7 +32,7 @@ namespace PocketMoney.ParentApp
 
         private void LoginForm_Load(object sender, EventArgs e)
         {
-            button1_Click(button1, EventArgs.Empty);
+            //button1_Click(button1, EventArgs.Empty);
         }
     }
 }

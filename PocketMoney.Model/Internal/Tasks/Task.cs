@@ -19,8 +19,8 @@ namespace PocketMoney.Model.Internal
         public Task(TaskType type, string details, Reward reward, User creator)
             : this()
         {
-            this.EnableDateRange = type == TaskType.HomeworkTask || type == TaskType.RepeatTask;
-            this.Active = true;
+            this.HasDates = type == TaskType.HomeworkTask || type == TaskType.RepeatTask;
+            this.Status = eTaskStatus.New;
             this.Type = type;
             this.Details = details;
             this.Reward = new Reward(this, reward.Points, reward.Gift);
@@ -29,7 +29,7 @@ namespace PocketMoney.Model.Internal
         }
 
         [Details]
-        public virtual bool EnableDateRange { get; set; }
+        public virtual bool HasDates { get; set; }
 
         [Details]
         public virtual string Details { get; set; }
@@ -41,7 +41,7 @@ namespace PocketMoney.Model.Internal
         public virtual TaskType Type { get; set; }
 
         [Details]
-        public virtual bool Active { get; set; }
+        public virtual eTaskStatus Status { get; set; }
 
         [Details]
         public virtual Reward Reward { get; set; }

@@ -100,6 +100,8 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "PocketMoney.Test", "PocketM
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PocketMoney.ParentApp", "PocketMoney.App\PocketMoney.ParentApp.csproj", "{EB382C12-9836-4309-AA3B-85EA29D0B51E}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PocketMoney.ChildApp", "PocketMoney.ChildApp\PocketMoney.ChildApp.csproj", "{FC4E4E86-931E-4A59-BDA8-9C78EE44D33D}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -170,6 +172,10 @@ Global
 		{EB382C12-9836-4309-AA3B-85EA29D0B51E}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{EB382C12-9836-4309-AA3B-85EA29D0B51E}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{EB382C12-9836-4309-AA3B-85EA29D0B51E}.Release|Any CPU.Build.0 = Release|Any CPU
+		{FC4E4E86-931E-4A59-BDA8-9C78EE44D33D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{FC4E4E86-931E-4A59-BDA8-9C78EE44D33D}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{FC4E4E86-931E-4A59-BDA8-9C78EE44D33D}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{FC4E4E86-931E-4A59-BDA8-9C78EE44D33D}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -190,6 +196,7 @@ Global
 		{FFFC474C-1A82-42ED-B714-FE8E6878FAF8} = {BC07075C-45C9-473C-88D4-391A7B3FF1E7}
 		{BBA6EBA9-C0C0-465B-838B-D3B605AA6950} = {78680FA5-FB47-4B6F-8123-3B531FB574BE}
 		{EB382C12-9836-4309-AA3B-85EA29D0B51E} = {78680FA5-FB47-4B6F-8123-3B531FB574BE}
+		{FC4E4E86-931E-4A59-BDA8-9C78EE44D33D} = {78680FA5-FB47-4B6F-8123-3B531FB574BE}
 		{FC0151A2-7FD5-408B-93F4-5AB4C20161F2} = {4ECC8F30-A6F1-4F58-BC7D-4C3775D887F9}
 	EndGlobalSection
 	GlobalSection(SubversionScc) = preSolution

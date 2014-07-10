@@ -30,10 +30,10 @@ namespace PocketMoney.Service.Interfaces
         AuthResult Login(LoginRequest model);
 
         [Process, OperationContract]
-        UserListResult GetUsers(FamilyRequest model);
+        UserListResult GetUsers(Request model);
 
         [Process, OperationContract]
-        UserResult GetUser(GuidRequest userId);
+        UserFullResult GetUser(GuidRequest userId);
 
         [Process, OperationContract]
         Result Withdraw(WithdrawRequest model);

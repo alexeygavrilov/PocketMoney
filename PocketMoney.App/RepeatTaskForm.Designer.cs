@@ -65,6 +65,7 @@
             this.radioButton5 = new System.Windows.Forms.RadioButton();
             this.radioButton6 = new System.Windows.Forms.RadioButton();
             this.numericUpDown1 = new System.Windows.Forms.NumericUpDown();
+            this.checkFloating = new System.Windows.Forms.CheckBox();
             this.groupBox1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.numericUpDown2)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.numericUpDown3)).BeginInit();
@@ -505,9 +506,25 @@
             // numericUpDown1
             // 
             this.numericUpDown1.Location = new System.Drawing.Point(73, 19);
+            this.numericUpDown1.Maximum = new decimal(new int[] {
+            1000000,
+            0,
+            0,
+            0});
             this.numericUpDown1.Name = "numericUpDown1";
             this.numericUpDown1.Size = new System.Drawing.Size(120, 20);
             this.numericUpDown1.TabIndex = 31;
+            // 
+            // checkFloating
+            // 
+            this.checkFloating.AutoSize = true;
+            this.checkFloating.Location = new System.Drawing.Point(606, 90);
+            this.checkFloating.Name = "checkFloating";
+            this.checkFloating.Size = new System.Drawing.Size(63, 17);
+            this.checkFloating.TabIndex = 59;
+            this.checkFloating.Text = "Floating";
+            this.checkFloating.UseVisualStyleBackColor = true;
+            this.checkFloating.CheckedChanged += new System.EventHandler(this.checkFloating_CheckedChanged);
             // 
             // RepeatTaskForm
             // 
@@ -515,6 +532,7 @@
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(684, 408);
+            this.Controls.Add(this.checkFloating);
             this.Controls.Add(this.groupBox2);
             this.Controls.Add(this.textBox2);
             this.Controls.Add(this.label11);
@@ -598,5 +616,6 @@
         private System.Windows.Forms.RadioButton radioButton5;
         private System.Windows.Forms.RadioButton radioButton6;
         private System.Windows.Forms.NumericUpDown numericUpDown1;
+        private System.Windows.Forms.CheckBox checkFloating;
     }
 }

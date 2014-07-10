@@ -24,7 +24,7 @@ namespace PocketMoney.Model.External.Requests
             if (string.IsNullOrEmpty(this.RoomName))
                 yield return new ValidationResult("Room name is required field");
 
-            if (this.EveryDay && (this.DaysOfWeek == null || this.DaysOfWeek.Length == 0))
+            if (!this.EveryDay && (this.DaysOfWeek == null || this.DaysOfWeek.Length == 0))
                 yield return new ValidationResult("Days of Week are required value");
 
             foreach (var val in base.Validate(validationContext))

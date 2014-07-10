@@ -14,6 +14,7 @@ namespace PocketMoney.Model.NHibernate
             Map(x => x.Name).Not.Nullable().Length(255);
             Map(x => x.Qty).Nullable().Length(50);
             Map(x => x.OrderNumber).Not.Nullable();
+            Map(x => x.Processed);
 
             References<ShopTask>(x => x.Task).Column("ShopTaskId").Not.Nullable().ForeignKey("FK_Task_ShopItem");
 

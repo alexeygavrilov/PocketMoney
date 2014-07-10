@@ -49,6 +49,7 @@
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="Common\DayOfOne.cs" />
+    <Compile Include="Enums\eTaskStatus.cs" />
     <Compile Include="External\HomeworkForm.cs" />
     <Compile Include="External\RepeatForm.cs" />
     <Compile Include="External\Requests\AttainmentRequest.cs" />
@@ -56,6 +57,7 @@
     <Compile Include="External\Requests\RewardRequest.cs" />
     <Compile Include="External\Requests\WithdrawRequest.cs" />
     <Compile Include="External\Results\AttainmentListResult.cs" />
+    <Compile Include="External\Results\Clients\TaskResult.cs" />
     <Compile Include="External\Results\GoalResult.cs" />
     <Compile Include="External\Results\HolidayListResult.cs">
       <SubType>Code</SubType>
@@ -84,7 +86,6 @@
     <Compile Include="External\Requests\BaseTaskRequest.cs" />
     <Compile Include="External\Requests\ConfirmUserRequest.cs" />
     <Compile Include="External\Requests\ConnectionRequest.cs" />
-    <Compile Include="External\Requests\FamilyRequest.cs" />
     <Compile Include="External\Requests\GenericRequest.cs" />
     <Compile Include="External\Requests\LoginRequest.cs" />
     <Compile Include="External\Requests\RegisterUserRequest.cs" />

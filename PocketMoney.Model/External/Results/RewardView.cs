@@ -13,7 +13,7 @@ namespace PocketMoney.Model.External.Results
             {
                 this.Points = reward.Points;
                 this.Gift = reward.Gift;
-                this.Reward = !string.IsNullOrEmpty(this.Gift) ? this.Gift : this.Points > 0 ? this.Points.ToString() + " points" : "Unassigned";
+                this.Reward = reward.ToString();
             }
             else
             {
