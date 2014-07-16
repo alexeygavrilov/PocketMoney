@@ -33,9 +33,7 @@ namespace PocketMoney.Model.External.Results
             this.TaskType = task.Type.Id;
             this.Text = task.Details;
             this.ReminderTime = task.Reminder.HasValue ? new TimeSpan?(TimeSpan.FromMinutes(task.Reminder.Value)) : null;
-            this.AssignedTo = task.AssignedTo
-                .Where(p => p.Active)
-                .ToDictionary(k => k.User.Id, e => e.User.FullName(), EqualityComparer<Guid>.Default);
+            this.AssignedTo = task.AssignedTo.ToDictionary(k => k.User.Id, e => e.User.FullName(), EqualityComparer<Guid>.Default);
         }
 
         [DataMember, Details]

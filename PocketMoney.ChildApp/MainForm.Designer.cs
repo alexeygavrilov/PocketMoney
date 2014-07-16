@@ -30,27 +30,35 @@
         {
             this.label1 = new System.Windows.Forms.Label();
             this.comboLoggedUser = new System.Windows.Forms.ComboBox();
-            this.tabControl1 = new System.Windows.Forms.TabControl();
+            this.mainControl = new System.Windows.Forms.TabControl();
             this.tabTasks = new System.Windows.Forms.TabPage();
             this.tabControl2 = new System.Windows.Forms.TabControl();
             this.tabPage1 = new System.Windows.Forms.TabPage();
             this.listTasksYesterday = new System.Windows.Forms.ListView();
             this.tabPage2 = new System.Windows.Forms.TabPage();
-            this.tabPage3 = new System.Windows.Forms.TabPage();
-            this.tabPage4 = new System.Windows.Forms.TabPage();
-            this.tabGoals = new System.Windows.Forms.TabPage();
-            this.tabGoodWorks = new System.Windows.Forms.TabPage();
-            this.labelPoints = new System.Windows.Forms.Label();
             this.listTasksToday = new System.Windows.Forms.ListView();
+            this.tabPage3 = new System.Windows.Forms.TabPage();
             this.listTasksTomorrow = new System.Windows.Forms.ListView();
+            this.tabPage4 = new System.Windows.Forms.TabPage();
             this.listTasksFloating = new System.Windows.Forms.ListView();
-            this.tabControl1.SuspendLayout();
+            this.tabGoals = new System.Windows.Forms.TabPage();
+            this.listGoals = new System.Windows.Forms.ListView();
+            this.tabGoodWorks = new System.Windows.Forms.TabPage();
+            this.listGoodWorks = new System.Windows.Forms.ListView();
+            this.buttonAddGoodDeed = new System.Windows.Forms.Button();
+            this.labelPoints = new System.Windows.Forms.Label();
+            this.deedControl = new PocketMoney.ChildApp.GoodDeedControl();
+            this.taskControl = new PocketMoney.ChildApp.TaskControl();
+            this.shoppingControl = new PocketMoney.ChildApp.ShoppingControl();
+            this.mainControl.SuspendLayout();
             this.tabTasks.SuspendLayout();
             this.tabControl2.SuspendLayout();
             this.tabPage1.SuspendLayout();
             this.tabPage2.SuspendLayout();
             this.tabPage3.SuspendLayout();
             this.tabPage4.SuspendLayout();
+            this.tabGoals.SuspendLayout();
+            this.tabGoodWorks.SuspendLayout();
             this.SuspendLayout();
             // 
             // label1
@@ -72,19 +80,19 @@
             this.comboLoggedUser.TabIndex = 1;
             this.comboLoggedUser.SelectedIndexChanged += new System.EventHandler(this.comboLoggedUser_SelectedIndexChanged);
             // 
-            // tabControl1
+            // mainControl
             // 
-            this.tabControl1.Appearance = System.Windows.Forms.TabAppearance.FlatButtons;
-            this.tabControl1.Controls.Add(this.tabTasks);
-            this.tabControl1.Controls.Add(this.tabGoals);
-            this.tabControl1.Controls.Add(this.tabGoodWorks);
-            this.tabControl1.Dock = System.Windows.Forms.DockStyle.Bottom;
-            this.tabControl1.Font = new System.Drawing.Font("Microsoft Sans Serif", 19F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-            this.tabControl1.Location = new System.Drawing.Point(0, 28);
-            this.tabControl1.Name = "tabControl1";
-            this.tabControl1.SelectedIndex = 0;
-            this.tabControl1.Size = new System.Drawing.Size(397, 428);
-            this.tabControl1.TabIndex = 2;
+            this.mainControl.Appearance = System.Windows.Forms.TabAppearance.FlatButtons;
+            this.mainControl.Controls.Add(this.tabTasks);
+            this.mainControl.Controls.Add(this.tabGoals);
+            this.mainControl.Controls.Add(this.tabGoodWorks);
+            this.mainControl.Dock = System.Windows.Forms.DockStyle.Bottom;
+            this.mainControl.Font = new System.Drawing.Font("Microsoft Sans Serif", 19F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+            this.mainControl.Location = new System.Drawing.Point(0, 28);
+            this.mainControl.Name = "mainControl";
+            this.mainControl.SelectedIndex = 0;
+            this.mainControl.Size = new System.Drawing.Size(397, 428);
+            this.mainControl.TabIndex = 2;
             // 
             // tabTasks
             // 
@@ -130,7 +138,6 @@
             this.listTasksYesterday.Alignment = System.Windows.Forms.ListViewAlignment.SnapToGrid;
             this.listTasksYesterday.Dock = System.Windows.Forms.DockStyle.Fill;
             this.listTasksYesterday.Font = new System.Drawing.Font("Microsoft Sans Serif", 14F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-            this.listTasksYesterday.HoverSelection = true;
             this.listTasksYesterday.ImeMode = System.Windows.Forms.ImeMode.NoControl;
             this.listTasksYesterday.Location = new System.Drawing.Point(3, 3);
             this.listTasksYesterday.MultiSelect = false;
@@ -138,7 +145,8 @@
             this.listTasksYesterday.Size = new System.Drawing.Size(369, 334);
             this.listTasksYesterday.TabIndex = 0;
             this.listTasksYesterday.UseCompatibleStateImageBehavior = false;
-            this.listTasksYesterday.View = System.Windows.Forms.View.List;
+            this.listTasksYesterday.View = System.Windows.Forms.View.Tile;
+            this.listTasksYesterday.MouseClick += new System.Windows.Forms.MouseEventHandler(this.listTasksYesterday_MouseClick);
             // 
             // tabPage2
             // 
@@ -152,6 +160,21 @@
             this.tabPage2.TabIndex = 1;
             this.tabPage2.Text = " Today ";
             // 
+            // listTasksToday
+            // 
+            this.listTasksToday.Alignment = System.Windows.Forms.ListViewAlignment.SnapToGrid;
+            this.listTasksToday.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.listTasksToday.Font = new System.Drawing.Font("Microsoft Sans Serif", 14F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+            this.listTasksToday.ImeMode = System.Windows.Forms.ImeMode.NoControl;
+            this.listTasksToday.Location = new System.Drawing.Point(3, 3);
+            this.listTasksToday.MultiSelect = false;
+            this.listTasksToday.Name = "listTasksToday";
+            this.listTasksToday.Size = new System.Drawing.Size(369, 334);
+            this.listTasksToday.TabIndex = 1;
+            this.listTasksToday.UseCompatibleStateImageBehavior = false;
+            this.listTasksToday.View = System.Windows.Forms.View.Tile;
+            this.listTasksToday.MouseClick += new System.Windows.Forms.MouseEventHandler(this.listTasksToday_MouseClick);
+            // 
             // tabPage3
             // 
             this.tabPage3.BackColor = System.Drawing.Color.Transparent;
@@ -163,6 +186,21 @@
             this.tabPage3.TabIndex = 2;
             this.tabPage3.Text = "Tomorrow";
             // 
+            // listTasksTomorrow
+            // 
+            this.listTasksTomorrow.Alignment = System.Windows.Forms.ListViewAlignment.SnapToGrid;
+            this.listTasksTomorrow.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.listTasksTomorrow.Font = new System.Drawing.Font("Microsoft Sans Serif", 14F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+            this.listTasksTomorrow.ImeMode = System.Windows.Forms.ImeMode.NoControl;
+            this.listTasksTomorrow.Location = new System.Drawing.Point(0, 0);
+            this.listTasksTomorrow.MultiSelect = false;
+            this.listTasksTomorrow.Name = "listTasksTomorrow";
+            this.listTasksTomorrow.Size = new System.Drawing.Size(375, 340);
+            this.listTasksTomorrow.TabIndex = 2;
+            this.listTasksTomorrow.UseCompatibleStateImageBehavior = false;
+            this.listTasksTomorrow.View = System.Windows.Forms.View.Tile;
+            this.listTasksTomorrow.MouseClick += new System.Windows.Forms.MouseEventHandler(this.listTasksTomorrow_MouseClick);
+            // 
             // tabPage4
             // 
             this.tabPage4.BackColor = System.Drawing.Color.Transparent;
@@ -172,64 +210,6 @@
             this.tabPage4.Size = new System.Drawing.Size(375, 340);
             this.tabPage4.TabIndex = 3;
             this.tabPage4.Text = "Floating";
-            // 
-            // tabGoals
-            // 
-            this.tabGoals.Location = new System.Drawing.Point(4, 41);
-            this.tabGoals.Name = "tabGoals";
-            this.tabGoals.Padding = new System.Windows.Forms.Padding(3);
-            this.tabGoals.Size = new System.Drawing.Size(389, 383);
-            this.tabGoals.TabIndex = 1;
-            this.tabGoals.Text = "Goals";
-            this.tabGoals.UseVisualStyleBackColor = true;
-            // 
-            // tabGoodWorks
-            // 
-            this.tabGoodWorks.Location = new System.Drawing.Point(4, 41);
-            this.tabGoodWorks.Name = "tabGoodWorks";
-            this.tabGoodWorks.Size = new System.Drawing.Size(389, 383);
-            this.tabGoodWorks.TabIndex = 2;
-            this.tabGoodWorks.Text = "Good Works";
-            this.tabGoodWorks.UseVisualStyleBackColor = true;
-            // 
-            // labelPoints
-            // 
-            this.labelPoints.AutoSize = true;
-            this.labelPoints.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-            this.labelPoints.Location = new System.Drawing.Point(263, 5);
-            this.labelPoints.Name = "labelPoints";
-            this.labelPoints.Size = new System.Drawing.Size(0, 17);
-            this.labelPoints.TabIndex = 3;
-            // 
-            // listTasksToday
-            // 
-            this.listTasksToday.Alignment = System.Windows.Forms.ListViewAlignment.SnapToGrid;
-            this.listTasksToday.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.listTasksToday.Font = new System.Drawing.Font("Microsoft Sans Serif", 14F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-            this.listTasksToday.HoverSelection = true;
-            this.listTasksToday.ImeMode = System.Windows.Forms.ImeMode.NoControl;
-            this.listTasksToday.Location = new System.Drawing.Point(3, 3);
-            this.listTasksToday.MultiSelect = false;
-            this.listTasksToday.Name = "listTasksToday";
-            this.listTasksToday.Size = new System.Drawing.Size(369, 334);
-            this.listTasksToday.TabIndex = 1;
-            this.listTasksToday.UseCompatibleStateImageBehavior = false;
-            this.listTasksToday.View = System.Windows.Forms.View.List;
-            // 
-            // listTasksTomorrow
-            // 
-            this.listTasksTomorrow.Alignment = System.Windows.Forms.ListViewAlignment.SnapToGrid;
-            this.listTasksTomorrow.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.listTasksTomorrow.Font = new System.Drawing.Font("Microsoft Sans Serif", 14F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-            this.listTasksTomorrow.HoverSelection = true;
-            this.listTasksTomorrow.ImeMode = System.Windows.Forms.ImeMode.NoControl;
-            this.listTasksTomorrow.Location = new System.Drawing.Point(0, 0);
-            this.listTasksTomorrow.MultiSelect = false;
-            this.listTasksTomorrow.Name = "listTasksTomorrow";
-            this.listTasksTomorrow.Size = new System.Drawing.Size(375, 340);
-            this.listTasksTomorrow.TabIndex = 2;
-            this.listTasksTomorrow.UseCompatibleStateImageBehavior = false;
-            this.listTasksTomorrow.View = System.Windows.Forms.View.List;
             // 
             // listTasksFloating
             // 
@@ -244,15 +224,114 @@
             this.listTasksFloating.Size = new System.Drawing.Size(375, 340);
             this.listTasksFloating.TabIndex = 2;
             this.listTasksFloating.UseCompatibleStateImageBehavior = false;
-            this.listTasksFloating.View = System.Windows.Forms.View.List;
+            this.listTasksFloating.View = System.Windows.Forms.View.Tile;
+            this.listTasksFloating.MouseClick += new System.Windows.Forms.MouseEventHandler(this.listTasksFloating_MouseClick);
+            // 
+            // tabGoals
+            // 
+            this.tabGoals.Controls.Add(this.listGoals);
+            this.tabGoals.Location = new System.Drawing.Point(4, 41);
+            this.tabGoals.Name = "tabGoals";
+            this.tabGoals.Padding = new System.Windows.Forms.Padding(3);
+            this.tabGoals.Size = new System.Drawing.Size(389, 383);
+            this.tabGoals.TabIndex = 1;
+            this.tabGoals.Text = "Goals";
+            this.tabGoals.UseVisualStyleBackColor = true;
+            // 
+            // listGoals
+            // 
+            this.listGoals.Alignment = System.Windows.Forms.ListViewAlignment.SnapToGrid;
+            this.listGoals.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.listGoals.Font = new System.Drawing.Font("Microsoft Sans Serif", 14F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+            this.listGoals.ImeMode = System.Windows.Forms.ImeMode.NoControl;
+            this.listGoals.Location = new System.Drawing.Point(3, 3);
+            this.listGoals.MultiSelect = false;
+            this.listGoals.Name = "listGoals";
+            this.listGoals.Size = new System.Drawing.Size(383, 377);
+            this.listGoals.TabIndex = 1;
+            this.listGoals.UseCompatibleStateImageBehavior = false;
+            this.listGoals.View = System.Windows.Forms.View.Tile;
+            this.listGoals.MouseClick += new System.Windows.Forms.MouseEventHandler(this.listGoals_MouseClick);
+            // 
+            // tabGoodWorks
+            // 
+            this.tabGoodWorks.Controls.Add(this.listGoodWorks);
+            this.tabGoodWorks.Controls.Add(this.buttonAddGoodDeed);
+            this.tabGoodWorks.Location = new System.Drawing.Point(4, 41);
+            this.tabGoodWorks.Name = "tabGoodWorks";
+            this.tabGoodWorks.Size = new System.Drawing.Size(389, 383);
+            this.tabGoodWorks.TabIndex = 2;
+            this.tabGoodWorks.Text = "Good Works";
+            this.tabGoodWorks.UseVisualStyleBackColor = true;
+            // 
+            // listGoodWorks
+            // 
+            this.listGoodWorks.Alignment = System.Windows.Forms.ListViewAlignment.SnapToGrid;
+            this.listGoodWorks.Dock = System.Windows.Forms.DockStyle.Bottom;
+            this.listGoodWorks.Font = new System.Drawing.Font("Microsoft Sans Serif", 14F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+            this.listGoodWorks.ImeMode = System.Windows.Forms.ImeMode.NoControl;
+            this.listGoodWorks.LabelWrap = false;
+            this.listGoodWorks.Location = new System.Drawing.Point(0, 47);
+            this.listGoodWorks.MultiSelect = false;
+            this.listGoodWorks.Name = "listGoodWorks";
+            this.listGoodWorks.Size = new System.Drawing.Size(389, 336);
+            this.listGoodWorks.TabIndex = 2;
+            this.listGoodWorks.UseCompatibleStateImageBehavior = false;
+            this.listGoodWorks.View = System.Windows.Forms.View.Tile;
+            // 
+            // buttonAddGoodDeed
+            // 
+            this.buttonAddGoodDeed.Location = new System.Drawing.Point(54, 3);
+            this.buttonAddGoodDeed.Name = "buttonAddGoodDeed";
+            this.buttonAddGoodDeed.Size = new System.Drawing.Size(274, 38);
+            this.buttonAddGoodDeed.TabIndex = 0;
+            this.buttonAddGoodDeed.Text = "Add Good Deed";
+            this.buttonAddGoodDeed.UseVisualStyleBackColor = true;
+            this.buttonAddGoodDeed.Click += new System.EventHandler(this.buttonAddGoodDeed_Click);
+            // 
+            // labelPoints
+            // 
+            this.labelPoints.AutoSize = true;
+            this.labelPoints.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+            this.labelPoints.Location = new System.Drawing.Point(263, 5);
+            this.labelPoints.Name = "labelPoints";
+            this.labelPoints.Size = new System.Drawing.Size(0, 17);
+            this.labelPoints.TabIndex = 3;
+            // 
+            // deedControl
+            // 
+            this.deedControl.Location = new System.Drawing.Point(0, 28);
+            this.deedControl.Name = "deedControl";
+            this.deedControl.Size = new System.Drawing.Size(397, 428);
+            this.deedControl.TabIndex = 3;
+            this.deedControl.Visible = false;
+            // 
+            // taskControl
+            // 
+            this.taskControl.Location = new System.Drawing.Point(0, 28);
+            this.taskControl.Name = "taskControl";
+            this.taskControl.Size = new System.Drawing.Size(397, 428);
+            this.taskControl.TabIndex = 4;
+            this.taskControl.Visible = false;
+            // 
+            // shoppingControl
+            // 
+            this.shoppingControl.Location = new System.Drawing.Point(0, 28);
+            this.shoppingControl.Name = "shoppingControl";
+            this.shoppingControl.Size = new System.Drawing.Size(397, 428);
+            this.shoppingControl.TabIndex = 5;
+            this.shoppingControl.Visible = false;
             // 
             // MainForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(397, 456);
+            this.Controls.Add(this.shoppingControl);
+            this.Controls.Add(this.deedControl);
+            this.Controls.Add(this.taskControl);
             this.Controls.Add(this.labelPoints);
-            this.Controls.Add(this.tabControl1);
+            this.Controls.Add(this.mainControl);
             this.Controls.Add(this.comboLoggedUser);
             this.Controls.Add(this.label1);
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedToolWindow;
@@ -261,13 +340,15 @@
             this.Name = "MainForm";
             this.Text = "Child App";
             this.Load += new System.EventHandler(this.MainForm_Load);
-            this.tabControl1.ResumeLayout(false);
+            this.mainControl.ResumeLayout(false);
             this.tabTasks.ResumeLayout(false);
             this.tabControl2.ResumeLayout(false);
             this.tabPage1.ResumeLayout(false);
             this.tabPage2.ResumeLayout(false);
             this.tabPage3.ResumeLayout(false);
             this.tabPage4.ResumeLayout(false);
+            this.tabGoals.ResumeLayout(false);
+            this.tabGoodWorks.ResumeLayout(false);
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -277,7 +358,7 @@
 
         private System.Windows.Forms.Label label1;
         private System.Windows.Forms.ComboBox comboLoggedUser;
-        private System.Windows.Forms.TabControl tabControl1;
+        private System.Windows.Forms.TabControl mainControl;
         private System.Windows.Forms.TabPage tabTasks;
         private System.Windows.Forms.TabPage tabGoals;
         private System.Windows.Forms.TabPage tabGoodWorks;
@@ -291,6 +372,12 @@
         private System.Windows.Forms.ListView listTasksToday;
         private System.Windows.Forms.ListView listTasksTomorrow;
         private System.Windows.Forms.ListView listTasksFloating;
+        private TaskControl taskControl;
+        private System.Windows.Forms.ListView listGoals;
+        private System.Windows.Forms.Button buttonAddGoodDeed;
+        private System.Windows.Forms.ListView listGoodWorks;
+        private GoodDeedControl deedControl;
+        private ShoppingControl shoppingControl;
     }
 }
 

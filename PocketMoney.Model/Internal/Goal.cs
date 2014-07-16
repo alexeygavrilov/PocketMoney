@@ -22,17 +22,5 @@ namespace PocketMoney.Model.Internal
         }
     }
 
-    public class GoalId : GuidIdentity
-    {
-        public GoalId(Guid goalId)
-            : base(goalId, typeof(Goal))
-        {
-        }
-
-        public GoalId()
-            : base(Guid.Empty, typeof(Goal))
-        {
-        }
-    }
 
 }

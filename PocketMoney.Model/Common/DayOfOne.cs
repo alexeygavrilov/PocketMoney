@@ -94,6 +94,16 @@ namespace PocketMoney.Model
             return new DayOfOne(x.Value - y);
         }
 
+        public static DayOfOne operator ++(DayOfOne x)
+        {
+            return new DayOfOne(x.Value + 1);
+        }
+
+        public static DayOfOne operator --(DayOfOne x)
+        {
+            return new DayOfOne(x.Value - 1);
+        }
+
         public bool Equals(DayOfOne other)
         {
             return this.Value == other.Value;

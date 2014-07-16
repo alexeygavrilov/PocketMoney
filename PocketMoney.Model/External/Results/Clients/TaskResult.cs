@@ -8,28 +8,44 @@ using System.Runtime.Serialization;
 namespace PocketMoney.Model.External.Results.Clients
 {
     [DataContract]
-    public abstract class TaskView : ObjectBase
+    public class GoalView : ObjectBase
     {
-        protected TaskView(Guid taskId, TaskType type, string text, Reward reward, eDateType dateType)
+        public GoalView(Goal goal)
         {
-            this.TaskId = taskId;
-            this.TaskType = type.Id;
+            this.Id = goal.Id;
+            this.Text = goal.Details;
+            this.Reward = goal.Reward.ToString();
+        }
+
+        protected GoalView(Guid id, string text, Reward reward)
+        {
+            this.Id = id;
             this.Text = text;
             this.Reward = reward.ToString();
-            this.DateType = dateType;
         }
 
         [DataMember, Details]
-        public Guid TaskId { get; set; }
-
-        [DataMember, Details]
-        public int TaskType { get; set; }
+        public Guid Id { get; set; }
 
         [DataMember, Details]
         public string Text { get; set; }
 
         [DataMember, Details]
         public string Reward { get; set; }
+    }
+
+    [DataContract]
+    public abstract class TaskView : GoalView
+    {
+        protected TaskView(Guid taskId, TaskType type, string text, Reward reward, eDateType dateType)
+            : base(taskId, text, reward)
+        {
+            this.TaskType = type.Id;
+            this.DateType = dateType;
+        }
+
+        [DataMember, Details]
+        public int TaskType { get; set; }
 
         [DataMember, Details]
         public eDateType DateType { get; set; }
@@ -40,7 +56,7 @@ namespace PocketMoney.Model.External.Results.Clients
     [DataContract]
     public class CleanTaskView : TaskView
     {
-        public CleanTaskView(string roomName, Guid taskId, TaskType type, string text, Reward reward, eDateType dateType)
+        public CleanTaskView(string roomName, Guid taskId, string text, Reward reward, eDateType dateType)
             : base(taskId, Internal.TaskType.CleanTask, text, reward, dateType)
         {
             this.RoomName = roomName;
@@ -62,8 +78,8 @@ namespace PocketMoney.Model.External.Results.Clients
     [DataContract]
     public class HomeworkTaskView : TaskView
     {
-        public HomeworkTaskView(string lesson, Guid taskId, TaskType type, string text, Reward reward, eDateType dateType)
-            : base(taskId, Internal.TaskType.CleanTask, text, reward, dateType)
+        public HomeworkTaskView(string lesson, Guid taskId, string text, Reward reward, eDateType dateType)
+            : base(taskId, Internal.TaskType.HomeworkTask, text, reward, dateType)
         {
             this.Lesson = lesson;
         }
@@ -84,8 +100,8 @@ namespace PocketMoney.Model.External.Results.Clients
     [DataContract]
     public class OneTimeTaskView : TaskView
     {
-        public OneTimeTaskView(string name, Guid taskId, TaskType type, string text, Reward reward, eDateType dateType)
-            : base(taskId, Internal.TaskType.CleanTask, text, reward, dateType)
+        public OneTimeTaskView(string name, Guid taskId, string text, Reward reward, eDateType dateType)
+            : base(taskId, Internal.TaskType.OneTimeTask, text, reward, dateType)
         {
             this.Name = name;
         }
@@ -106,8 +122,8 @@ namespace PocketMoney.Model.External.Results.Clients
     [DataContract]
     public class RepeatTaskView : TaskView
     {
-        public RepeatTaskView(string name, Guid taskId, TaskType type, string text, Reward reward, eDateType dateType)
-            : base(taskId, Internal.TaskType.CleanTask, text, reward, dateType)
+        public RepeatTaskView(string name, Guid taskId, string text, Reward reward, eDateType dateType)
+            : base(taskId, Internal.TaskType.RepeatTask, text, reward, dateType)
         {
             this.Name = name;
         }
@@ -127,8 +143,8 @@ namespace PocketMoney.Model.External.Results.Clients
 
     public class ShoppingTaskView : TaskView
     {
-        public ShoppingTaskView(string shopName, Guid taskId, TaskType type, string text, Reward reward, eDateType dateType)
-            : base(taskId, Internal.TaskType.CleanTask, text, reward, dateType)
+        public ShoppingTaskView(string shopName, Guid taskId, string text, Reward reward, eDateType dateType)
+            : base(taskId, Internal.TaskType.ShoppingTask, text, reward, dateType)
         {
             this.ShopName = shopName;
         }
@@ -146,19 +162,20 @@ namespace PocketMoney.Model.External.Results.Clients
         }
     }
 
-    public enum eDateType
-    {
-        Yesterday,
-        Today,
-        Tomorrow
-    }
-
     [DataContract]
     public class TaskListResult : ResultList<TaskView>
     {
         public TaskListResult() { }
 
         public TaskListResult(TaskView[] taskList, int count) : base(taskList, count) { }
+    }
+
+    [DataContract]
+    public class GoalListResult : ResultList<GoalView>
+    {
+        public GoalListResult() { }
+
+        public GoalListResult(GoalView[] goalList, int count) : base(goalList, count) { }
     }
 
     public class TaskViewInQuery : ObjectBase
@@ -196,77 +213,77 @@ namespace PocketMoney.Model.External.Results.Clients
                 if ((this.Clean_DaysOfWeek == eDaysOfWeek.None || this.Clean_DaysOfWeek.HasFlag(dates.YesterdayDate.DayOfWeek.To()))
                     && !actionExists(dates.Yesterday))
                 {
-                    result.Add(new CleanTaskView(this.Clean_RoomName, this.Id, this.TaskType, this.Desctiption, this.Reward, eDateType.Yesterday));
+                    result.Add(new CleanTaskView(this.Clean_RoomName, this.Id, this.Desctiption, this.Reward, eDateType.Yesterday));
                 }
                 if ((this.Clean_DaysOfWeek == eDaysOfWeek.None || this.Clean_DaysOfWeek.HasFlag(dates.TodayDate.DayOfWeek.To()))
                     && !actionExists(dates.Today))
                 {
-                    result.Add(new CleanTaskView(this.Clean_RoomName, this.Id, this.TaskType, this.Desctiption, this.Reward, eDateType.Today));
+                    result.Add(new CleanTaskView(this.Clean_RoomName, this.Id, this.Desctiption, this.Reward, eDateType.Today));
                 }
                 if ((this.Clean_DaysOfWeek == eDaysOfWeek.None || this.Clean_DaysOfWeek.HasFlag(dates.TomorrowDate.DayOfWeek.To()))
                     && !actionExists(dates.Tomorrow))
                 {
-                    result.Add(new CleanTaskView(this.Clean_RoomName, this.Id, this.TaskType, this.Desctiption, this.Reward, eDateType.Tomorrow));
+                    result.Add(new CleanTaskView(this.Clean_RoomName, this.Id, this.Desctiption, this.Reward, eDateType.Tomorrow));
                 }
             }
             else if (this.TaskType == TaskType.HomeworkTask)
             {
                 if (dateExists(dates.Yesterday) && !actionExists(dates.Yesterday))
                 {
-                    result.Add(new HomeworkTaskView(this.Homework_LessonName, this.Id, this.TaskType, this.Desctiption, this.Reward, eDateType.Yesterday));
+                    result.Add(new HomeworkTaskView(this.Homework_LessonName, this.Id, this.Desctiption, this.Reward, eDateType.Yesterday));
                 }
                 if (dateExists(dates.Today) && !actionExists(dates.Today))
                 {
-                    result.Add(new HomeworkTaskView(this.Homework_LessonName, this.Id, this.TaskType, this.Desctiption, this.Reward, eDateType.Today));
+                    result.Add(new HomeworkTaskView(this.Homework_LessonName, this.Id, this.Desctiption, this.Reward, eDateType.Today));
                 }
                 if (dateExists(dates.Tomorrow) && !actionExists(dates.Tomorrow))
                 {
-                    result.Add(new HomeworkTaskView(this.Homework_LessonName, this.Id, this.TaskType, this.Desctiption, this.Reward, eDateType.Tomorrow));
+                    result.Add(new HomeworkTaskView(this.Homework_LessonName, this.Id, this.Desctiption, this.Reward, eDateType.Tomorrow));
                 }
             }
             else if (this.TaskType == TaskType.OneTimeTask)
             {
                 if ((!this.OneTime_DeadlineDate.HasValue || this.OneTime_DeadlineDate.Value >= dates.YesterdayDate) && !actionExists(dates.Yesterday))
                 {
-                    result.Add(new OneTimeTaskView(this.OneTime_Name, this.Id, this.TaskType, this.Desctiption, this.Reward, eDateType.Yesterday));
+                    result.Add(new OneTimeTaskView(this.OneTime_Name, this.Id, this.Desctiption, this.Reward, eDateType.Yesterday));
                 }
                 if ((!this.OneTime_DeadlineDate.HasValue || this.OneTime_DeadlineDate.Value >= dates.TodayDate) && !actionExists(dates.Today))
                 {
-                    result.Add(new OneTimeTaskView(this.OneTime_Name, this.Id, this.TaskType, this.Desctiption, this.Reward, eDateType.Today));
+                    result.Add(new OneTimeTaskView(this.OneTime_Name, this.Id, this.Desctiption, this.Reward, eDateType.Today));
                 }
                 if ((!this.OneTime_DeadlineDate.HasValue || this.OneTime_DeadlineDate.Value >= dates.TomorrowDate) && !actionExists(dates.Tomorrow))
                 {
-                    result.Add(new OneTimeTaskView(this.OneTime_Name, this.Id, this.TaskType, this.Desctiption, this.Reward, eDateType.Tomorrow));
+                    result.Add(new OneTimeTaskView(this.OneTime_Name, this.Id, this.Desctiption, this.Reward, eDateType.Tomorrow));
                 }
             }
             else if (this.TaskType == TaskType.RepeatTask)
             {
                 if (dateExists(dates.Yesterday) && !actionExists(dates.Yesterday))
                 {
-                    result.Add(new RepeatTaskView(this.Repeat_Name, this.Id, this.TaskType, this.Desctiption, this.Reward, eDateType.Yesterday));
+                    result.Add(new RepeatTaskView(this.Repeat_Name, this.Id, this.Desctiption, this.Reward, eDateType.Yesterday));
                 }
                 if (dateExists(dates.Today) && !actionExists(dates.Today))
                 {
-                    result.Add(new RepeatTaskView(this.Repeat_Name, this.Id, this.TaskType, this.Desctiption, this.Reward, eDateType.Today));
+                    result.Add(new RepeatTaskView(this.Repeat_Name, this.Id, this.Desctiption, this.Reward, eDateType.Today));
                 }
                 if (dateExists(dates.Tomorrow) && !actionExists(dates.Tomorrow))
                 {
-                    result.Add(new RepeatTaskView(this.Repeat_Name, this.Id, this.TaskType, this.Desctiption, this.Reward, eDateType.Tomorrow));
+                    result.Add(new RepeatTaskView(this.Repeat_Name, this.Id, this.Desctiption, this.Reward, eDateType.Tomorrow));
                 }
             }
             else if (this.TaskType == TaskType.ShoppingTask)
             {
                 if ((!this.Shop_DeadlineDate.HasValue || this.Shop_DeadlineDate.Value >= dates.YesterdayDate) && !actionExists(dates.Yesterday))
                 {
-                    result.Add(new ShoppingTaskView(this.Shop_Name, this.Id, this.TaskType, this.Desctiption, this.Reward, eDateType.Yesterday));
+                    result.Add(new ShoppingTaskView(this.Shop_Name, this.Id, this.Desctiption, this.Reward, eDateType.Yesterday));
                 }
                 if ((!this.Shop_DeadlineDate.HasValue || this.Shop_DeadlineDate.Value >= dates.TodayDate) && !actionExists(dates.Today))
                 {
-                    result.Add(new ShoppingTaskView(this.Shop_Name, this.Id, this.TaskType, this.Desctiption, this.Reward, eDateType.Today));
+                    result.Add(new ShoppingTaskView(this.Shop_Name, this.Id, this.Desctiption, this.Reward, eDateType.Today));
                 }
                 if ((!this.Shop_DeadlineDate.HasValue || this.Shop_DeadlineDate.Value >= dates.TomorrowDate) && !actionExists(dates.Tomorrow))
                 {
-                    result.Add(new ShoppingTaskView(this.Shop_Name, this.Id, this.TaskType, this.Desctiption, this.Reward, eDateType.Tomorrow));
+                    result.Add(new ShoppingTaskView(this.Shop_Name, this.Id, this.Desctiption, this.Reward, eDateType.Tomorrow));
                 }
             }
             return result.ToArray();

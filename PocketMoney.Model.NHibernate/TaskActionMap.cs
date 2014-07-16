@@ -17,7 +17,7 @@ namespace PocketMoney.Model.NHibernate
             Map(x => x.Note).Length(500);
             Map(x => x.Source).Length(1000);
 
-            References(x => x.TaskDate).Not.Nullable().ForeignKey("FK_TaskAction_TaskDate");
+            References(x => x.TaskDate).Nullable().ForeignKey("FK_TaskAction_TaskDate");
             References(x => x.Performer).Not.Nullable().ForeignKey("FK_TaskAction_Performer");
         }
     }

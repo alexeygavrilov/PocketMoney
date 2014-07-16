@@ -21,7 +21,7 @@ namespace PocketMoney.Model.External.Results
     }
 
     [DataContract]
-    public class GoalListResult: ResultList<GoalView>
+    public class GoalListResult : ResultList<GoalView>
     {
         public GoalListResult() { }
 
@@ -46,9 +46,7 @@ namespace PocketMoney.Model.External.Results
             this.Text = goal.Details;
             this.Points = goal.Reward.Points;
             this.Gift = goal.Reward.Gift;
-            this.AssignedTo = goal.AssignedTo
-                .Where(p => p.Active)
-                .ToDictionary(k => k.User.Id, e => e.User.FullName(), EqualityComparer<Guid>.Default);
+            this.AssignedTo = goal.AssignedTo.ToDictionary(k => k.User.Id, e => e.User.FullName(), EqualityComparer<Guid>.Default);
 
         }
 

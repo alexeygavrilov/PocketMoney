@@ -14,13 +14,13 @@ namespace PocketMoney.Model.Internal
             this.AssignedTo = new List<Performer>();
             this.Attachments = new List<File>();
             this.Reward = new Reward(this, 0);
+            this.Active = true;
         }
 
         public Task(TaskType type, string details, Reward reward, User creator)
             : this()
         {
             this.HasDates = type == TaskType.HomeworkTask || type == TaskType.RepeatTask;
-            this.Status = eTaskStatus.New;
             this.Type = type;
             this.Details = details;
             this.Reward = new Reward(this, reward.Points, reward.Gift);
@@ -41,9 +41,6 @@ namespace PocketMoney.Model.Internal
         public virtual TaskType Type { get; set; }
 
         [Details]
-        public virtual eTaskStatus Status { get; set; }
-
-        [Details]
         public virtual Reward Reward { get; set; }
 
         [Details]
@@ -56,6 +53,9 @@ namespace PocketMoney.Model.Internal
         public virtual int? Reminder { get; set; }
 
         [Details]
+        public virtual bool Active { get; set; }
+
+        [Details]
         public virtual IList<File> Attachments { get; set; }
 
         public virtual eObjectType ObjectType
@@ -64,6 +64,11 @@ namespace PocketMoney.Model.Internal
         }
 
         public abstract string Name { get; }
+
+        public virtual void Remove()
+        {
+            this.Active = false;
+        }
     }
 
     public class TaskId : GuidIdentity

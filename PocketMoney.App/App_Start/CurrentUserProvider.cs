@@ -6,6 +6,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using PocketMoney.Util;
 
 namespace PocketMoney.ParentApp
 {
@@ -47,6 +48,12 @@ namespace PocketMoney.ParentApp
         public object GetDate(string key)
         {
             return Settings.Default.CustomData[key];
+        }
+
+
+        public DateTime GetCurrentDate()
+        {
+            return Clock.UtcNow();
         }
     }
 }

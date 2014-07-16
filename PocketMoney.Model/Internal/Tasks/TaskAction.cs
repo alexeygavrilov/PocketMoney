@@ -17,6 +17,11 @@ namespace PocketMoney.Model.Internal
             this.Note = note;
         }
 
+        public TaskAction(eTaskStatus newStatus, Performer performer, string note)
+            : this(newStatus, null, performer, note)
+        {
+        }
+
         [Details]
         public virtual eTaskStatus NewStatus { get; set; }
 
@@ -34,7 +39,7 @@ namespace PocketMoney.Model.Internal
 
     }
 
-    
+
 
     public class TaskActionId : GuidIdentity
     {

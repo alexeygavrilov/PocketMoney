@@ -16,7 +16,7 @@ namespace PocketMoney.Model.NHibernate
 
             Id(x => x.Id).GeneratedBy.GuidComb();
 
-            Map(x => x.Active).Not.Nullable();
+            Map(x => x.Status).Not.Nullable();
 
             References(x => x.User).Not.Nullable().Not.LazyLoad().ForeignKey("FK_Performer_User").UniqueKey("UX_Performer");
             References(x => x.Task).Not.Nullable().Not.LazyLoad().ForeignKey("FK_Performer_Task").UniqueKey("UX_Performer");

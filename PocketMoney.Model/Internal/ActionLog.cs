@@ -40,6 +40,11 @@ namespace PocketMoney.Model.Internal
         {
         }
 
+        public ActionLog(IObject @object, IObject target,  ActionValueType actionType) :
+            this(@object.Id, @object.Name, @object.ObjectType, actionType, 1, target.Id, target.Name)
+        {
+        }
+
         public virtual Guid ObjectId { get; set; }
         public virtual string ObjectName { get; set; }
         public virtual eObjectType ObjectType { get; set; }

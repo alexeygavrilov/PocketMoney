@@ -26,5 +26,31 @@ namespace PocketMoney.Service.Interfaces
 
         [Process, OperationContract]
         Clients.TaskListResult GetFloatingTaskList(Request model);
+
+        [Process, OperationContract]
+        Clients.GoalListResult GetGoalList(Request model);
+
+        [Process, OperationContract]
+        Clients.AttainmentListResult GetGoodDeedList(Request model);
+
+        [Process, OperationContract]
+        ShopItemListResult GetShoppingList(GuidRequest taskId);
+
+        [Process, OperationContract]
+        Result DoneTask(DoneTaskRequest model);
+
+        [Process, OperationContract]
+        Result GrabbTask(ProcessRequest model);
+
+        [Process, OperationContract]
+        Result AchieveGoal(ProcessRequest model);
+
+        [Process, OperationContract]
+        Result AddGoodDeed(AddAttainmentRequest model);
+
+        [Process, OperationContract]
+        Result CheckShopItem(CheckShopItemRequest model);
+
+
     }
 }

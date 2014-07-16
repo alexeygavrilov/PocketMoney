@@ -179,19 +179,20 @@ namespace PocketMoney.Service
 
             Performer performer = null;
             User user = null;
-            GoalViewInQuery task = null;
+            GoalViewInQuery goal = null;
 
             var list = _taskRepository.QueryOverOf<Goal, Task, TaskId, Guid>()
                 .JoinAlias(x => x.AssignedTo, () => performer, JoinType.LeftOuterJoin)
                 .JoinAlias(() => performer.User, () => user, JoinType.LeftOuterJoin)
-                .Where(x => x.Family.Id == currentUser.Family.Id && x.Status != eTaskStatus.Closed && x.Type.Id == TaskType.Goal.Id)
+                .Where(x => x.Family.Id == currentUser.Family.Id && x.Active && x.Type.Id == TaskType.GOAL_TYPE)
+                .Where(() => performer.Status != eTaskStatus.Closed)
                 .Select(
-                    Projections.Property<Goal>(x => x.Id).WithAlias(() => task.Id),
-                    Projections.Property<Goal>(x => x.Details).WithAlias(() => task.Details),
-                    Projections.Property<Goal>(x => x.Reward).WithAlias(() => task.Reward),
-                    Projections.Property(() => user.Id).WithAlias(() => task.UserId),
-                    Projections.Property(() => user.UserName).WithAlias(() => task.UserName),
-                    Projections.Property(() => user.AdditionalName).WithAlias(() => task.AdditionalName)
+                    Projections.Property<Goal>(x => x.Id).WithAlias(() => goal.Id),
+                    Projections.Property<Goal>(x => x.Details).WithAlias(() => goal.Details),
+                    Projections.Property<Goal>(x => x.Reward).WithAlias(() => goal.Reward),
+                    Projections.Property(() => user.Id).WithAlias(() => goal.UserId),
+                    Projections.Property(() => user.UserName).WithAlias(() => goal.UserName),
+                    Projections.Property(() => user.AdditionalName).WithAlias(() => goal.AdditionalName)
                     )
                 .OrderBy(x => x.DateCreated).Asc
                 .TransformUsing(Transformers.AliasToBean<GoalViewInQuery>())

@@ -18,7 +18,7 @@ namespace PocketMoney.Model
                 var userRepository = ServiceLocator.Current.GetInstance<IRepository<User, UserId, Guid>>();
                 var member = userRepository.One(new UserId(user.Id));
                 if (member == null)
-                    throw new DataNotFoundException("NetworkAccount");
+                    throw new DataNotFoundException("User not found");
                 return member;
             }
         }

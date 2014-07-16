@@ -9,6 +9,7 @@ namespace PocketMoney.Model.Internal
         protected Performer()
         {
             this.Actions = new List<TaskAction>();
+            this.Status = eTaskStatus.New;
         }
 
         public Performer(Task task, User user)
@@ -16,7 +17,6 @@ namespace PocketMoney.Model.Internal
         {
             this.Task = task;
             this.User = user;
-            this.Active = true;
         }
 
         [Details]
@@ -26,27 +26,21 @@ namespace PocketMoney.Model.Internal
         public virtual User User { get; set; }
 
         [Details]
-        public virtual IList<TaskAction> Actions { get; set; }
+        public virtual eTaskStatus Status { get; set; }
 
         [Details]
-        public virtual bool Active { get; set; }
+        public virtual IList<TaskAction> Actions { get; set; }
 
         public virtual void AddAction(TaskAction action)
         {
             this.Actions.Add(action);
         }
-
-        public virtual void Remove()
-        {
-            this.Active = false;
-        }
     }
-
 
     public class PerformerId : GuidIdentity
     {
-        public PerformerId(Guid id)
-            : base(id, typeof(Performer))
+        public PerformerId(Guid performerId)
+            : base(performerId, typeof(Performer))
         {
         }
 
@@ -55,5 +49,6 @@ namespace PocketMoney.Model.Internal
         {
         }
     }
+
 
 }

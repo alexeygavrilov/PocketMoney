@@ -5,7 +5,12 @@ namespace PocketMoney.Model.Internal
 {
     public class TaskType : System.Object, System.IEquatable<TaskType>
     {
-        public static TaskType Empty = new TaskType(0, string.Empty); //, new TaskItemType[0]);
+        public const int ONE_TIME_TYPE = 1;
+        public const int REPEAT_TYPE = 2;
+        public const int HOMEWORK_TYPE = 3;
+        public const int CLEAN_TYPE = 4;
+        public const int SHOPPING_TYPE = 5;
+        public const int GOAL_TYPE = 6;
 
         protected TaskType()
         {
@@ -51,17 +56,19 @@ namespace PocketMoney.Model.Internal
 
         public virtual string Name { get; private set; }
 
-        public static TaskType OneTimeTask = new TaskType(1, "Once Task"); //, new TaskItemType[1] { TaskItemType.Person });
+        public static TaskType Empty = new TaskType(0, string.Empty); //, new TaskItemType[0]);
 
-        public static TaskType RepeatTask = new TaskType(2, "Repeat Task");
+        public static TaskType OneTimeTask = new TaskType(ONE_TIME_TYPE, "Once Task"); //, new TaskItemType[1] { TaskItemType.Person });
 
-        public static TaskType HomeworkTask = new TaskType(3, "Homework Task");
+        public static TaskType RepeatTask = new TaskType(REPEAT_TYPE, "Repeat Task");
 
-        public static TaskType CleanTask = new TaskType(4, "Clean Task");
+        public static TaskType HomeworkTask = new TaskType(HOMEWORK_TYPE, "Homework Task");
 
-        public static TaskType ShoppingTask = new TaskType(5, "Shopping Task");
+        public static TaskType CleanTask = new TaskType(CLEAN_TYPE, "Clean Task");
 
-        public static TaskType Goal = new TaskType(6, "Goal");
+        public static TaskType ShoppingTask = new TaskType(SHOPPING_TYPE, "Shopping Task");
+
+        public static TaskType Goal = new TaskType(GOAL_TYPE, "Goal");
 
         public static TaskType[] All = new TaskType[6] { TaskType.OneTimeTask, TaskType.RepeatTask, TaskType.HomeworkTask, TaskType.CleanTask, TaskType.ShoppingTask, TaskType.Goal };
 

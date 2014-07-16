@@ -162,8 +162,24 @@ namespace PocketMoney.Service.Installers
 
             resultGuid = _familyService.AddUser(new AddUserRequest
             {
+                UserName = "Katerina",
+                Email = "katya@localhost.com",
+                Password = "12345",
+                ConfirmPassword = "12345",
+                RoleId = Roles.Children.Id,
+                SendNotification = false
+            });
+
+            var katya = new WrapperUser("Katerina", resultGuid.Data, family.Id);
+            AddAttainment(katya, "Helped old lady at shop");
+            AddAttainment(katya, "I weed the flowers in garden for Mom");
+
+            if (!resultGuid.Success) throw new ArgumentException(resultGuid.Message);
+
+            resultGuid = _familyService.AddUser(new AddUserRequest
+            {
                 UserName = "Konstantin",
-                Email = "user1@localhost.com",
+                Email = "kostya@localhost.com",
                 Password = "12345",
                 ConfirmPassword = "12345",
                 RoleId = Roles.Children.Id,
@@ -177,7 +193,7 @@ namespace PocketMoney.Service.Installers
             resultGuid = _familyService.AddUser(new AddUserRequest
             {
                 UserName = "Alexander",
-                Email = "user2@localhost.com",
+                Email = "sannya@localhost.com",
                 Password = "12345",
                 ConfirmPassword = "12345",
                 RoleId = Roles.Children.Id,
@@ -186,22 +202,6 @@ namespace PocketMoney.Service.Installers
 
             if (!resultGuid.Success) throw new ArgumentException(resultGuid.Message);
             
-            var alex = new WrapperUser("Alexander", resultGuid.Data, family.Id);
-            AddAttainment(alex, "Helped old lady at shop");
-            AddAttainment(alex, "I weed the flowers in garden for Mom");
-
-            resultGuid = _familyService.AddUser(new AddUserRequest
-            {
-                UserName = "Xeniya",
-                Email = "user3@localhost.com",
-                Password = "12345",
-                ConfirmPassword = "12345",
-                RoleId = Roles.Children.Id,
-                SendNotification = false
-            });
-
-            if (!resultGuid.Success) throw new ArgumentException(resultGuid.Message);
-
 
         }
     }

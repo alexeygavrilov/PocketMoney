@@ -1,4 +1,5 @@
 ﻿using PocketMoney.Data.Security;
+using System;
 
 namespace PocketMoney.Data
 {
@@ -7,6 +8,7 @@ namespace PocketMoney.Data
         void AddCurrentUser(IUser user, bool persist = false);
         IUser GetCurrentUser();
         void RemoveCurrentUser();
+        DateTime GetCurrentDate();
 
         void SetData(string key, object value);
         object GetDate(string key);

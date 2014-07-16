@@ -62,5 +62,11 @@ namespace PocketMoney.Admin
         {
             return HttpContext.Current.Session[key];
         }
+
+
+        public DateTime GetCurrentDate()
+        {
+            return Clock.UtcNow();
+        }
     }
 }
