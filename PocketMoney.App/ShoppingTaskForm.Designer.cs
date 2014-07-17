@@ -302,6 +302,7 @@
             this.checkBoxReminder.TabIndex = 53;
             this.checkBoxReminder.Text = "Reminder";
             this.checkBoxReminder.UseVisualStyleBackColor = true;
+            this.checkBoxReminder.CheckedChanged += new System.EventHandler(this.checkBoxReminder_CheckedChanged);
             // 
             // checkFloating
             // 
