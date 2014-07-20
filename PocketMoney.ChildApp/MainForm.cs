@@ -286,6 +286,11 @@ namespace PocketMoney.ChildApp
             e.Graphics.DrawString(tabControl2.TabPages[e.Index].Text, tabControl2.Font, SystemBrushes.HighlightText, paddedBounds);
 
         }
+
+        private void buttonRefresh_Click(object sender, EventArgs e)
+        {
+            FillData();
+        }
         #endregion
 
     }

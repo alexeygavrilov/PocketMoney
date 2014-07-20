@@ -1,0 +1,203 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<package xmlns:dm0="http://schemas.microsoft.com/VisualStudio/2008/DslTools/Core" xmlns:dm1="http://schemas.microsoft.com/dsltools/Kernel" xmlns:dm2="http://schemas.microsoft.com/dsltools/Component" xmlns:dm3="http://schemas.microsoft.com/dsltools/UseCase" xmlns:dm4="http://schemas.microsoft.com/dsltools/Activity" xmlns:dm5="http://schemas.microsoft.com/dsltools/Interaction" xmlns:dm6="http://schemas.microsoft.com/dsltools/UmlModelLibrary" xmlns:dm7="http://schemas.microsoft.com/dsltools/UmlDiagrams" xmlns:dm8="http://schemas.microsoft.com/dsltools/LogicalClassDesigner"
+  dslVersion="1.0.0.0"
+  Id="a52a881c-5142-4ec2-bcbe-f0c0cefe5a18"
+  name="FileSystem"
+  visibility="Private" xmlns="http://schemas.microsoft.com/dsltools/ModelStore">
+  <referencesInternal>
+    <reference
+      Id="317d6f9b-9a9f-4d76-9c68-262cc4f1bf2b"
+      handle="viewcode://./CodeSchema_Namespace?Namespace%3DPocketMoney.FileSystem"
+      tag="ViewCode" />
+  </referencesInternal>
+  <packagedElements>
+    <packageHasNamedElement>
+      <class
+        Id="7926edd4-3896-4a49-874b-29c135635bdd"
+        name="File"
+        isAbstract="false"
+        isLeaf="false"
+        isActiveClass="false">
+        <referencesInternal>
+          <reference
+            Id="3a0dc25b-76bf-404e-b72d-1919365d37ea"
+            handle="viewcode://./CodeSchema_Class?Assembly%3Dfile:%2F%2F%2FC:%2FUsers%2FAlekseyGavrilov%2FDocuments%2FGitHub%2FPocketMoney%2FPocketMoney.FileSystem.Model%2Fbin%2FDebug%2FPocketMoney.FileSystem.Model.dll Namespace%3DPocketMoney.FileSystem Type%3DFile"
+            tag="ViewCode" />
+        </referencesInternal>
+        <appliedStereotypesInternal>
+          <stereotypeInstance
+            Id="aa09cf35-71aa-424e-9c19-a9033452c1e9"
+            name="class"
+            profile="CSharpProfile">
+            <propertyInstances>
+              <stereotypeInstanceHasPropertyInstances
+                Id="fcd5fa21-91be-42ed-ae54-f680c5fd5d35">
+                <propertyInstance
+                  Id="777dbd36-665b-45f6-989d-77912c3a6e51"
+                  name="ClrAttributes" />
+              </stereotypeInstanceHasPropertyInstances>
+              <stereotypeInstanceHasPropertyInstances
+                Id="ec291364-6345-4694-8e25-179be2514214">
+                <propertyInstance
+                  Id="6ac67dfd-e63c-41df-8c0d-3918c11fb233"
+                  name="IsPartial"
+                  value="false" />
+              </stereotypeInstanceHasPropertyInstances>
+              <stereotypeInstanceHasPropertyInstances
+                Id="823207d2-4f91-4f9c-847a-5e5e55469668">
+                <propertyInstance
+                  Id="890230f2-cb8d-46f0-8259-9573fc498288"
+                  name="IsStatic"
+                  value="False" />
+              </stereotypeInstanceHasPropertyInstances>
+              <stereotypeInstanceHasPropertyInstances
+                Id="8fc90075-ee05-4907-aec8-afafe528ccea">
+                <propertyInstance
+                  Id="edd5511c-0550-48a4-9755-903eac6b96a6"
+                  name="IsUnsafe"
+                  value="false" />
+              </stereotypeInstanceHasPropertyInstances>
+              <stereotypeInstanceHasPropertyInstances
+                Id="c5395663-90b2-4e3d-9920-7f8e3297c715">
+                <propertyInstance
+                  Id="5cc53700-bbb9-4b13-a394-0c67af6f4dce"
+                  name="PackageVisibility"
+                  value="internal" />
+              </stereotypeInstanceHasPropertyInstances>
+            </propertyInstances>
+          </stereotypeInstance>
+        </appliedStereotypesInternal>
+        <generalsInternal>
+          <generalization
+            Id="e75b89c7-8ad7-4387-b20a-695be0f8912f"
+            isSubstitutable="false">
+            <classMoniker
+              Id="8e4e0944-fb93-480f-8808-2739df9a4ac3"
+              LastKnownName="Entity&lt;Task‎, TaskId‎, Guid‎&gt;"
+              LastKnownLocation="Package6_2235.uml" />
+          </generalization>
+          <generalization
+            Id="de83e55d-e2a1-4d3d-945b-7f9b079af976"
+            isSubstitutable="false">
+            <classMoniker
+              Id="79e27af3-de55-4b4d-be2c-fb612ff6db35"
+              LastKnownName="Entity"
+              LastKnownLocation="Package6_2235.uml" />
+          </generalization>
+          <generalization
+            Id="a70132c9-7787-4973-a1dd-38e8f02a0219"
+            isSubstitutable="false">
+            <classMoniker
+              Id="ca700739-edac-4d85-babc-db7d6c64f016"
+              LastKnownName="Entity&lt;ActionLog‎, ActionLogId‎, Guid‎&gt;"
+              LastKnownLocation="Package6_2235.uml" />
+          </generalization>
+          <generalization
+            Id="d4263f96-4a1d-41c3-a571-0f0d4044d9dd"
+            isSubstitutable="false">
+            <classMoniker
+              Id="ac6f5ce1-35a4-4221-b1a1-968e55880965"
+              LastKnownName="Entity&lt;Attainment‎, AttainmentId‎, Guid‎&gt;"
+              LastKnownLocation="Package6_2235.uml" />
+          </generalization>
+          <generalization
+            Id="93f2e5cc-9f4b-4e0f-bb2d-d44307e99c37"
+            isSubstitutable="false">
+            <classMoniker
+              Id="f3e71a87-5b1f-42e9-9c63-b8a1327f0e6a"
+              LastKnownName="Entity&lt;Country‎, CountryId‎, Int32‎&gt;"
+              LastKnownLocation="Package6_2235.uml" />
+          </generalization>
+          <generalization
+            Id="a749ecd4-6352-43d6-9d6a-2fc1c6def78b"
+            isSubstitutable="false">
+            <classMoniker
+              Id="b4825629-ad53-4101-a407-0783b8381b70"
+              LastKnownName="Entity&lt;Email‎, EmailId‎, Guid‎&gt;"
+              LastKnownLocation="Package6_2235.uml" />
+          </generalization>
+          <generalization
+            Id="9afed070-36de-449c-9d11-1190b3a22c7c"
+            isSubstitutable="false">
+            <classMoniker
+              Id="8f4479bf-ca72-4c15-928c-65122a3aab8b"
+              LastKnownName="Entity&lt;EmailMessage‎, EmailMessageId‎, Guid‎&gt;"
+              LastKnownLocation="Package6_2235.uml" />
+          </generalization>
+          <generalization
+            Id="bab8834f-411e-423d-9faf-74dc277b5f10"
+            isSubstitutable="false">
+            <classMoniker
+              Id="1df0b461-be31-4619-bd37-ad950ba543b5"
+              LastKnownName="Entity&lt;Family‎, FamilyId‎, Guid‎&gt;"
+              LastKnownLocation="Package6_2235.uml" />
+          </generalization>
+          <generalization
+            Id="a0ee487e-9ed6-42d8-a9d0-cd9b9b4fdadd"
+            isSubstitutable="false">
+            <classMoniker
+              Id="ae08f17c-1253-4462-a9fd-25ce3242522d"
+              LastKnownName="Entity&lt;Holiday‎, HolidayId‎, Guid‎&gt;"
+              LastKnownLocation="Package6_2235.uml" />
+          </generalization>
+          <generalization
+            Id="720a9cab-8437-444e-84af-99e618b25958"
+            isSubstitutable="false">
+            <classMoniker
+              Id="b5971f25-ccc0-487b-8b30-b1c7461f5c57"
+              LastKnownName="Entity&lt;Performer‎, PerformerId‎, Guid‎&gt;"
+              LastKnownLocation="Package6_2235.uml" />
+          </generalization>
+          <generalization
+            Id="72ae381c-e13d-4190-ac8f-21dff49552bf"
+            isSubstitutable="false">
+            <classMoniker
+              Id="ab48b133-7a01-407e-82f6-ef2aa580d2fa"
+              LastKnownName="Entity&lt;PhoneNumber‎, PhoneNumberId‎, Guid‎&gt;"
+              LastKnownLocation="Package6_2235.uml" />
+          </generalization>
+          <generalization
+            Id="d201da6d-c8eb-4320-9e39-324c72808684"
+            isSubstitutable="false">
+            <classMoniker
+              Id="010c4ff5-3165-4b76-ae87-1a404e2a334b"
+              LastKnownName="Entity&lt;ShopItem‎, ShopItemId‎, Guid‎&gt;"
+              LastKnownLocation="Package6_2235.uml" />
+          </generalization>
+          <generalization
+            Id="f554782c-042d-44ae-82a0-1a55775a54f5"
+            isSubstitutable="false">
+            <classMoniker
+              Id="2b810b31-191f-45a6-878b-f8b8f1e5a67e"
+              LastKnownName="Entity&lt;TaskAction‎, TaskActionId‎, Guid‎&gt;"
+              LastKnownLocation="Package6_2235.uml" />
+          </generalization>
+          <generalization
+            Id="35ec8e41-ef1d-43ef-80c7-dc6f7d336a32"
+            isSubstitutable="false">
+            <classMoniker
+              Id="cd8f4498-9ee1-4efb-85d0-c3d2c598aa23"
+              LastKnownName="Entity&lt;TaskDate‎, TaskDateId‎, Guid‎&gt;"
+              LastKnownLocation="Package6_2235.uml" />
+          </generalization>
+          <generalization
+            Id="dab1690d-f8ed-457b-9e90-661342f59dec"
+            isSubstitutable="false">
+            <classMoniker
+              Id="34a89c5c-5247-49f5-a570-1a2911618a34"
+              LastKnownName="Entity&lt;User‎, UserId‎, Guid‎&gt;"
+              LastKnownLocation="Package6_2235.uml" />
+          </generalization>
+          <generalization
+            Id="d2395177-34a4-45c5-9b94-508ddfad1e65"
+            isSubstitutable="false">
+            <classMoniker
+              Id="09402f9d-719c-437a-86b0-ef2cfb49ee85"
+              LastKnownName="Entity&lt;UserConnection‎, UserConnectionId‎, Guid‎&gt;"
+              LastKnownLocation="Package6_2235.uml" />
+          </generalization>
+        </generalsInternal>
+      </class>
+    </packageHasNamedElement>
+  </packagedElements>
+</package>

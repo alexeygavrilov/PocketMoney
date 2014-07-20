@@ -40,6 +40,7 @@
             this.textBox2 = new System.Windows.Forms.TextBox();
             this.button1 = new System.Windows.Forms.Button();
             this.groupBox1 = new System.Windows.Forms.GroupBox();
+            this.buttonActions = new System.Windows.Forms.Button();
             ((System.ComponentModel.ISupportInitialize)(this.numericUpDown1)).BeginInit();
             this.groupBox1.SuspendLayout();
             this.SuspendLayout();
@@ -180,11 +181,22 @@
             this.groupBox1.TabStop = false;
             this.groupBox1.Text = "Reward";
             // 
+            // buttonActions
+            // 
+            this.buttonActions.Enabled = false;
+            this.buttonActions.Location = new System.Drawing.Point(266, 377);
+            this.buttonActions.Name = "buttonActions";
+            this.buttonActions.Size = new System.Drawing.Size(126, 37);
+            this.buttonActions.TabIndex = 60;
+            this.buttonActions.Text = "Status and Actions";
+            this.buttonActions.UseVisualStyleBackColor = true;
+            // 
             // GoalForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(404, 426);
+            this.Controls.Add(this.buttonActions);
             this.Controls.Add(this.groupBox1);
             this.Controls.Add(this.button1);
             this.Controls.Add(this.label3);
@@ -220,5 +232,6 @@
         private System.Windows.Forms.TextBox textBox2;
         private System.Windows.Forms.Button button1;
         private System.Windows.Forms.GroupBox groupBox1;
+        private System.Windows.Forms.Button buttonActions;
     }
 }

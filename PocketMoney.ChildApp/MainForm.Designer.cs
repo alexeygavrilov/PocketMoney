@@ -50,6 +50,7 @@
             this.deedControl = new PocketMoney.ChildApp.GoodDeedControl();
             this.taskControl = new PocketMoney.ChildApp.TaskControl();
             this.shoppingControl = new PocketMoney.ChildApp.ShoppingControl();
+            this.buttonRefresh = new System.Windows.Forms.Button();
             this.mainControl.SuspendLayout();
             this.tabTasks.SuspendLayout();
             this.tabControl2.SuspendLayout();
@@ -64,17 +65,17 @@
             // label1
             // 
             this.label1.AutoSize = true;
-            this.label1.Location = new System.Drawing.Point(4, 5);
+            this.label1.Location = new System.Drawing.Point(77, 5);
             this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(105, 13);
+            this.label1.Size = new System.Drawing.Size(78, 13);
             this.label1.TabIndex = 0;
-            this.label1.Text = "You have logged as ";
+            this.label1.Text = "You logged as ";
             // 
             // comboLoggedUser
             // 
             this.comboLoggedUser.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.comboLoggedUser.FormattingEnabled = true;
-            this.comboLoggedUser.Location = new System.Drawing.Point(115, 2);
+            this.comboLoggedUser.Location = new System.Drawing.Point(161, 2);
             this.comboLoggedUser.Name = "comboLoggedUser";
             this.comboLoggedUser.Size = new System.Drawing.Size(142, 21);
             this.comboLoggedUser.TabIndex = 1;
@@ -293,7 +294,7 @@
             // 
             this.labelPoints.AutoSize = true;
             this.labelPoints.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-            this.labelPoints.Location = new System.Drawing.Point(263, 5);
+            this.labelPoints.Location = new System.Drawing.Point(309, 5);
             this.labelPoints.Name = "labelPoints";
             this.labelPoints.Size = new System.Drawing.Size(0, 17);
             this.labelPoints.TabIndex = 3;
@@ -322,11 +323,22 @@
             this.shoppingControl.TabIndex = 5;
             this.shoppingControl.Visible = false;
             // 
+            // buttonRefresh
+            // 
+            this.buttonRefresh.Location = new System.Drawing.Point(19, 1);
+            this.buttonRefresh.Name = "buttonRefresh";
+            this.buttonRefresh.Size = new System.Drawing.Size(52, 21);
+            this.buttonRefresh.TabIndex = 6;
+            this.buttonRefresh.Text = "Refresh";
+            this.buttonRefresh.UseVisualStyleBackColor = true;
+            this.buttonRefresh.Click += new System.EventHandler(this.buttonRefresh_Click);
+            // 
             // MainForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(397, 456);
+            this.Controls.Add(this.buttonRefresh);
             this.Controls.Add(this.shoppingControl);
             this.Controls.Add(this.deedControl);
             this.Controls.Add(this.taskControl);
@@ -378,6 +390,7 @@
         private System.Windows.Forms.ListView listGoodWorks;
         private GoodDeedControl deedControl;
         private ShoppingControl shoppingControl;
+        private System.Windows.Forms.Button buttonRefresh;
     }
 }
 

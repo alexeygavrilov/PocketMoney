@@ -51,6 +51,7 @@
             this.comboBoxReminderHour = new System.Windows.Forms.ComboBox();
             this.checkBoxReminder = new System.Windows.Forms.CheckBox();
             this.checkFloating = new System.Windows.Forms.CheckBox();
+            this.buttonActions = new System.Windows.Forms.Button();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).BeginInit();
             this.groupBox2.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.numericUpDown1)).BeginInit();
@@ -315,12 +316,23 @@
             this.checkFloating.UseVisualStyleBackColor = true;
             this.checkFloating.CheckedChanged += new System.EventHandler(this.checkFloating_CheckedChanged);
             // 
+            // buttonActions
+            // 
+            this.buttonActions.Enabled = false;
+            this.buttonActions.Location = new System.Drawing.Point(546, 336);
+            this.buttonActions.Name = "buttonActions";
+            this.buttonActions.Size = new System.Drawing.Size(126, 37);
+            this.buttonActions.TabIndex = 60;
+            this.buttonActions.Text = "Status and Actions";
+            this.buttonActions.UseVisualStyleBackColor = true;
+            // 
             // ShoppingTaskForm
             // 
             this.AcceptButton = this.button1;
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(684, 387);
+            this.Controls.Add(this.buttonActions);
             this.Controls.Add(this.checkFloating);
             this.Controls.Add(this.groupBox2);
             this.Controls.Add(this.comboBoxReminderPM);
@@ -375,5 +387,6 @@
         private System.Windows.Forms.ComboBox comboBoxReminderHour;
         private System.Windows.Forms.CheckBox checkBoxReminder;
         private System.Windows.Forms.CheckBox checkFloating;
+        private System.Windows.Forms.Button buttonActions;
     }
 }

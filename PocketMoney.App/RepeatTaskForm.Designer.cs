@@ -66,6 +66,7 @@
             this.radioButton6 = new System.Windows.Forms.RadioButton();
             this.numericUpDown1 = new System.Windows.Forms.NumericUpDown();
             this.checkFloating = new System.Windows.Forms.CheckBox();
+            this.buttonActions = new System.Windows.Forms.Button();
             this.groupBox1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.numericUpDown2)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.numericUpDown3)).BeginInit();
@@ -526,12 +527,23 @@
             this.checkFloating.UseVisualStyleBackColor = true;
             this.checkFloating.CheckedChanged += new System.EventHandler(this.checkFloating_CheckedChanged);
             // 
+            // buttonActions
+            // 
+            this.buttonActions.Enabled = false;
+            this.buttonActions.Location = new System.Drawing.Point(550, 364);
+            this.buttonActions.Name = "buttonActions";
+            this.buttonActions.Size = new System.Drawing.Size(126, 37);
+            this.buttonActions.TabIndex = 60;
+            this.buttonActions.Text = "Status and Actions";
+            this.buttonActions.UseVisualStyleBackColor = true;
+            // 
             // RepeatTaskForm
             // 
             this.AcceptButton = this.button1;
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(684, 408);
+            this.Controls.Add(this.buttonActions);
             this.Controls.Add(this.checkFloating);
             this.Controls.Add(this.groupBox2);
             this.Controls.Add(this.textBox2);
@@ -617,5 +629,6 @@
         private System.Windows.Forms.RadioButton radioButton6;
         private System.Windows.Forms.NumericUpDown numericUpDown1;
         private System.Windows.Forms.CheckBox checkFloating;
+        private System.Windows.Forms.Button buttonActions;
     }
 }

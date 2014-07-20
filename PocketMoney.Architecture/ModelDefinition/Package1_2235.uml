@@ -1,0 +1,311 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<package xmlns:dm0="http://schemas.microsoft.com/VisualStudio/2008/DslTools/Core" xmlns:dm1="http://schemas.microsoft.com/dsltools/Kernel" xmlns:dm2="http://schemas.microsoft.com/dsltools/Component" xmlns:dm3="http://schemas.microsoft.com/dsltools/UseCase" xmlns:dm4="http://schemas.microsoft.com/dsltools/Activity" xmlns:dm5="http://schemas.microsoft.com/dsltools/Interaction" xmlns:dm6="http://schemas.microsoft.com/dsltools/UmlModelLibrary" xmlns:dm7="http://schemas.microsoft.com/dsltools/UmlDiagrams" xmlns:dm8="http://schemas.microsoft.com/dsltools/LogicalClassDesigner"
+  dslVersion="1.0.0.0"
+  Id="b9cfe82a-f49e-40d8-a295-3b667694092e"
+  name="Model"
+  visibility="Private" xmlns="http://schemas.microsoft.com/dsltools/ModelStore">
+  <referencesInternal>
+    <reference
+      Id="9b556656-4ad6-4a3d-b210-a76fd116e9a7"
+      handle="viewcode://./CodeSchema_Namespace?Namespace%3DPocketMoney.Model"
+      tag="ViewCode" />
+  </referencesInternal>
+  <packagedElements>
+    <packageHasNamedElement>
+      <packageMoniker
+        Id="8cb6c029-c937-4ec4-a727-f7bff466fba0"
+        LastKnownName="Internal"
+        LastKnownLocation="Package2_2235.uml" />
+    </packageHasNamedElement>
+    <packageHasNamedElement>
+      <Interface
+        Id="6920258c-9635-4765-babe-73f9c56dafbd"
+        name="IObject"
+        isAbstract="false"
+        isLeaf="false">
+        <referencesInternal>
+          <reference
+            Id="552620b8-c1cd-42d5-aa17-9bb70244a16b"
+            handle="viewcode://./CodeSchema_Interface?Assembly%3Dfile:%2F%2F%2FC:%2FUsers%2FAlekseyGavrilov%2FDocuments%2FGitHub%2FPocketMoney%2FPocketMoney.Model%2Fbin%2FDebug%2FPocketMoney.Model.dll Namespace%3DPocketMoney.Model Type%3DIObject"
+            tag="ViewCode" />
+        </referencesInternal>
+        <appliedStereotypesInternal>
+          <stereotypeInstance
+            Id="a35b41de-ce03-4aea-9b9a-174f07b991b1"
+            name="interface"
+            profile="CSharpProfile">
+            <propertyInstances>
+              <stereotypeInstanceHasPropertyInstances
+                Id="55b2d6a8-0b27-4008-b08e-b4b6b53bd0c3">
+                <propertyInstance
+                  Id="7744e298-2bd4-467e-8699-c28144855b93"
+                  name="ClrAttributes" />
+              </stereotypeInstanceHasPropertyInstances>
+              <stereotypeInstanceHasPropertyInstances
+                Id="b464edcb-4e41-4526-b40d-9f0450954b00">
+                <propertyInstance
+                  Id="999ea818-b815-4ede-88f1-108147383dd6"
+                  name="IsPartial"
+                  value="false" />
+              </stereotypeInstanceHasPropertyInstances>
+              <stereotypeInstanceHasPropertyInstances
+                Id="f9a3d044-79bf-49d6-b5c8-5492f6584d24">
+                <propertyInstance
+                  Id="762f8868-05c6-41f0-8f80-88b3ca40bea4"
+                  name="IsUnsafe"
+                  value="false" />
+              </stereotypeInstanceHasPropertyInstances>
+              <stereotypeInstanceHasPropertyInstances
+                Id="828be29d-be37-45c6-ab1a-423f72cfc854">
+                <propertyInstance
+                  Id="26cdd9ba-53be-4206-9d8c-cd6c7627a2ce"
+                  name="PackageVisibility"
+                  value="internal" />
+              </stereotypeInstanceHasPropertyInstances>
+            </propertyInstances>
+          </stereotypeInstance>
+        </appliedStereotypesInternal>
+      </Interface>
+    </packageHasNamedElement>
+    <packageHasNamedElement>
+      <enumeration
+        Id="8e57c32c-ad47-4cff-88eb-bb992b05aff9"
+        name="eObjectType"
+        isAbstract="false"
+        isLeaf="false">
+        <referencesInternal>
+          <reference
+            Id="d14b1390-debc-4971-a491-91c09cc82adf"
+            handle="viewcode://./CodeSchema_Enum?Assembly%3Dfile:%2F%2F%2FC:%2FUsers%2FAlekseyGavrilov%2FDocuments%2FGitHub%2FPocketMoney%2FPocketMoney.Model%2Fbin%2FDebug%2FPocketMoney.Model.dll Namespace%3DPocketMoney.Model Type%3DeObjectType"
+            tag="ViewCode" />
+        </referencesInternal>
+        <appliedStereotypesInternal>
+          <stereotypeInstance
+            Id="a7f5b400-8069-4934-9314-2a6f44a73448"
+            name="enum"
+            profile="CSharpProfile">
+            <propertyInstances>
+              <stereotypeInstanceHasPropertyInstances
+                Id="61e0986b-328d-41f5-acb7-d86925b723a1">
+                <propertyInstance
+                  Id="050bbc11-f862-486d-9340-8ba2bc69944d"
+                  name="ClrAttributes" />
+              </stereotypeInstanceHasPropertyInstances>
+              <stereotypeInstanceHasPropertyInstances
+                Id="da99ef82-b081-4ea2-a12e-9204130c8ae3">
+                <propertyInstance
+                  Id="ba76492c-4c4b-4e5c-8d71-246f4d70fafb"
+                  name="BaseType"
+                  value="int" />
+              </stereotypeInstanceHasPropertyInstances>
+              <stereotypeInstanceHasPropertyInstances
+                Id="40f139b1-6f28-4e56-b926-0cfdd7a9c56e">
+                <propertyInstance
+                  Id="603044d0-6f82-4d35-8942-21869765a048"
+                  name="PackageVisibility"
+                  value="internal" />
+              </stereotypeInstanceHasPropertyInstances>
+            </propertyInstances>
+          </stereotypeInstance>
+        </appliedStereotypesInternal>
+      </enumeration>
+    </packageHasNamedElement>
+    <packageHasNamedElement>
+      <enumeration
+        Id="f55a09e7-fc35-4e3d-97aa-11f7aac5725f"
+        name="eDaysOfWeek"
+        isAbstract="false"
+        isLeaf="false">
+        <referencesInternal>
+          <reference
+            Id="16818f02-89a9-40cf-9f12-569fedc62c1f"
+            handle="viewcode://./CodeSchema_Enum?Assembly%3Dfile:%2F%2F%2FC:%2FUsers%2FAlekseyGavrilov%2FDocuments%2FGitHub%2FPocketMoney%2FPocketMoney.Model%2Fbin%2FDebug%2FPocketMoney.Model.dll Namespace%3DPocketMoney.Model Type%3DeDaysOfWeek"
+            tag="ViewCode" />
+        </referencesInternal>
+        <appliedStereotypesInternal>
+          <stereotypeInstance
+            Id="e4ed8698-564f-4d9f-b2d0-a59c8c7c7a9b"
+            name="enum"
+            profile="CSharpProfile">
+            <propertyInstances>
+              <stereotypeInstanceHasPropertyInstances
+                Id="a78f1ccb-1eb4-4f1e-988f-a7b04f29452e">
+                <propertyInstance
+                  Id="2f0470fd-206d-4484-94c0-e4aebc23c213"
+                  name="ClrAttributes" />
+              </stereotypeInstanceHasPropertyInstances>
+              <stereotypeInstanceHasPropertyInstances
+                Id="6333d897-9a53-47a9-b400-61609361e13b">
+                <propertyInstance
+                  Id="c451670b-1474-4a7a-9d43-a7f41ac003bc"
+                  name="BaseType"
+                  value="int" />
+              </stereotypeInstanceHasPropertyInstances>
+              <stereotypeInstanceHasPropertyInstances
+                Id="f6ab7eac-d93e-4c3e-8b9d-b3690baf2c79">
+                <propertyInstance
+                  Id="a7cf1b34-225f-46dc-a114-704a3227bd90"
+                  name="PackageVisibility"
+                  value="internal" />
+              </stereotypeInstanceHasPropertyInstances>
+            </propertyInstances>
+          </stereotypeInstance>
+        </appliedStereotypesInternal>
+      </enumeration>
+    </packageHasNamedElement>
+    <packageHasNamedElement>
+      <enumeration
+        Id="8cf8e1ad-5327-4c50-8f38-c8773ec6deda"
+        name="eTaskStatus"
+        isAbstract="false"
+        isLeaf="false">
+        <referencesInternal>
+          <reference
+            Id="02328842-1ea7-4c67-b8b9-f1306350538e"
+            handle="viewcode://./CodeSchema_Enum?Assembly%3Dfile:%2F%2F%2FC:%2FUsers%2FAlekseyGavrilov%2FDocuments%2FGitHub%2FPocketMoney%2FPocketMoney.Model%2Fbin%2FDebug%2FPocketMoney.Model.dll Namespace%3DPocketMoney.Model Type%3DeTaskStatus"
+            tag="ViewCode" />
+        </referencesInternal>
+        <appliedStereotypesInternal>
+          <stereotypeInstance
+            Id="815adc4c-5f8a-4139-bc17-a5d85d26415e"
+            name="enum"
+            profile="CSharpProfile">
+            <propertyInstances>
+              <stereotypeInstanceHasPropertyInstances
+                Id="d3116421-169a-4d2f-80e3-25bc2ae41197">
+                <propertyInstance
+                  Id="f9043c55-835e-4b92-8042-ed10175dd75f"
+                  name="ClrAttributes" />
+              </stereotypeInstanceHasPropertyInstances>
+              <stereotypeInstanceHasPropertyInstances
+                Id="2c99acc9-15aa-486c-a19d-9f5e9399374c">
+                <propertyInstance
+                  Id="21beafea-1c8c-4b8c-a7a5-5991d084172b"
+                  name="BaseType"
+                  value="int" />
+              </stereotypeInstanceHasPropertyInstances>
+              <stereotypeInstanceHasPropertyInstances
+                Id="2f76c2c2-82ae-4a17-bf65-e4e0142b18ff">
+                <propertyInstance
+                  Id="0a0e13b9-b7c9-4179-bae8-354ca5d707e7"
+                  name="PackageVisibility"
+                  value="internal" />
+              </stereotypeInstanceHasPropertyInstances>
+            </propertyInstances>
+          </stereotypeInstance>
+        </appliedStereotypesInternal>
+      </enumeration>
+    </packageHasNamedElement>
+    <packageHasNamedElement>
+      <class
+        Id="fb39f7b7-bff3-4fd2-a85b-8c4ef1dcfe2c"
+        name="DayOfOne"
+        isAbstract="false"
+        isLeaf="false"
+        isActiveClass="false">
+        <referencesInternal>
+          <reference
+            Id="32098542-7622-41d4-88dc-c4c4d8b3b00a"
+            handle="viewcode://./CodeSchema_Class?Assembly%3Dfile:%2F%2F%2FC:%2FUsers%2FAlekseyGavrilov%2FDocuments%2FGitHub%2FPocketMoney%2FPocketMoney.Model%2Fbin%2FDebug%2FPocketMoney.Model.dll Namespace%3DPocketMoney.Model Type%3DDayOfOne"
+            tag="ViewCode" />
+        </referencesInternal>
+        <appliedStereotypesInternal>
+          <stereotypeInstance
+            Id="ccefde7d-4524-4d0e-8400-a513df7ce322"
+            name="class"
+            profile="CSharpProfile">
+            <propertyInstances>
+              <stereotypeInstanceHasPropertyInstances
+                Id="60e399a8-ed96-4117-8892-a052080535da">
+                <propertyInstance
+                  Id="2e4eb085-b008-446b-aa49-533fc247357a"
+                  name="ClrAttributes" />
+              </stereotypeInstanceHasPropertyInstances>
+              <stereotypeInstanceHasPropertyInstances
+                Id="948f4600-3ca8-43a4-81a4-3de1e45cd120">
+                <propertyInstance
+                  Id="992424fd-ec0f-488c-af9d-9647aa45482f"
+                  name="IsPartial"
+                  value="false" />
+              </stereotypeInstanceHasPropertyInstances>
+              <stereotypeInstanceHasPropertyInstances
+                Id="cfbfe337-7332-43a7-8f0e-99dac503702e">
+                <propertyInstance
+                  Id="6f4e0c98-a325-4e75-8293-1caaca9a2fa2"
+                  name="IsStatic"
+                  value="False" />
+              </stereotypeInstanceHasPropertyInstances>
+              <stereotypeInstanceHasPropertyInstances
+                Id="8676d33c-3475-49ac-8af5-ca17aa59a124">
+                <propertyInstance
+                  Id="52a82854-71b8-4615-a0f6-e4f99a08c26a"
+                  name="IsUnsafe"
+                  value="false" />
+              </stereotypeInstanceHasPropertyInstances>
+              <stereotypeInstanceHasPropertyInstances
+                Id="8c384290-7600-4d17-841c-4e9b611173ab">
+                <propertyInstance
+                  Id="abf017a2-020a-4e24-8b3d-c6701f6ddf9f"
+                  name="PackageVisibility"
+                  value="internal" />
+              </stereotypeInstanceHasPropertyInstances>
+            </propertyInstances>
+          </stereotypeInstance>
+        </appliedStereotypesInternal>
+        <generalsInternal>
+          <generalization
+            Id="ca777485-84e8-4b97-b942-cb658e491f55"
+            isSubstitutable="false">
+            <classMoniker
+              Id="87a39323-5f27-494b-807a-0364460a97f0"
+              LastKnownName="ObjectBase"
+              LastKnownLocation="Package6_2235.uml" />
+          </generalization>
+        </generalsInternal>
+      </class>
+    </packageHasNamedElement>
+    <packageHasNamedElement>
+      <enumeration
+        Id="8f837728-4c1d-44f3-bb74-5be313f234f5"
+        name="eClientType"
+        isAbstract="false"
+        isLeaf="false">
+        <referencesInternal>
+          <reference
+            Id="275130c6-dab7-4288-b1c0-d0c8267fff6d"
+            handle="viewcode://./CodeSchema_Enum?Assembly%3Dfile:%2F%2F%2FC:%2FUsers%2FAlekseyGavrilov%2FDocuments%2FGitHub%2FPocketMoney%2FPocketMoney.Model%2Fbin%2FDebug%2FPocketMoney.Model.dll Namespace%3DPocketMoney.Model Type%3DeClientType"
+            tag="ViewCode" />
+        </referencesInternal>
+        <appliedStereotypesInternal>
+          <stereotypeInstance
+            Id="c354774e-c398-4a04-af77-58953f4ffa65"
+            name="enum"
+            profile="CSharpProfile">
+            <propertyInstances>
+              <stereotypeInstanceHasPropertyInstances
+                Id="53f019a6-463b-44ca-8098-f8a5519184ad">
+                <propertyInstance
+                  Id="4fd6e84b-eaf9-4263-a2e2-952878a056c2"
+                  name="ClrAttributes" />
+              </stereotypeInstanceHasPropertyInstances>
+              <stereotypeInstanceHasPropertyInstances
+                Id="a1fe285a-57cd-4caf-be1c-5c6e93b68db5">
+                <propertyInstance
+                  Id="8dd02500-88c8-4a6b-a247-db8c592bcc56"
+                  name="BaseType"
+                  value="int" />
+              </stereotypeInstanceHasPropertyInstances>
+              <stereotypeInstanceHasPropertyInstances
+                Id="4392e0bd-7c61-4b50-8e7f-a40f0e9ec1cd">
+                <propertyInstance
+                  Id="2c18aa61-6a8d-4a02-8b4b-2a592e858823"
+                  name="PackageVisibility"
+                  value="internal" />
+              </stereotypeInstanceHasPropertyInstances>
+            </propertyInstances>
+          </stereotypeInstance>
+        </appliedStereotypesInternal>
+      </enumeration>
+    </packageHasNamedElement>
+  </packagedElements>
+</package>

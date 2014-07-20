@@ -31,11 +31,11 @@ namespace PocketMoney.Model.NHibernate
                     m.Map(x => x.CompletedGoals).Column("CompletedGoalsCount").Not.Nullable();
                     m.Map(x => x.GoodWorks).Column("GoodWorksCount").Not.Nullable();
                     m.ParentReference(x => x.Parent);
-                    m.HasMany<int>(Reveal.Member<ActionCount>("_taskTypeCounts"))
-                        .Table("TaskCountsUser")
-                        .Element("TaskTypeCount")
-                        .KeyColumn("UserId")
-                        .ForeignKeyConstraintName("FK_User_TaskTypeCounts");
+                    //m.HasMany<int>(Reveal.Member<ActionCount>("_taskTypeCounts"))
+                    //    .Table("TaskCountsUser")
+                    //    .Element("TaskTypeCount")
+                    //    .KeyColumn("UserId")
+                    //    .ForeignKeyConstraintName("FK_User_TaskTypeCounts");
                 });
 
             References(x => x.Family).Not.Nullable().Not.LazyLoad().ForeignKey("FK_User_Family").UniqueKey("UX_UserName");

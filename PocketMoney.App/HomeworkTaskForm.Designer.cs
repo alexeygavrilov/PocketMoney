@@ -54,6 +54,7 @@
             this.comboBox2 = new System.Windows.Forms.ComboBox();
             this.checkBox2 = new System.Windows.Forms.CheckBox();
             this.checkFloating = new System.Windows.Forms.CheckBox();
+            this.buttonActions = new System.Windows.Forms.Button();
             this.groupBox2.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.numericUpDown1)).BeginInit();
             this.SuspendLayout();
@@ -347,12 +348,23 @@
             this.checkFloating.UseVisualStyleBackColor = true;
             this.checkFloating.CheckedChanged += new System.EventHandler(this.checkFloating_CheckedChanged);
             // 
+            // buttonActions
+            // 
+            this.buttonActions.Enabled = false;
+            this.buttonActions.Location = new System.Drawing.Point(546, 366);
+            this.buttonActions.Name = "buttonActions";
+            this.buttonActions.Size = new System.Drawing.Size(126, 37);
+            this.buttonActions.TabIndex = 67;
+            this.buttonActions.Text = "Status and Actions";
+            this.buttonActions.UseVisualStyleBackColor = true;
+            // 
             // HomeworkTaskForm
             // 
             this.AcceptButton = this.button1;
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(684, 420);
+            this.Controls.Add(this.buttonActions);
             this.Controls.Add(this.checkFloating);
             this.Controls.Add(this.checkBox2);
             this.Controls.Add(this.comboBox2);
@@ -414,5 +426,6 @@
         private System.Windows.Forms.ComboBox comboBox2;
         private System.Windows.Forms.CheckBox checkBox2;
         private System.Windows.Forms.CheckBox checkFloating;
+        private System.Windows.Forms.Button buttonActions;
     }
 }
